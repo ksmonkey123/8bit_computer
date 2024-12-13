@@ -7,7 +7,7 @@ class SimulationTest {
     @Test
     fun addingComponentDoesNotTickItImmediately() {
         val component = MockElement()
-        val sim = Simulation(component)
+        Simulation(component)
 
         assertNull(component.lastTickID)
         assertEquals(0, component.tickCount)
@@ -67,10 +67,41 @@ class SimulationTest {
     fun testComponentOnlyRegisteredOnce() {
         val component = MockElement()
         val sim = Simulation(component, component)
+        sim.addElement(component)
 
         sim.tick()
         assertEquals(0, component.lastTickID)
         assertEquals(1, component.tickCount)
+    }
+
+    @Test
+    fun testEmptySimulationRunsOK() {
+        Simulation().tick(10000)
+    }
+
+    @Test
+    fun testAddingComponentsDuringRunningSimulation() {
+        val sim = Simulation()
+        val componentA = MockElement()
+        sim.addElement(componentA)
+
+        sim.tick(1000)
+        assertEquals(1000, componentA.tickCount)
+        assertEquals(999, componentA.lastTickID)
+
+        val componentB = MockElement()
+        sim.addElement(componentB)
+
+        assertNull(componentB.lastTickID)
+        assertEquals(0, componentB.tickCount)
+
+        sim.tick(1000)
+
+        assertEquals(2000, componentA.tickCount)
+        assertEquals(1999, componentA.lastTickID)
+        assertEquals(1000, componentB.tickCount)
+        // tick ids are global, so new component gets same as old component
+        assertEquals(1999, componentB.lastTickID)
     }
 
     class MockElement : SimulationElement(ElementType.COMPONENT) {
