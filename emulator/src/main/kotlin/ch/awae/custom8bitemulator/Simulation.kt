@@ -1,8 +1,8 @@
 package ch.awae.custom8bitemulator
 
 enum class ElementType {
-    COMPONENT,
     WIRE,
+    COMPONENT,
 }
 
 abstract class SimulationElement(val type: ElementType) {
