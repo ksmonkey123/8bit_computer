@@ -32,7 +32,7 @@ class DataBusTest {
 
         // release bus. expect return to idle state
         driver.release()
-        bus.tick(2)
+        sim.tick()
         assertEquals(expectedIdleState, bus.state)
         assertEquals(0x00000000u, bus.contention)
     }
