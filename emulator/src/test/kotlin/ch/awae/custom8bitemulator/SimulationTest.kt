@@ -1,6 +1,8 @@
 package ch.awae.custom8bitemulator
 
+import org.junit.jupiter.api.*
 import kotlin.test.*
+import kotlin.test.Test
 
 class SimulationTest {
 
@@ -27,6 +29,18 @@ class SimulationTest {
     }
 
     @Test
+    fun testInvalidTickCount() {
+        val component = MockElement()
+        val sim = Simulation(component)
+
+        assertThrows<IllegalArgumentException> { sim.tick(-1) }
+
+        // component should not have ticked
+        assertNull(component.lastTickID)
+        assertEquals(0, component.tickCount)
+    }
+
+    @Test
     fun testEscapeCondition() {
         var invocationCount = 0
         fun condition(): Boolean {
@@ -41,6 +55,16 @@ class SimulationTest {
         assertEquals(20, sim.tickUntil(::condition, 1000))
         assertEquals(20, component.tickCount)
         assertEquals(19, component.lastTickID)
+    }
+
+    @Test
+    fun testEscapeConditionNotReacued() {
+        val component = MockElement()
+        val sim = Simulation(component)
+
+        assertEquals(-1, sim.tickUntil({ false }, 1000))
+        assertEquals(999, component.lastTickID)
+        assertEquals(1000, component.tickCount)
     }
 
     @Test
