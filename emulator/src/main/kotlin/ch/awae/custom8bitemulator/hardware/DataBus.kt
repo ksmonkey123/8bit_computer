@@ -65,4 +65,14 @@ class DataBus(private val pullHigh: Boolean) : SimulationElement(ElementType.WIR
             this@DataBus.release(this)
         }
     }
+
+    /**
+     * extract a single bit of the data bus as a signal wire.
+     *
+     * The signal wire updates synchronously with the bus without needing to tick
+     */
+    fun getBitWire(bit: Int): SignalWire {
+        return BusDerivedSignal(this, bit)
+    }
+
 }

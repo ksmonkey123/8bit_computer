@@ -1,6 +1,7 @@
 package ch.awae.custom8bitemulator.hardware
 
 import ch.awae.custom8bitemulator.*
+import org.junit.jupiter.api.*
 import org.junit.jupiter.params.*
 import org.junit.jupiter.params.provider.*
 import kotlin.test.*
@@ -15,7 +16,23 @@ class BusDerivedSignalTest {
             17, 18, 19, 20, 21, 22, 23, 24,
             25, 26, 27, 28, 29, 30, 31]
     )
-    fun testValueExtraction(bit: Int) {
+    fun testValueExtraction_directInit(bit: Int) {
+        testValueExtraction(bit, false)
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        ints = [
+            0, 1, 2, 3, 4, 5, 6, 7, 8,
+            9, 10, 11, 12, 13, 14, 15, 16,
+            17, 18, 19, 20, 21, 22, 23, 24,
+            25, 26, 27, 28, 29, 30, 31]
+    )
+    fun testValueExtraction_helperInit(bit: Int) {
+        testValueExtraction(bit, true)
+    }
+
+    private fun testValueExtraction(bit: Int, initThroughHelper: Boolean) {
         val mask = 1u shl bit
 
         val bus = DataBus(true)
@@ -23,7 +40,11 @@ class BusDerivedSignalTest {
         val driverB = bus.connectDriver()
         val sim = Simulation(bus)
 
-        val signal = BusDerivedSignal(bus, bit)
+        val signal = if (initThroughHelper) {
+            bus.getBitWire(bit)
+        } else {
+            BusDerivedSignal(bus, bit)
+        }
 
         assertTrue(signal.state, "initially, see pull-up")
         assertFalse(signal.contention, "initially see no contention on pull-up")
@@ -66,5 +87,24 @@ class BusDerivedSignalTest {
         assertFalse(signal.state, "contention on this")
         assertTrue(signal.contention, "contention on this")
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = [-1, 32])
+    fun testInvalidDirectInit(bit: Int) {
+        assertThrows<IllegalArgumentException> {
+            val bus = DataBus(false)
+            BusDerivedSignal(bus, bit)
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [-1, 32])
+    fun testInvalidHelperInit(bit: Int) {
+        assertThrows<IllegalArgumentException> {
+            val bus = DataBus(false)
+            bus.getBitWire(bit)
+        }
+    }
+
 
 }
