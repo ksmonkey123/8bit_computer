@@ -16,8 +16,8 @@ class BusDerivedSignalTest {
             17, 18, 19, 20, 21, 22, 23, 24,
             25, 26, 27, 28, 29, 30, 31]
     )
-    fun testValueExtraction_directInit(bit: Int) {
-        testValueExtraction(bit, false)
+    fun testValueExtraction_DirectInit(bit: Int) {
+        testValueExtraction(bit, true)
     }
 
     @ParameterizedTest
@@ -28,23 +28,20 @@ class BusDerivedSignalTest {
             17, 18, 19, 20, 21, 22, 23, 24,
             25, 26, 27, 28, 29, 30, 31]
     )
-    fun testValueExtraction_helperInit(bit: Int) {
-        testValueExtraction(bit, true)
+    fun testValueExtraction_FluentInit(bit: Int) {
+        testValueExtraction(bit, false)
     }
 
-    private fun testValueExtraction(bit: Int, initThroughHelper: Boolean) {
+    private fun testValueExtraction(bit: Int, directInit: Boolean) {
         val mask = 1u shl bit
 
-        val bus = DataBus(true)
+        val bus = WritableBus(true)
         val driver = bus.connectDriver()
         val driverB = bus.connectDriver()
         val sim = Simulation(bus)
 
-        val signal = if (initThroughHelper) {
-            bus.getBitWire(bit)
-        } else {
-            BusDerivedSignal(bus, bit)
-        }
+        val signal = if (directInit) BusDerivedSignal(bus, bit) else bus.bitSignal(bit)
+
 
         assertTrue(signal.state, "initially, see pull-up")
         assertFalse(signal.contention, "initially see no contention on pull-up")
@@ -90,19 +87,19 @@ class BusDerivedSignalTest {
 
     @ParameterizedTest
     @ValueSource(ints = [-1, 32])
-    fun testInvalidDirectInit(bit: Int) {
+    fun testInvalidInit_Fluent(bit: Int) {
         assertThrows<IllegalArgumentException> {
-            val bus = DataBus(false)
-            BusDerivedSignal(bus, bit)
+            val bus = WritableBus(false)
+            bus.bitSignal(bit)
         }
     }
 
     @ParameterizedTest
     @ValueSource(ints = [-1, 32])
-    fun testInvalidHelperInit(bit: Int) {
+    fun testInvalidInit_Direct(bit: Int) {
         assertThrows<IllegalArgumentException> {
-            val bus = DataBus(false)
-            bus.getBitWire(bit)
+            val bus = WritableBus(false)
+            BusDerivedSignal(bus, bit)
         }
     }
 

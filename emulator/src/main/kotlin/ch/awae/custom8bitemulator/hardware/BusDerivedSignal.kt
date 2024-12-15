@@ -1,6 +1,6 @@
 package ch.awae.custom8bitemulator.hardware
 
-class BusDerivedSignal(private val bus: DataBus, bit: Int) : SignalWire {
+class BusDerivedSignal(private val bus: DataBus, bit: Int) : DataSignal {
 
     private val mask: UInt
 
