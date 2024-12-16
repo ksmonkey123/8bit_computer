@@ -1,4 +1,4 @@
-package ch.awae.custom8bitemulator.hardware
+package ch.awae.custom8bitemulator.hardware.wiring
 
 import org.junit.jupiter.api.*
 import org.junit.jupiter.params.*
@@ -30,4 +30,3 @@ class ByteBusTest {
         }
     }
 }
-

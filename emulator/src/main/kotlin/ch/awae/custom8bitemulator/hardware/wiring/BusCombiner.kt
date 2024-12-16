@@ -1,9 +1,9 @@
-package ch.awae.custom8bitemulator.hardware
+package ch.awae.custom8bitemulator.hardware.wiring
 
 /**
  * A DataBus that combines 2..4 byte busses into a single 32bit bus.
  */
-class CombinedByteBus private constructor(private val busses: List<DataBus?>) : DataBus {
+class CombinedByteBus private constructor(private val busses: List<DataBus>) : DataBus {
 
     constructor(byte0: DataBus, byte1: DataBus)
             : this(listOf(byte0, byte1))
@@ -16,11 +16,8 @@ class CombinedByteBus private constructor(private val busses: List<DataBus?>) : 
 
     private fun getComposedValue(extractor: (DataBus) -> UInt): UInt {
         return busses.mapIndexed { index, dataBus ->
-            if (dataBus == null)
-                0u
-            else
-                (extractor(dataBus) and 0xffu) shl (index * 8)
-        }.reduceOrNull(UInt::or) ?: 0u
+            (extractor(dataBus) and 0xffu) shl (index * 8)
+        }.reduce(UInt::or)
     }
 
     override val state: UInt

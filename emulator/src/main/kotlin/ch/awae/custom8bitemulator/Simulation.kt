@@ -26,12 +26,12 @@ class Simulation(vararg elements: SimulationElement) {
 
     private var tickCounter = 0L
 
-    fun tick(tickCount: Long = 1) {
+    fun tick(tickCount: Int = 1) {
         if (tickCount <= 0) {
             throw IllegalArgumentException("tickCount must be > 0")
         }
 
-        for (i in 1..tickCount) {
+        repeat(tickCount) {
             tickOnce()
         }
     }
@@ -47,12 +47,12 @@ class Simulation(vararg elements: SimulationElement) {
      * @return the number of performed ticks. Returns `-1` if limit
      * has been reached without satisfying an escape condition.
      */
-    fun tickUntil(escapeCondition: () -> Boolean, limit: Long): Long {
-        for (tickNumber in 1..limit) {
+    fun tickUntil(escapeCondition: () -> Boolean, limit: Int): Int {
+        repeat(limit) { idx ->
             tickOnce()
 
             if (escapeCondition()) {
-                return tickNumber
+                return idx + 1
             }
         }
         return -1

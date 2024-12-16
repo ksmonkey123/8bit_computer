@@ -1,7 +1,7 @@
 package ch.awae.custom8bitemulator.hardware.ic
 
 import ch.awae.custom8bitemulator.*
-import ch.awae.custom8bitemulator.hardware.*
+import ch.awae.custom8bitemulator.hardware.wiring.*
 import kotlin.test.*
 
 class OctalDFlipFlop74273Test {

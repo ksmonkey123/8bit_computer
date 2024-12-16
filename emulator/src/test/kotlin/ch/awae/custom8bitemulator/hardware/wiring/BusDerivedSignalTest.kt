@@ -1,4 +1,4 @@
-package ch.awae.custom8bitemulator.hardware
+package ch.awae.custom8bitemulator.hardware.wiring
 
 import ch.awae.custom8bitemulator.*
 import org.junit.jupiter.api.*
