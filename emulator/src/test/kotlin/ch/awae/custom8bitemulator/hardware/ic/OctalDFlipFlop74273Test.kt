@@ -1,6 +1,5 @@
 package ch.awae.custom8bitemulator.hardware.ic
 
-import ch.awae.custom8bitemulator.*
 import ch.awae.custom8bitemulator.hardware.wiring.*
 import kotlin.test.*
 
@@ -8,133 +7,112 @@ class OctalDFlipFlop74273Test {
 
     @Test
     fun testStoringData() {
-        val inputBus = StandardWritableBus(true)
-        val clock = StandardWritableSignal(false)
-        val outputBus = StandardWritableBus(true)
+        val inputBus = MockBus()
+        val clock = MockSignal()
+        val outputBus = MockBus()
         val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
-        val sim = Simulation(inputBus, outputBus, clock, buffer)
-        val clockDriver = clock.connectDriver()
-        val inputDriver = inputBus.connectDriver()
 
-        inputDriver.set(0x69u)
-        clockDriver.set(false)
-        sim.tick()
-        clockDriver.set(true)
-        sim.tick()
-        clockDriver.set(false)
-        sim.tick()
-        assertEquals(0x69u, outputBus.state)
+        val initialOut = outputBus.driverState
+        inputBus.state = 0x69u
+        clock.state = false
+        buffer.tick()
+        assertEquals(initialOut, outputBus.driverState)
+        clock.state = true
+        buffer.tick()
+        assertEquals(0x69u, outputBus.driverState)
 
-        inputDriver.set(0x96u)
-        sim.tick()
-        clockDriver.set(true)
-        sim.tick()
-        clockDriver.set(false)
-        assertEquals(0x69u, outputBus.state)
-        sim.tick()
-        assertEquals(0x96u, outputBus.state)
+        inputBus.state = 0x96u
+        clock.state = false
+        buffer.tick()
+        assertEquals(0x69u, outputBus.driverState)
+
+        clock.state = true
+        buffer.tick()
+        assertEquals(0x96u, outputBus.driverState)
     }
 
     @Test
     fun testClearing() {
-        val inputBus = StandardWritableBus(true)
-        val clock = StandardWritableSignal(false)
-        val reset = StandardWritableSignal(false)
-        val outputBus = StandardWritableBus(true)
+        val inputBus = MockBus()
+        val clock = MockSignal()
+        val reset = MockSignal()
+        val outputBus = MockBus()
         val buffer = OctalDFlipFlop74273(inputBus, clock, reset, outputBus)
-        val sim = Simulation(inputBus, outputBus, clock, reset, buffer)
 
-        val resetDriver = reset.connectDriver()
-
-        sim.tick()
-        val out = outputBus.state
-
-        resetDriver.set(true)
-        sim.tick()
-        assertEquals(out, outputBus.state)
-        sim.tick()
+        reset.state = true
+        buffer.tick()
         assertEquals(0u, outputBus.state)
     }
 
     @Test
     fun testClockIrrelevantWhileResetActive() {
-        val inputBus = StandardWritableBus(true)
-        val clock = StandardWritableSignal(true)
-        val reset = StandardWritableSignal(false)
-        val outputBus = StandardWritableBus(true)
+        val inputBus = MockBus()
+        val clock = MockSignal()
+        val reset = MockSignal()
+        val outputBus = MockBus()
         val buffer = OctalDFlipFlop74273(inputBus, clock, reset, outputBus)
-        val sim = Simulation(inputBus, outputBus, clock, reset, buffer)
-        val resetDriver = reset.connectDriver()
-        val inputDriver = inputBus.connectDriver()
-        val clockDriver = clock.connectDriver()
 
-        inputDriver.set(0x69u)
-        clockDriver.set(false)
+        reset.state = true
+        clock.state = false
+        inputBus.state = 0x69u
 
-        sim.tick(20)
-        resetDriver.set(true)
-        sim.tick(2)
-        assertEquals(0u, outputBus.state)
-        clockDriver.set(true)
-        sim.tick()
-        assertEquals(0u, outputBus.state)
-        clockDriver.set(false)
-        sim.tick()
-        assertEquals(0u, outputBus.state)
-        clockDriver.set(true)
-        sim.tick()
-        assertEquals(0u, outputBus.state)
-        resetDriver.set(false)
-        sim.tick()
-        assertEquals(0u, outputBus.state)
-        clockDriver.set(false)
-        sim.tick()
-        assertEquals(0u, outputBus.state)
-        clockDriver.set(true)
-        sim.tick()
-        assertEquals(0u, outputBus.state)
-        sim.tick()
-        assertEquals(0x69u, outputBus.state)
+        buffer.tick()
+        assertEquals(0u, outputBus.driverState)
+
+        repeat(2) {
+            clock.state = false
+            buffer.tick()
+            assertEquals(0u, outputBus.driverState)
+
+            clock.state = true
+            buffer.tick()
+            assertEquals(0u, outputBus.driverState)
+        }
+
+        reset.state = false
+        buffer.tick()
+        assertEquals(0u, outputBus.driverState)
+
+        clock.state = false
+        buffer.tick()
+        assertEquals(0u, outputBus.driverState)
+
+        clock.state = true
+        buffer.tick()
+        assertEquals(0x69u, outputBus.driverState)
     }
 
     @Test
     fun onlyFirstByteOfBusIsUsed() {
-        val inputBus = StandardWritableBus(true)
-        val clock = StandardWritableSignal(false)
-        val outputBus = StandardWritableBus(true)
+        val inputBus = MockBus()
+        val clock = MockSignal()
+        val outputBus = MockBus()
         val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
-        val sim = Simulation(inputBus, outputBus, clock, buffer)
-        val clockDriver = clock.connectDriver()
-        val inputDriver = inputBus.connectDriver()
 
-        inputDriver.set(0x96969669u)
-        clockDriver.set(false)
-        sim.tick()
-        clockDriver.set(true)
-        sim.tick()
-        clockDriver.set(false)
-        sim.tick()
-        assertEquals(0x69u, outputBus.state)
+        inputBus.state = 0x96969669u
+        clock.state = false
+        buffer.tick()
+        clock.state = true
+        buffer.tick()
+        assertEquals(0x69u, outputBus.driverState)
 
-        inputDriver.set(0x69696996u)
-        sim.tick()
-        clockDriver.set(true)
-        sim.tick()
-        clockDriver.set(false)
-        assertEquals(0x69u, outputBus.state)
-        sim.tick()
-        assertEquals(0x96u, outputBus.state)
+        inputBus.state = 0x69696996u
+        clock.state = false
+        buffer.tick()
+        assertEquals(0x69u, outputBus.driverState)
+        clock.state = true
+        buffer.tick()
+        assertEquals(0x96u, outputBus.driverState)
     }
 
     @Test
     fun initialRandomStateOnlyTouchesLowestByte() {
         repeat(1000) {
-            val inputBus = StandardWritableBus(true)
-            val clock = StandardWritableSignal(false)
-            val outputBus = StandardWritableBus(true)
-            val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
-            val sim = Simulation(inputBus, outputBus, clock, buffer)
-            sim.tick()
+            val inputBus = MockBus()
+            val clock = MockSignal()
+            val outputBus = MockBus()
+
+            OctalDFlipFlop74273(inputBus, clock, null, outputBus)
 
             assertEquals(0u, outputBus.state and 0xffffff00u)
         }

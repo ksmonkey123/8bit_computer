@@ -22,7 +22,7 @@ class OctalTristateDriver74244(
 
     override fun tick(tickID: Long) {
         if (enable.state) {
-            outputDriver.set(input.state)
+            outputDriver.set(input.state and 0xffu)
         } else {
             outputDriver.release()
         }

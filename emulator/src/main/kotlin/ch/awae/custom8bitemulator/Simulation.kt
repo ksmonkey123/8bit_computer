@@ -6,7 +6,7 @@ enum class ElementType {
 }
 
 abstract class SimulationElement(val type: ElementType) {
-    abstract fun tick(tickID: Long)
+    abstract fun tick(tickID: Long = -1)
 }
 
 class Simulation(vararg elements: SimulationElement) {
