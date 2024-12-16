@@ -58,7 +58,7 @@ class SimulationTest {
     }
 
     @Test
-    fun testEscapeConditionNotReacued() {
+    fun testEscapeConditionNotReached() {
         val component = MockElement()
         val sim = Simulation(component)
 
@@ -128,7 +128,27 @@ class SimulationTest {
         assertEquals(1999, componentB.lastTickID)
     }
 
-    class MockElement : SimulationElement(ElementType.COMPONENT) {
+    @Test
+    fun testAddingNestedElement() {
+        val internal = MockElement()
+        val container = MockNestedElement(internal)
+
+        val sim = Simulation(container)
+
+        assertNull(internal.lastTickID)
+        assertNull(container.lastTickID)
+        assertEquals(0, internal.tickCount)
+        assertEquals(0, container.tickCount)
+
+        sim.tick()
+
+        assertEquals(0, internal.lastTickID)
+        assertEquals(0, container.lastTickID)
+        assertEquals(1, internal.tickCount)
+        assertEquals(1, container.tickCount)
+    }
+
+    open class MockElement : SimulationElement(ElementType.COMPONENT) {
 
         var lastTickID: Long? = null
         var tickCount: Long = 0
@@ -136,6 +156,12 @@ class SimulationTest {
         override fun tick(tickID: Long) {
             lastTickID = tickID
             tickCount++
+        }
+    }
+
+    class MockNestedElement(val nested: SimulationElement) : MockElement() {
+        override fun getSubElements(): List<SimulationElement> {
+            return listOf(nested)
         }
     }
 

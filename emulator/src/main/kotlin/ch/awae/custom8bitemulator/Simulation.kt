@@ -7,6 +7,7 @@ enum class ElementType {
 
 abstract class SimulationElement(val type: ElementType) {
     abstract fun tick(tickID: Long = -1)
+    open fun getSubElements(): List<SimulationElement> = emptyList()
 }
 
 class Simulation(vararg elements: SimulationElement) {
@@ -21,6 +22,9 @@ class Simulation(vararg elements: SimulationElement) {
     }
 
     fun addElement(element: SimulationElement) {
+        element.getSubElements().forEach {
+            addElement(it)
+        }
         elements.getValue(element.type).add(element)
     }
 
