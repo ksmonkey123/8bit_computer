@@ -8,9 +8,9 @@ class OctalDFlipFlop74273Test {
 
     @Test
     fun testStoringData() {
-        val inputBus = WritableBus(true)
-        val clock = WritableSignal(false)
-        val outputBus = WritableBus(true)
+        val inputBus = StandardWritableBus(true)
+        val clock = StandardWritableSignal(false)
+        val outputBus = StandardWritableBus(true)
         val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
         val sim = Simulation(inputBus, outputBus, clock, buffer)
         val clockDriver = clock.connectDriver()
@@ -37,10 +37,10 @@ class OctalDFlipFlop74273Test {
 
     @Test
     fun testClearing() {
-        val inputBus = WritableBus(true)
-        val clock = WritableSignal(false)
-        val reset = WritableSignal(false)
-        val outputBus = WritableBus(true)
+        val inputBus = StandardWritableBus(true)
+        val clock = StandardWritableSignal(false)
+        val reset = StandardWritableSignal(false)
+        val outputBus = StandardWritableBus(true)
         val buffer = OctalDFlipFlop74273(inputBus, clock, reset, outputBus)
         val sim = Simulation(inputBus, outputBus, clock, reset, buffer)
 
@@ -58,10 +58,10 @@ class OctalDFlipFlop74273Test {
 
     @Test
     fun testClockIrrelevantWhileResetActive() {
-        val inputBus = WritableBus(true)
-        val clock = WritableSignal(true)
-        val reset = WritableSignal(false)
-        val outputBus = WritableBus(true)
+        val inputBus = StandardWritableBus(true)
+        val clock = StandardWritableSignal(true)
+        val reset = StandardWritableSignal(false)
+        val outputBus = StandardWritableBus(true)
         val buffer = OctalDFlipFlop74273(inputBus, clock, reset, outputBus)
         val sim = Simulation(inputBus, outputBus, clock, reset, buffer)
         val resetDriver = reset.connectDriver()
@@ -99,9 +99,9 @@ class OctalDFlipFlop74273Test {
 
     @Test
     fun onlyFirstByteOfBusIsUsed() {
-        val inputBus = WritableBus(true)
-        val clock = WritableSignal(false)
-        val outputBus = WritableBus(true)
+        val inputBus = StandardWritableBus(true)
+        val clock = StandardWritableSignal(false)
+        val outputBus = StandardWritableBus(true)
         val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
         val sim = Simulation(inputBus, outputBus, clock, buffer)
         val clockDriver = clock.connectDriver()
@@ -129,9 +129,9 @@ class OctalDFlipFlop74273Test {
     @Test
     fun initialRandomStateOnlyTouchesLowestByte() {
         repeat(1000) {
-            val inputBus = WritableBus(true)
-            val clock = WritableSignal(false)
-            val outputBus = WritableBus(true)
+            val inputBus = StandardWritableBus(true)
+            val clock = StandardWritableSignal(false)
+            val outputBus = StandardWritableBus(true)
             val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
             val sim = Simulation(inputBus, outputBus, clock, buffer)
             sim.tick()

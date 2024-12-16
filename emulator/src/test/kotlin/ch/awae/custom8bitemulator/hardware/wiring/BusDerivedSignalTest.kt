@@ -19,7 +19,7 @@ class BusDerivedSignalTest {
     fun testValueExtraction(bit: Int) {
         val mask = 1u shl bit
 
-        val bus = WritableBus(true)
+        val bus = StandardWritableBus(true)
         val driver = bus.connectDriver()
         val driverB = bus.connectDriver()
         val sim = Simulation(bus)
@@ -73,7 +73,7 @@ class BusDerivedSignalTest {
     @ValueSource(ints = [-1, 32])
     fun testInvalidInit(bit: Int) {
         assertThrows<IllegalArgumentException> {
-            val bus = WritableBus(false)
+            val bus = StandardWritableBus(false)
             bus.bitSignal(bit)
         }
     }

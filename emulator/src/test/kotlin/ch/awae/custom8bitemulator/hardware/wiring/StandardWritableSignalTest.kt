@@ -5,13 +5,13 @@ import org.junit.jupiter.params.*
 import org.junit.jupiter.params.provider.*
 import kotlin.test.*
 
-class WritableSignalTest {
+class StandardWritableSignalTest {
 
     @ParameterizedTest
     @ValueSource(booleans = [false, true])
     fun testIdleStates(expectedIdleState: Boolean) {
 
-        val bus = WritableSignal(expectedIdleState)
+        val bus = StandardWritableSignal(expectedIdleState)
         val sim = Simulation(bus)
         val driver = bus.connectDriver()
 
@@ -38,7 +38,7 @@ class WritableSignalTest {
 
     @Test
     fun testDriverUpdatingValue() {
-        val signal = WritableSignal(false)
+        val signal = StandardWritableSignal(false)
         val sim = Simulation(signal)
         val driver = signal.connectDriver()
 
@@ -70,7 +70,7 @@ class WritableSignalTest {
 
     @Test
     fun testMultipleSequentialDrivers() {
-        val signal = WritableSignal(false)
+        val signal = StandardWritableSignal(false)
         val sim = Simulation(signal)
         val driverA = signal.connectDriver()
         val driverB = signal.connectDriver()
@@ -92,7 +92,7 @@ class WritableSignalTest {
 
     @Test
     fun testContention() {
-        val bus = WritableSignal(false)
+        val bus = StandardWritableSignal(false)
         val sim = Simulation(bus)
         val driverA = bus.connectDriver()
         val driverB = bus.connectDriver()

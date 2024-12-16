@@ -5,14 +5,14 @@ import org.junit.jupiter.params.*
 import org.junit.jupiter.params.provider.*
 import kotlin.test.*
 
-class WritableBusTest {
+class StandardWritableBusTest {
 
     @ParameterizedTest
     @ValueSource(booleans = [false, true])
     fun testIdleStates(high: Boolean) {
         val expectedIdleState = if (high) 0xffffffffu else 0x00000000u
 
-        val bus = WritableBus(high)
+        val bus = StandardWritableBus(high)
         val sim = Simulation(bus)
         val driver = bus.connectDriver()
 
@@ -39,7 +39,7 @@ class WritableBusTest {
 
     @Test
     fun testDriverUpdatingValue() {
-        val bus = WritableBus(false)
+        val bus = StandardWritableBus(false)
         val sim = Simulation(bus)
         val driver = bus.connectDriver()
 
@@ -65,7 +65,7 @@ class WritableBusTest {
 
     @Test
     fun testMultipleSequentialDrivers() {
-        val bus = WritableBus(false)
+        val bus = StandardWritableBus(false)
         val sim = Simulation(bus)
         val driverA = bus.connectDriver()
         val driverB = bus.connectDriver()
@@ -87,7 +87,7 @@ class WritableBusTest {
 
     @Test
     fun testContention() {
-        val bus = WritableBus(false)
+        val bus = StandardWritableBus(false)
         val sim = Simulation(bus)
         val driverA = bus.connectDriver()
         val driverB = bus.connectDriver()
