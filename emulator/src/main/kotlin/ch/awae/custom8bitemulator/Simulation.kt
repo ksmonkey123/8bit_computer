@@ -6,7 +6,7 @@ enum class ElementType {
 }
 
 abstract class SimulationElement(val type: ElementType) {
-    abstract fun tick(tickID: Long = -1)
+    open fun tick(tickID: Long = -1) {}
     open fun getSubElements(): List<SimulationElement> = emptyList()
 }
 
