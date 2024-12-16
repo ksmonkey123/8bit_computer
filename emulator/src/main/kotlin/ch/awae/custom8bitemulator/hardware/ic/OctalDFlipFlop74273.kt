@@ -19,7 +19,7 @@ class OctalDFlipFlop74273(
 
     private val driver = outputBus.connectDriver()
 
-    private var internalState = Random.nextInt().toUInt().also { driver.set(it) }
+    private var internalState = (Random.nextInt().toUInt() and 0xffu).also { driver.set(it) }
 
     private var lastClockState: Boolean = true
     private var lastInput: UInt = inputBus.state
@@ -32,7 +32,7 @@ class OctalDFlipFlop74273(
         } else if (clockState && !lastClockState) {
             // randomly decide on which signal to use
             val randomMask = Random.nextUInt()
-            internalState = (inputBus.state and randomMask) or (lastInput and randomMask.inv())
+            internalState = ((inputBus.state and randomMask) or (lastInput and randomMask.inv())) and 0xffu
         }
         lastClockState = clockState
         lastInput = inputBus.state

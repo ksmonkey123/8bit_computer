@@ -97,4 +97,47 @@ class OctalDFlipFlop74273Test {
         assertEquals(0x69u, outputBus.state)
     }
 
+    @Test
+    fun onlyFirstByteOfBusIsUsed() {
+        val inputBus = WritableBus(true)
+        val clock = WritableSignal(false)
+        val outputBus = WritableBus(true)
+        val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
+        val sim = Simulation(inputBus, outputBus, clock, buffer)
+        val clockDriver = clock.connectDriver()
+        val inputDriver = inputBus.connectDriver()
+
+        inputDriver.set(0x96969669u)
+        clockDriver.set(false)
+        sim.tick()
+        clockDriver.set(true)
+        sim.tick()
+        clockDriver.set(false)
+        sim.tick()
+        assertEquals(0x69u, outputBus.state)
+
+        inputDriver.set(0x69696996u)
+        sim.tick()
+        clockDriver.set(true)
+        sim.tick()
+        clockDriver.set(false)
+        assertEquals(0x69u, outputBus.state)
+        sim.tick()
+        assertEquals(0x96u, outputBus.state)
+    }
+
+    @Test
+    fun initialRandomStateOnlyTouchesLowestByte() {
+        repeat(1000) {
+            val inputBus = WritableBus(true)
+            val clock = WritableSignal(false)
+            val outputBus = WritableBus(true)
+            val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
+            val sim = Simulation(inputBus, outputBus, clock, buffer)
+            sim.tick()
+
+            assertEquals(0u, outputBus.state and 0xffffff00u)
+        }
+    }
+
 }
