@@ -16,23 +16,7 @@ class BusDerivedSignalTest {
             17, 18, 19, 20, 21, 22, 23, 24,
             25, 26, 27, 28, 29, 30, 31]
     )
-    fun testValueExtraction_DirectInit(bit: Int) {
-        testValueExtraction(bit, true)
-    }
-
-    @ParameterizedTest
-    @ValueSource(
-        ints = [
-            0, 1, 2, 3, 4, 5, 6, 7, 8,
-            9, 10, 11, 12, 13, 14, 15, 16,
-            17, 18, 19, 20, 21, 22, 23, 24,
-            25, 26, 27, 28, 29, 30, 31]
-    )
-    fun testValueExtraction_FluentInit(bit: Int) {
-        testValueExtraction(bit, false)
-    }
-
-    private fun testValueExtraction(bit: Int, directInit: Boolean) {
+    private fun testValueExtraction(bit: Int) {
         val mask = 1u shl bit
 
         val bus = WritableBus(true)
@@ -40,7 +24,7 @@ class BusDerivedSignalTest {
         val driverB = bus.connectDriver()
         val sim = Simulation(bus)
 
-        val signal = if (directInit) BusDerivedSignal(bus, bit) else bus.bitSignal(bit)
+        val signal = bus.bitSignal(bit)
 
 
         assertTrue(signal.state, "initially, see pull-up")
@@ -87,21 +71,11 @@ class BusDerivedSignalTest {
 
     @ParameterizedTest
     @ValueSource(ints = [-1, 32])
-    fun testInvalidInit_Fluent(bit: Int) {
+    fun testInvalidInit(bit: Int) {
         assertThrows<IllegalArgumentException> {
             val bus = WritableBus(false)
             bus.bitSignal(bit)
         }
     }
-
-    @ParameterizedTest
-    @ValueSource(ints = [-1, 32])
-    fun testInvalidInit_Direct(bit: Int) {
-        assertThrows<IllegalArgumentException> {
-            val bus = WritableBus(false)
-            BusDerivedSignal(bus, bit)
-        }
-    }
-
 
 }
