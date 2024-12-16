@@ -66,13 +66,4 @@ class WritableBus(private val pullHigh: Boolean) : SimulationElement(ElementType
         }
     }
 
-    /**
-     * extract a single bit of the data bus as a signal wire.
-     *
-     * The signal wire updates synchronously with the bus without needing to tick
-     */
-    override fun bitSignal(bit: Int): DataSignal {
-        return BusDerivedSignal(this, bit)
-    }
-
 }
