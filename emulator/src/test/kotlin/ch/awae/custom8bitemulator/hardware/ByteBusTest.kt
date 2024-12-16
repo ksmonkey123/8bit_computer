@@ -7,11 +7,6 @@ import kotlin.test.*
 
 class ByteBusTest {
 
-    class MockBus : DataBus {
-        override var state: UInt = 0u
-        override var contention: UInt = 0u
-    }
-
     @ParameterizedTest
     @ValueSource(ints = [0, 1, 2, 3])
     fun testByteBusExtractsCorrectByte(byte: Int) {
@@ -34,5 +29,5 @@ class ByteBusTest {
             bus.byteBus(byte)
         }
     }
-
 }
+

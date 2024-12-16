@@ -16,7 +16,7 @@ class BusDerivedSignalTest {
             17, 18, 19, 20, 21, 22, 23, 24,
             25, 26, 27, 28, 29, 30, 31]
     )
-    private fun testValueExtraction(bit: Int) {
+    fun testValueExtraction(bit: Int) {
         val mask = 1u shl bit
 
         val bus = WritableBus(true)
