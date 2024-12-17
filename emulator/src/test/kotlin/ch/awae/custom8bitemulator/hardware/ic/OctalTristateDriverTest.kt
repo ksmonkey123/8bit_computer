@@ -5,7 +5,7 @@ import org.junit.jupiter.params.*
 import org.junit.jupiter.params.provider.*
 import kotlin.test.*
 
-class OctalTristateDriver74244Test {
+class OctalTristateDriverTest {
 
     @ParameterizedTest
     @MethodSource("allBytes")
@@ -15,7 +15,7 @@ class OctalTristateDriver74244Test {
         val input = MockBus(state = value.toUInt())
         val enable = MockSignal()
         val output = MockBus()
-        val driver = OctalTristateDriver74244(input, enable, output)
+        val driver = OctalTristateDriver(input, enable, output)
 
         assertNull(output.driverState)
 
@@ -47,7 +47,7 @@ class OctalTristateDriver74244Test {
         val input = MockBus(0xffffff00u)
         val enable = MockSignal(true)
         val output = MockBus()
-        val driver = OctalTristateDriver74244(input, enable, output)
+        val driver = OctalTristateDriver(input, enable, output)
 
         assertNull(output.driverState)
         driver.tick()

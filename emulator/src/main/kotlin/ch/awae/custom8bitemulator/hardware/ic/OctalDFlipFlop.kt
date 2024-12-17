@@ -10,7 +10,7 @@ import kotlin.random.*
  * Data is latched on the rising edge of the clock.
  * While the reset signal is high, output is zeroed and no clock edges are observed.
  */
-class OctalDFlipFlop74273(
+class OctalDFlipFlop(
     private val inputBus: DataBus,
     private val clock: DataSignal,
     private val reset: DataSignal?,

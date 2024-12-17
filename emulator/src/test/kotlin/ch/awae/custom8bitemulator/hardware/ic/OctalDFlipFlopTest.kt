@@ -3,14 +3,14 @@ package ch.awae.custom8bitemulator.hardware.ic
 import ch.awae.custom8bitemulator.hardware.wiring.*
 import kotlin.test.*
 
-class OctalDFlipFlop74273Test {
+class OctalDFlipFlopTest {
 
     @Test
     fun testStoringData() {
         val inputBus = MockBus()
         val clock = MockSignal()
         val outputBus = MockBus()
-        val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
+        val buffer = OctalDFlipFlop(inputBus, clock, null, outputBus)
 
         val initialOut = outputBus.driverState
         inputBus.state = 0x69u
@@ -37,7 +37,7 @@ class OctalDFlipFlop74273Test {
         val clock = MockSignal()
         val reset = MockSignal()
         val outputBus = MockBus()
-        val buffer = OctalDFlipFlop74273(inputBus, clock, reset, outputBus)
+        val buffer = OctalDFlipFlop(inputBus, clock, reset, outputBus)
 
         reset.state = true
         buffer.tick()
@@ -50,7 +50,7 @@ class OctalDFlipFlop74273Test {
         val clock = MockSignal()
         val reset = MockSignal()
         val outputBus = MockBus()
-        val buffer = OctalDFlipFlop74273(inputBus, clock, reset, outputBus)
+        val buffer = OctalDFlipFlop(inputBus, clock, reset, outputBus)
 
         reset.state = true
         clock.state = false
@@ -87,7 +87,7 @@ class OctalDFlipFlop74273Test {
         val inputBus = MockBus()
         val clock = MockSignal()
         val outputBus = MockBus()
-        val buffer = OctalDFlipFlop74273(inputBus, clock, null, outputBus)
+        val buffer = OctalDFlipFlop(inputBus, clock, null, outputBus)
 
         inputBus.state = 0x96969669u
         clock.state = false
@@ -112,7 +112,7 @@ class OctalDFlipFlop74273Test {
             val clock = MockSignal()
             val outputBus = MockBus()
 
-            OctalDFlipFlop74273(inputBus, clock, null, outputBus)
+            OctalDFlipFlop(inputBus, clock, null, outputBus)
 
             assertEquals(0u, outputBus.state and 0xffffff00u)
         }

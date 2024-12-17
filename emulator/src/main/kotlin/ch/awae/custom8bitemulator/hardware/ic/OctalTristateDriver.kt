@@ -12,7 +12,7 @@ import ch.awae.custom8bitemulator.hardware.wiring.*
  * @param enable enable signal. active high
  * @param output output bus. driven to the input value if enable is high. (upper bytes driven low)
  */
-class OctalTristateDriver74244(
+class OctalTristateDriver(
     private val input: DataBus,
     private val enable: DataSignal,
     output: WritableBus,

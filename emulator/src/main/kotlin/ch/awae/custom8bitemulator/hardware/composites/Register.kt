@@ -12,8 +12,8 @@ class Register(
 ) : SimulationElement(ElementType.COMPONENT) {
 
     private val internalBus = StandardWritableBus(false)
-    private val flipflop = OctalDFlipFlop74273(dataBus, write, reset, internalBus)
-    private val driver = OctalTristateDriver74244(internalBus, read, dataBus)
+    private val flipflop = OctalDFlipFlop(dataBus, write, reset, internalBus)
+    private val driver = OctalTristateDriver(internalBus, read, dataBus)
 
     override fun getSubElements(): List<SimulationElement> {
         return listOf(internalBus, flipflop, driver)
