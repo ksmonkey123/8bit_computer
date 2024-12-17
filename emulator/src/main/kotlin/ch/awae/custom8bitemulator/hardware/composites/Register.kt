@@ -1,0 +1,25 @@
+package ch.awae.custom8bitemulator.hardware.composites
+
+import ch.awae.custom8bitemulator.*
+import ch.awae.custom8bitemulator.hardware.ic.*
+import ch.awae.custom8bitemulator.hardware.wiring.*
+
+class Register(
+    dataBus: WritableBus,
+    read: DataSignal,
+    write: DataSignal,
+    reset: DataSignal?,
+) : SimulationElement(ElementType.COMPONENT) {
+
+    private val internalBus = StandardWritableBus(false)
+    private val flipflop = OctalDFlipFlop74273(dataBus, write, reset, internalBus)
+    private val driver = OctalTristateDriver74244(internalBus, read, dataBus)
+
+    override fun getSubElements(): List<SimulationElement> {
+        return listOf(internalBus, flipflop, driver)
+    }
+
+    val directBus: DataBus
+        get() = internalBus
+
+}
