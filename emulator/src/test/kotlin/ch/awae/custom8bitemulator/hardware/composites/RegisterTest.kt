@@ -3,6 +3,7 @@ package ch.awae.custom8bitemulator.hardware.composites
 import ch.awae.custom8bitemulator.*
 import ch.awae.custom8bitemulator.hardware.wiring.*
 import org.junit.jupiter.api.Test
+import kotlin.random.*
 import kotlin.test.*
 
 class RegisterTest {
@@ -47,9 +48,12 @@ class RegisterTest {
         sim.tick()
         assertEquals(0x69u, register.directBus.state)
         assertEquals(0x00u, dataBus.state)
+        sim.tick()
+        assertEquals(0x69u, register.directBus.state)
+        assertEquals(0x69u, dataBus.state)
         sim.tick(100)
         assertEquals(0x69u, register.directBus.state)
-        assertEquals(0x00u, dataBus.state)
+        assertEquals(0x69u, dataBus.state)
     }
 
     @Test
@@ -144,6 +148,26 @@ class RegisterTest {
         assertEquals(0x69u, registerA.directBus.state)
         assertEquals(0x69u, registerB.directBus.state)
         assertEquals(0u, dataBus.state)
+    }
+
+    @Test
+    fun testRegisterUnaffectedByDataBusIfNotWriting() {
+        val dataBus = StandardWritableBus(false)
+        val read = StandardWritableSignal(false)
+        val write = StandardWritableSignal(false)
+        val register = Register(dataBus, read, write, null)
+        val sim = Simulation(dataBus, read, write, register)
+
+        val dataDriver = dataBus.connectDriver()
+
+        sim.tick()
+        val initialInternal = register.directBus.state
+
+        repeat(1000) {
+            dataDriver.set(Random.nextUInt(0x100u))
+            sim.tick()
+            assertEquals(initialInternal, register.directBus.state)
+        }
     }
 
 }
