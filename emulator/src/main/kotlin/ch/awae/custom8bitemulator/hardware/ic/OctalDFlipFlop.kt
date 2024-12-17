@@ -19,7 +19,7 @@ class OctalDFlipFlop(
 
     private val driver = outputBus.connectDriver()
 
-    private var internalState = (Random.nextInt().toUInt() and 0xffu).also { driver.set(it) }
+    private var internalState = (Random.nextUInt(0x100u)).also { driver.set(it) }
 
     private var lastClockState: Boolean = true
     private var lastInput: UInt = inputBus.state
