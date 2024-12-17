@@ -1,5 +1,7 @@
 package ch.awae.custom8bitemulator.hardware.wiring
 
+import kotlin.random.*
+
 /**
  * Implements a data bus of up to 32bits.
  *
@@ -14,6 +16,10 @@ interface WritableBus : DataBus {
 
     interface Driver {
         fun set(value: UInt)
+        fun setRandom(mask: UInt) {
+            set(Random.nextUInt() and mask)
+        }
+
         fun release()
     }
 }

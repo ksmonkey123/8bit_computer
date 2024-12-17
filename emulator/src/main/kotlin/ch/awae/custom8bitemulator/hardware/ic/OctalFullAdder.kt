@@ -15,7 +15,7 @@ class OctalFullAdder(
     carryOut: WritableSignal,
 ) : SimulationElement(ElementType.COMPONENT) {
 
-    private val sumDriver = sum.connectDriver().also { it.set(Random.nextUInt(0x100u)) }
+    private val sumDriver = sum.connectDriver().also { it.setRandom(0xffu) }
     private val carryOutDriver = carryOut.connectDriver().also { it.set(Random.nextBoolean()) }
 
     override fun tick(tickID: Long) {

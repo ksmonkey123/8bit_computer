@@ -3,7 +3,6 @@ package ch.awae.custom8bitemulator.hardware.composites
 import ch.awae.custom8bitemulator.*
 import ch.awae.custom8bitemulator.hardware.wiring.*
 import org.junit.jupiter.api.Test
-import kotlin.random.*
 import kotlin.test.*
 
 class RegisterTest {
@@ -164,7 +163,7 @@ class RegisterTest {
         val initialInternal = register.directBus.state
 
         repeat(1000) {
-            dataDriver.set(Random.nextUInt(0x100u))
+            dataDriver.setRandom(0xffu)
             sim.tick()
             assertEquals(initialInternal, register.directBus.state)
         }
