@@ -21,14 +21,15 @@ class BusLogicGate(
         outputDriver.set(
             when (operation) {
                 Operation.AND -> inputA.state and inputB.state
-                Operation.IOR -> inputB.state or inputA.state
+                Operation.IOR -> inputA.state or inputB.state
                 Operation.XOR -> inputA.state xor inputB.state
+                Operation.NAND -> (inputB.state and inputA.state).inv()
             }
         )
     }
 
     enum class Operation {
-        AND, IOR, XOR
+        AND, IOR, XOR, NAND
     }
 
 

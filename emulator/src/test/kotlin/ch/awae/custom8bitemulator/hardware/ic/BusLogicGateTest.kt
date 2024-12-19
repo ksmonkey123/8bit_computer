@@ -65,4 +65,24 @@ class BusLogicGateTest {
         }
     }
 
+    @Test
+    fun testNandGate() {
+        val inputA = MockBus()
+        val inputB = MockBus()
+        val output = MockBus()
+
+        val gate = BusLogicGate(BusLogicGate.Operation.NAND, inputA, inputB, output)
+
+        for (byte in 0..3) {
+            for (a in 0..255) {
+                for (b in 0..255) {
+                    inputA.state = a.toUInt() shl (8 * byte)
+                    inputB.state = b.toUInt() shl (8 * byte)
+                    gate.tick()
+                    assertEquals(((a.toUInt() and b.toUInt()) shl (8 * byte)).inv(), output.driverState)
+                }
+            }
+        }
+    }
+
 }
