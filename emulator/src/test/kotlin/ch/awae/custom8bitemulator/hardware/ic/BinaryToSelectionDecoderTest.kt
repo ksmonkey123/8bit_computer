@@ -13,7 +13,7 @@ class BinaryToSelectionDecoderTest {
         val inputBus = MockBus()
         val outputBus = MockBus()
 
-        val decoder = BinaryToSelectionDecoder(inputBus, outputBus)
+        val decoder = BinaryToSelectionDecoder(inputBus, outputBus, 0xffu)
 
         inputBus.state = input.toUInt()
         decoder.tick()

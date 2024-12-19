@@ -12,12 +12,13 @@ import ch.awae.custom8bitemulator.hardware.wiring.*
 class BinaryToSelectionDecoder(
     private val input: DataBus,
     output: WritableBus,
+    private val mask: UInt,
 ) : SimulationElement(ElementType.COMPONENT) {
 
     private val outputDriver = output.connectDriver()
 
     override fun tick(tickID: Long) {
-        outputDriver.set(1u shl (input.state and 0x1fu).toInt())
+        outputDriver.set(1u shl (input.state and mask and 0x1fu).toInt())
     }
 
 }
