@@ -2,7 +2,7 @@ package ch.awae.custom8bitemulator.hardware.wiring
 
 import ch.awae.custom8bitemulator.*
 
-class StandardWritableBus(pullHigh: Boolean) : SimulationElement(ElementType.WIRE), WritableBus {
+class StandardWritableBus(pullHigh: Boolean, name: String? = null) : SimulationElement(ElementType.WIRE, name), WritableBus {
     private val idleState = if (pullHigh) 0xffffffffu else 0x00000000u
 
     private val drivers = mutableMapOf<WritableBus.Driver, UInt>()

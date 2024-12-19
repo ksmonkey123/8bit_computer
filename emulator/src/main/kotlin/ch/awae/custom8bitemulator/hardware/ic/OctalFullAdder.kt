@@ -13,7 +13,8 @@ class OctalFullAdder(
     private val carryIn: DataSignal,
     sum: WritableBus,
     carryOut: WritableSignal,
-) : SimulationElement(ElementType.COMPONENT) {
+    name: String? = null,
+) : SimulationElement(ElementType.COMPONENT, name) {
 
     private val sumDriver = sum.connectDriver().also { it.setRandom(0xffu) }
     private val carryOutDriver = carryOut.connectDriver().also { it.set(Random.nextBoolean()) }

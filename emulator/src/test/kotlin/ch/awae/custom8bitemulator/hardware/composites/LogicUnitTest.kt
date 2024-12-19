@@ -11,16 +11,16 @@ class LogicUnitTest {
     @ParameterizedTest
     @MethodSource("data")
     fun testLogicUnit(c: Int, a: Int, b: Int, res: Int) {
-        val inputA = StandardWritableBus(false)
-        val inputB = StandardWritableBus(false)
-        val control = StandardWritableBus(false)
-        val output = StandardWritableBus(false)
+        val inputA = StandardWritableBus(false, "inputA")
+        val inputB = StandardWritableBus(false, "inputB")
+        val control = StandardWritableBus(false, "control")
+        val output = StandardWritableBus(false, "output")
 
         val dInputA = inputA.connectDriver()
         val dInputB = inputB.connectDriver()
         val dControl = control.connectDriver()
 
-        val lu = LogicUnit(inputA, inputB, control, output)
+        val lu = LogicUnit(inputA, inputB, control, output, "TestLogicUnit")
 
         val sim = Simulation(inputA, inputB, control, output, lu)
 

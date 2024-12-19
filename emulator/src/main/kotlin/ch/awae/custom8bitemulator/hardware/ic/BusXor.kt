@@ -12,7 +12,8 @@ class BusXor(
     private val input: DataBus,
     private val control: DataSignal,
     output: WritableBus,
-) : SimulationElement(ElementType.COMPONENT) {
+    name: String? = null,
+) : SimulationElement(ElementType.COMPONENT, name) {
 
     private val outputDriver = output.connectDriver()
 

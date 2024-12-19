@@ -13,7 +13,8 @@ class BinaryToSelectionDecoder(
     private val input: DataBus,
     output: WritableBus,
     private val mask: UInt,
-) : SimulationElement(ElementType.COMPONENT) {
+    name: String? = null,
+) : SimulationElement(ElementType.COMPONENT, name) {
 
     private val outputDriver = output.connectDriver()
 

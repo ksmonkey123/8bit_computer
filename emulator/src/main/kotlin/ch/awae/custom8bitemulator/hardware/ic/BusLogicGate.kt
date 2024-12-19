@@ -13,7 +13,8 @@ class BusLogicGate(
     private val inputA: DataBus,
     private val inputB: DataBus,
     output: WritableBus,
-) : SimulationElement(ElementType.COMPONENT) {
+    name: String? = null,
+) : SimulationElement(ElementType.COMPONENT, name) {
 
     private val outputDriver = output.connectDriver()
 

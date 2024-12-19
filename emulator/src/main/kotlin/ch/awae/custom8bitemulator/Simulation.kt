@@ -5,9 +5,14 @@ enum class ElementType {
     COMPONENT,
 }
 
-abstract class SimulationElement(val type: ElementType) {
+abstract class SimulationElement(val type: ElementType, val name: String? = null) {
+
     open fun tick(tickID: Long = -1) {}
     open fun getSubElements(): List<SimulationElement> = emptyList()
+
+    override fun toString(): String {
+        return name ?: super.toString()
+    }
 }
 
 class Simulation(vararg elements: SimulationElement) {

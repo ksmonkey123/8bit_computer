@@ -22,38 +22,40 @@ class LogicUnit(
     inputB: DataBus,
     control: DataBus,
     output: WritableBus,
-) : SimulationElement(ElementType.COMPONENT) {
+    name: String? = null
+) : SimulationElement(ElementType.COMPONENT, name) {
 
     // selection logic
-    private val selectorBus = StandardWritableBus(false)
-    private val selectionDecoder = BinaryToSelectionDecoder(control, selectorBus, 0x03u)
-    private val controlNotGate = selectorBus.bitSignal(0)
+    private val selectorBus = StandardWritableBus(false, toString() + "-selector")
+    private val selectionDecoder =
+        BinaryToSelectionDecoder(control, selectorBus, 0x03u, toString() + "-selectionDecoder")
+    private val controlIdentity = selectorBus.bitSignal(0)
     private val controlAndGate = selectorBus.bitSignal(1)
     private val controlIorGate = selectorBus.bitSignal(2)
     private val controlXorGate = selectorBus.bitSignal(3)
     private val invertResult = control.bitSignal(2)
 
     // intermediate bus for each basic operation
-    private val andBus = StandardWritableBus(false)
-    private val iorBus = StandardWritableBus(false)
-    private val xorBus = StandardWritableBus(false)
+    private val andBus = StandardWritableBus(false, toString() + "-andBus")
+    private val iorBus = StandardWritableBus(false, toString() + "-iorBus")
+    private val xorBus = StandardWritableBus(false, toString() + "-xorBus")
 
     // basic gates
-    private val andGate = BusLogicGate(BusLogicGate.Operation.AND, inputA, inputB, andBus)
-    private val iorGate = BusLogicGate(BusLogicGate.Operation.IOR, inputA, inputB, iorBus)
-    private val xorGate = BusLogicGate(BusLogicGate.Operation.XOR, inputA, inputB, xorBus)
+    private val andGate = BusLogicGate(BusLogicGate.Operation.AND, inputA, inputB, andBus, toString() + "-andGate")
+    private val iorGate = BusLogicGate(BusLogicGate.Operation.IOR, inputA, inputB, iorBus, toString() + "-iorGate")
+    private val xorGate = BusLogicGate(BusLogicGate.Operation.XOR, inputA, inputB, xorBus, toString() + "-xorGate")
 
     // combined bus
-    private val mergeBus = StandardWritableBus(false)
+    private val mergeBus = StandardWritableBus(false, toString() + "-mergeBus")
 
     // selection gates
-    private val andBuffer = OctalTristateDriver(andBus, controlAndGate, mergeBus)
-    private val iorBuffer = OctalTristateDriver(iorBus, controlIorGate, mergeBus)
-    private val xorBuffer = OctalTristateDriver(xorBus, controlXorGate, mergeBus)
-    private val identBuffer = OctalTristateDriver(inputA, controlNotGate, mergeBus)
+    private val andBuffer = OctalTristateDriver(andBus, controlAndGate, mergeBus, toString() + "-andDriver")
+    private val iorBuffer = OctalTristateDriver(iorBus, controlIorGate, mergeBus, toString() + "-iorDriver")
+    private val xorBuffer = OctalTristateDriver(xorBus, controlXorGate, mergeBus, toString() + "-xorDriver")
+    private val identBuffer = OctalTristateDriver(inputA, controlIdentity, mergeBus, toString() + "-identityDriver")
 
     // output inverter
-    private val inverter = BusXor(mergeBus, invertResult, output)
+    private val inverter = BusXor(mergeBus, invertResult, output, toString() + "-inverter")
 
     override fun getSubElements(): List<SimulationElement> {
         return listOf(
