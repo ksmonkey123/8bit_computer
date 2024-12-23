@@ -51,8 +51,29 @@ interface DataBus {
             get() = 0u
     }
 
+    private class SignalDerivedBus(private val sources: Map<Int, DataSignal>) : DataBus {
+        init {
+            if (sources.keys.any { it < 0 || it > 31 }) {
+                throw IllegalArgumentException("source keys must all be in range 0..31")
+            }
+        }
+
+        override val contention: UInt
+            get() = 0u
+
+        override val state: UInt
+            get() = sources.toList().sumOf { (position, signal) ->
+                if (signal.state) {
+                    1u shl position
+                } else 0u
+            }
+    }
+
     companion object {
         fun constant(value: UInt): DataBus = ConstantBus(value)
+        fun ofSignals(vararg signal: Pair<Int, DataSignal>): DataBus {
+            return SignalDerivedBus(signal.toMap())
+        }
     }
 
 }
