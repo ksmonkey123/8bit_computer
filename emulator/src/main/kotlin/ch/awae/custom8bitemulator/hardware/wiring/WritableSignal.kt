@@ -1,5 +1,7 @@
 package ch.awae.custom8bitemulator.hardware.wiring
 
+import kotlin.random.*
+
 /**
  * Implements a single bit data signal
  *
@@ -14,6 +16,10 @@ interface WritableSignal : DataSignal {
 
     interface Driver {
         fun set(value: Boolean)
+        fun setRandom() {
+            set(Random.nextBoolean())
+        }
+
         fun release()
     }
 }
