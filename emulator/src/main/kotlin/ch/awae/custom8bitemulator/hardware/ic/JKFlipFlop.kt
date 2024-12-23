@@ -1,0 +1,42 @@
+package ch.awae.custom8bitemulator.hardware.ic
+
+import ch.awae.custom8bitemulator.*
+import ch.awae.custom8bitemulator.hardware.wiring.*
+import kotlin.random.*
+
+/**
+ * J-notK-Flipflop representing a single unit of the 74109 IC.
+ *
+ * asynchronous load and clear features are not simulated
+ */
+class JKFlipFlop(
+    private val j: DataSignal,
+    private val kInv: DataSignal,
+    clock: DataSignal,
+    private val reset: DataSignal?,
+    q: WritableSignal,
+    name: String? = null,
+) : SimulationElement(ElementType.COMPONENT, name) {
+    private val qDriver = q.connectDriver().also { it.setRandom() }
+    private val clockEdge = clock.edge()
+
+    private var internalState = Random.nextBoolean()
+
+    override fun tick(tickID: Long) {
+        if (reset?.state == true) {
+            internalState = false
+        } else {
+            if (clockEdge.triggered()) {
+                val inputs = j.state to kInv.state
+                internalState = when (inputs) {
+                    false to false -> false         // J=0, K=1 -> reset
+                    true to true -> true            // J=1, K=0 -> set
+                    true to false -> !internalState // J=K=1 -> toggle
+                    else -> internalState           // J=K=0 -> hold
+                }
+            }
+        }
+        qDriver.set(internalState)
+    }
+
+}

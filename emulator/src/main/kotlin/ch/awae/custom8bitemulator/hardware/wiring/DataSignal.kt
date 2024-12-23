@@ -5,7 +5,8 @@ interface DataSignal {
     val contention: Boolean
 
     fun inverted(): DataSignal = object : DataSignal {
-        override val state: Boolean = !this@DataSignal.state
+        override val state: Boolean
+            get() = !this@DataSignal.state
         override val contention: Boolean = false
     }
 
