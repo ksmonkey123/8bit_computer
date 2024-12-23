@@ -45,4 +45,14 @@ interface DataBus {
             get() = (source.contention shr (byte * 8)) and 0xffu
 
     }
+
+    private data class ConstantBus(override val state: UInt) : DataBus {
+        override val contention: UInt
+            get() = 0u
+    }
+
+    companion object {
+        fun constant(value: UInt): DataBus = ConstantBus(value)
+    }
+
 }

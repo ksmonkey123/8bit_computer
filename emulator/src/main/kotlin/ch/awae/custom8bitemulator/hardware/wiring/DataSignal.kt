@@ -9,4 +9,13 @@ interface DataSignal {
         override val contention: Boolean = false
     }
 
+    private data class ConstantSignal(override val state: Boolean) : DataSignal {
+        override val contention: Boolean
+            get() = false
+    }
+
+    companion object {
+        fun constant(value: Boolean): DataSignal = ConstantSignal(value)
+    }
+
 }
