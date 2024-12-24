@@ -43,7 +43,7 @@ class Sequencer(
     )
 
     private val combiner = DataBus.ofSignals(0 to q1Signal, 1 to q2Signal)
-    private val buffer = OctalTristateDriver(combiner, DataSignal.constant(true), q)
+    private val buffer = OctalTristateDriver(combiner, DataSignal.constant(true), q, toString() + "-qDriver")
 
     override fun getSubElements(): List<SimulationElement> {
         return listOf(buffer, circ, ff1, ff2, j2Signal, k1Signal, k2Signal, q1Signal, q2Signal)

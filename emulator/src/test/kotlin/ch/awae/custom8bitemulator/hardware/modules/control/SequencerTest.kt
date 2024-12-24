@@ -11,10 +11,10 @@ class SequencerTest {
     @ParameterizedTest
     @ValueSource(ints = [0, 1, 3])
     fun testSequenceLength(f: Int) {
-        val fBus = StandardWritableBus(false)
-        val stepSignal = StandardWritableSignal(false)
-        val resetSignal = StandardWritableSignal(true)
-        val qBus = StandardWritableBus(false)
+        val fBus = StandardWritableBus(false, "fBus")
+        val stepSignal = StandardWritableSignal(false, "stepSignal")
+        val resetSignal = StandardWritableSignal(true, "resetSignal")
+        val qBus = StandardWritableBus(false, "qBus")
 
         val sequencer = Sequencer(fBus, stepSignal, resetSignal, qBus, "testSequencer")
 
