@@ -16,7 +16,7 @@ class RollUnit(
     carryOut: WritableSignal,
     name: String? = null,
 ) : SimulationElement(
-    ElementType.COMPONENT, null
+    ElementType.COMPONENT, name
 ) {
 
     private val outputDriver = output.connectDriver()

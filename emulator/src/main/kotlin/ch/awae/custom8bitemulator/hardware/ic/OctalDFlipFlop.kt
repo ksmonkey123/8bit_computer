@@ -16,7 +16,7 @@ class OctalDFlipFlop(
     private val reset: DataSignal?,
     outputBus: WritableBus,
     name: String? = null,
-) : SimulationElement(ElementType.COMPONENT, null) {
+) : SimulationElement(ElementType.COMPONENT, name) {
 
     private val driver = outputBus.connectDriver()
 
