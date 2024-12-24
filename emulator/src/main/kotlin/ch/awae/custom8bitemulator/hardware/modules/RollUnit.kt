@@ -1,4 +1,4 @@
-package ch.awae.custom8bitemulator.hardware.composites
+package ch.awae.custom8bitemulator.hardware.modules
 
 import ch.awae.custom8bitemulator.*
 import ch.awae.custom8bitemulator.hardware.wiring.*

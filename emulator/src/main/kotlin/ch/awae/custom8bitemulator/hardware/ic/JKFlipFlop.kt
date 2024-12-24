@@ -17,10 +17,11 @@ class JKFlipFlop(
     q: WritableSignal,
     name: String? = null,
 ) : SimulationElement(ElementType.COMPONENT, name) {
-    private val qDriver = q.connectDriver().also { it.setRandom() }
+    private var internalState = Random.nextBoolean()
+
+    private val qDriver = q.connectDriver().also { it.set(internalState) }
     private val clockEdge = clock.edge()
 
-    private var internalState = Random.nextBoolean()
 
     override fun tick(tickID: Long) {
         if (reset?.state == true) {
