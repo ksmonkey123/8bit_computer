@@ -1,4 +1,4 @@
-package ch.awae.custom8bitemulator.hardware.circuits
+package ch.awae.custom8bitemulator.hardware.modules.control
 
 import ch.awae.custom8bitemulator.*
 import ch.awae.custom8bitemulator.hardware.wiring.*
@@ -17,9 +17,9 @@ class SequencerUpdateCircuit(
     name: String? = null,
 ) : SimulationElement(ElementType.COMPONENT, name) {
 
-    val d_j2 = j2.connectDriver()
-    val d_k1 = kInv1.connectDriver()
-    val d_k2 = kInv2.connectDriver()
+    private val d_j2 = j2.connectDriver()
+    private val d_k1 = kInv1.connectDriver()
+    private val d_k2 = kInv2.connectDriver()
 
     override fun tick(tickID: Long) {
         d_k1.set(q1.state and !q2.state and !f2.state)
