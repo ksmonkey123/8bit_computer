@@ -33,8 +33,8 @@ class StepSequencer(
     private val circ = StepSequencerUpdateCircuit(
         q1Signal,
         q2Signal,
-        f.bitSignal(0),
-        f.bitSignal(1),
+        f.bit(0),
+        f.bit(1),
         k1Signal,
         j2Signal,
         k2Signal,

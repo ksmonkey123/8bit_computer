@@ -24,13 +24,13 @@ class SequencerUnit(
     private val subStepSequencer = SubStepSequencer(step, reset, subStepBus, toString() + "-subSequencer")
 
     private val stepBus = StandardWritableBus(false, toString() + "-stepBus")
-    private val stepSequencer = StepSequencer(f, subStepBus.bitSignal(1).inverted(), reset, stepBus, toString() + "-stepSequencer")
+    private val stepSequencer = StepSequencer(f, subStepBus.bit(1).inverted(), reset, stepBus, toString() + "-stepSequencer")
 
     private val combinedBus = DataBus.ofSignals(
-        0 to subStepBus.bitSignal(0),
-        1 to subStepBus.bitSignal(1),
-        2 to stepBus.bitSignal(0),
-        3 to stepBus.bitSignal(1),
+        0 to subStepBus.bit(0),
+        1 to subStepBus.bit(1),
+        2 to stepBus.bit(0),
+        3 to stepBus.bit(1),
     )
 
     private val driver = OctalTristateDriver(combinedBus, DataSignal.constant(true), q, toString() + "-qDriver")

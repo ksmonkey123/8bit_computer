@@ -12,7 +12,7 @@ class ByteBusTest {
     fun testByteBusExtractsCorrectByte(byte: Int) {
         val bus = MockBus()
 
-        val byteBus = bus.byteBus(byte)
+        val byteBus = bus.byte(byte)
 
         bus.state = 0x04030201u
         bus.contention = 0x40302010u
@@ -26,7 +26,7 @@ class ByteBusTest {
     fun testByteBusInitFailure(byte: Int) {
         val bus = MockBus()
         assertThrows<IllegalArgumentException> {
-            bus.byteBus(byte)
+            bus.byte(byte)
         }
     }
 }

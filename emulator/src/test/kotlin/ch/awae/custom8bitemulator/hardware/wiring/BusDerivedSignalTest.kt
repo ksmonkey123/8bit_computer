@@ -12,7 +12,7 @@ class BusDerivedSignalTest {
     fun testValueExtraction(bit: Int) {
         val bus = MockBus()
         val mask = 1u shl bit
-        val signal = bus.bitSignal(bit)
+        val signal = bus.bit(bit)
 
         bus.state = 0u
         bus.contention = 0u
@@ -50,7 +50,7 @@ class BusDerivedSignalTest {
     fun testInvalidInit(bit: Int) {
         val bus = MockBus()
         assertThrows<IllegalArgumentException> {
-            bus.bitSignal(bit)
+            bus.bit(bit)
         }
     }
 

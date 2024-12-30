@@ -29,11 +29,11 @@ class LogicUnit(
     private val selectorBus = StandardWritableBus(false, toString() + "-selector")
     private val selectionDecoder =
         BinaryToSelectionDecoder(control, selectorBus, 0x03u, toString() + "-selectionDecoder")
-    private val controlIdentity = selectorBus.bitSignal(0)
-    private val controlAndGate = selectorBus.bitSignal(1)
-    private val controlIorGate = selectorBus.bitSignal(2)
-    private val controlXorGate = selectorBus.bitSignal(3)
-    private val invertResult = control.bitSignal(2)
+    private val controlIdentity = selectorBus.bit(0)
+    private val controlAndGate = selectorBus.bit(1)
+    private val controlIorGate = selectorBus.bit(2)
+    private val controlXorGate = selectorBus.bit(3)
+    private val invertResult = control.bit(2)
 
     // intermediate bus for each basic operation
     private val andBus = StandardWritableBus(false, toString() + "-andBus")

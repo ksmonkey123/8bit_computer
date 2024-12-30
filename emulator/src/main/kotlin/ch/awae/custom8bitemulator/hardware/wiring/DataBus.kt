@@ -4,11 +4,11 @@ interface DataBus {
     val state: UInt
     val contention: UInt
 
-    fun bitSignal(bit: Int): DataSignal {
+    fun bit(bit: Int): DataSignal {
         return BusDerivedSignal(this, bit)
     }
 
-    fun byteBus(byte: Int): DataBus {
+    fun byte(byte: Int): DataBus {
         return ByteBus(this, byte)
     }
 
