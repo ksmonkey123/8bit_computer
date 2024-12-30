@@ -16,7 +16,7 @@ class SequencerUnitTest {
 
 
     @ParameterizedTest
-    @ValueSource(ints = [0, 1, 3])
+    @ValueSource(ints = [0, 1, 2, 3])
     fun testSequenceLength(cycle: Int) {
 
         val loop = chooseLoop(cycle)
