@@ -12,7 +12,7 @@ import ch.awae.custom8bitemulator.hardware.wiring.*
  * @param reset while high, the sequencer is haltet, when falling it is reset
  * @param q 2-bit output bus indicating the current step
  */
-class Sequencer(
+class StepSequencer(
     private val f: DataBus,
     private val step: DataSignal,
     private val reset: DataSignal,
@@ -30,7 +30,7 @@ class Sequencer(
     private val ff1 = JKFlipFlop(DataSignal.constant(true), k1Signal, step, reset, q1Signal, toString() + "-jk1")
     private val ff2 = JKFlipFlop(j2Signal, k2Signal, step, reset, q2Signal, toString() + "-jk2")
 
-    private val circ = SequencerUpdateCircuit(
+    private val circ = StepSequencerUpdateCircuit(
         q1Signal,
         q2Signal,
         f.bitSignal(0),

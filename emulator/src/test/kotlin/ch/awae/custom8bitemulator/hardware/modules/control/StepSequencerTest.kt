@@ -6,7 +6,7 @@ import org.junit.jupiter.params.*
 import org.junit.jupiter.params.provider.*
 import kotlin.test.*
 
-class SequencerTest {
+class StepSequencerTest {
 
     @ParameterizedTest
     @ValueSource(ints = [0, 1, 3])
@@ -16,9 +16,9 @@ class SequencerTest {
         val resetSignal = StandardWritableSignal(true, "resetSignal")
         val qBus = StandardWritableBus(false, "qBus")
 
-        val sequencer = Sequencer(fBus, stepSignal, resetSignal, qBus, "testSequencer")
+        val stepSequencer = StepSequencer(fBus, stepSignal, resetSignal, qBus, "testSequencer")
 
-        val sim = Simulation(fBus, stepSignal, resetSignal, qBus, sequencer)
+        val sim = Simulation(fBus, stepSignal, resetSignal, qBus, stepSequencer)
 
         val fDriver = fBus.connectDriver()
         val stepDriver = stepSignal.connectDriver()
@@ -84,9 +84,9 @@ class SequencerTest {
         val resetSignal = StandardWritableSignal(true)
         val qBus = StandardWritableBus(false)
 
-        val sequencer = Sequencer(fBus, stepSignal, resetSignal, qBus, "testSequencer")
+        val stepSequencer = StepSequencer(fBus, stepSignal, resetSignal, qBus, "testSequencer")
 
-        val sim = Simulation(fBus, stepSignal, resetSignal, qBus, sequencer)
+        val sim = Simulation(fBus, stepSignal, resetSignal, qBus, stepSequencer)
 
         val fDriver = fBus.connectDriver()
         val stepDriver = stepSignal.connectDriver()

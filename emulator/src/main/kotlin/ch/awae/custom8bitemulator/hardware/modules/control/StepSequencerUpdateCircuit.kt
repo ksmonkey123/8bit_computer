@@ -6,7 +6,7 @@ import ch.awae.custom8bitemulator.hardware.wiring.*
 /**
  * Logic gate grid for sequencing the step counter based on the literal fetch width
  */
-class SequencerUpdateCircuit(
+class StepSequencerUpdateCircuit(
     private val q1: DataSignal,
     private val q2: DataSignal,
     private val f1: DataSignal,

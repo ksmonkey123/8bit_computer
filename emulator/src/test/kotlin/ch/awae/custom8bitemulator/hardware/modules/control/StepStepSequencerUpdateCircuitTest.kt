@@ -5,7 +5,7 @@ import org.junit.jupiter.params.*
 import org.junit.jupiter.params.provider.*
 import kotlin.test.*
 
-class SequencerUpdateCircuitTest {
+class StepStepSequencerUpdateCircuitTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = ["/sequencer_update_circuit_test.csv"], numLinesToSkip = 1)
@@ -19,7 +19,7 @@ class SequencerUpdateCircuitTest {
         val k1 = MockSignal()
         val k2 = MockSignal()
 
-        val circuit = SequencerUpdateCircuit(q1, q2, f1, f2, k1, j2, k2)
+        val circuit = StepSequencerUpdateCircuit(q1, q2, f1, f2, k1, j2, k2)
 
         circuit.tick()
 
