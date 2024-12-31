@@ -8,7 +8,7 @@ import kotlin.test.*
 class StepStepSequencerUpdateCircuitTest {
 
     @ParameterizedTest
-    @CsvFileSource(resources = ["/sequencer_update_circuit_test.csv"], numLinesToSkip = 1)
+    @CsvFileSource(resources = ["/modules/control/sequencer_update_circuit_test.csv"], numLinesToSkip = 1)
     fun test(q: Int, f: Int, j2_expected: Int, k2_expected: Int, k1_expected: Int) {
         val q1 = MockSignal(q % 2 != 0)
         val q2 = MockSignal(q > 1)

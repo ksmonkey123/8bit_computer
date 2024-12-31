@@ -8,7 +8,7 @@ import kotlin.test.*
 class SignalChoiceTest {
 
     @ParameterizedTest
-    @CsvFileSource(resources = ["/signal_choice_test.csv"], numLinesToSkip = 1)
+    @CsvFileSource(resources = ["/ic/signal_choice_test.csv"], numLinesToSkip = 1)
     fun test(x: Int, y: Int, z: Int, q: Int) {
         val sigX = MockSignal()
         val sigY = MockSignal()

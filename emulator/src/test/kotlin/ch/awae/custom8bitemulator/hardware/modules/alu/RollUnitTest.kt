@@ -9,7 +9,7 @@ import kotlin.test.*
 class RollUnitTest {
 
     @ParameterizedTest
-    @CsvFileSource(resources = ["/roll_unit_test.csv"], delimiter = ';', numLinesToSkip = 1)
+    @CsvFileSource(resources = ["/modules/alu/roll_unit_test.csv"], delimiter = ';', numLinesToSkip = 1)
     fun test(command: Int, input: Int, carryIn: Boolean, expectedOutput: Int, expectedCarryOut: Boolean) {
         val inputA = StandardWritableBus(false)
         val control = StandardWritableBus(false)
