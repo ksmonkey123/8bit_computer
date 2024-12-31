@@ -4,15 +4,17 @@ import ch.awae.custom8bitemulator.*
 import ch.awae.custom8bitemulator.hardware.wiring.*
 import org.junit.jupiter.params.*
 import org.junit.jupiter.params.provider.*
+import kotlin.random.*
 import kotlin.test.*
 
-class MathUnitTest {
+class ALUTest {
 
     @ParameterizedTest
-    @CsvFileSource(resources = ["/math_unit_test.csv"], numLinesToSkip = 1)
-    fun testMathUnit(c: Int, a: Int, b: Int, cIn: Boolean, res: Int, cOut: Boolean) {
+    @CsvFileSource(resources = ["/ALU_test.csv"], numLinesToSkip = 1)
+    fun testALU(command: String, c: Int, a: Int, b: Int?, l: Int?, cIn: Boolean?, res: Int, cOut: Boolean?) {
         val inputA = StandardWritableBus(false, "inputA")
         val inputB = StandardWritableBus(false, "inputB")
+        val inputL = StandardWritableBus(false, "inputL")
         val carryIn = StandardWritableSignal(false, "carryIn")
         val control = StandardWritableBus(false, "control")
         val output = StandardWritableBus(false, "output")
@@ -20,20 +22,24 @@ class MathUnitTest {
 
         val dInputA = inputA.connectDriver()
         val dInputB = inputB.connectDriver()
+        val dInputL = inputL.connectDriver()
         val dCarryIn = carryIn.connectDriver()
         val dControl = control.connectDriver()
 
-        val mu = MathUnit(inputA, inputB, carryIn, control, output, carryOut, "TestMathUnit")
+        val alu = ALU(inputA, inputB, inputL, carryIn, DataSignal.constant(true), control, output, carryOut, "ALU")
 
-        val sim = Simulation(inputA, inputB, carryIn, control, output, carryOut, mu)
+        val sim = Simulation(inputA, inputB, inputL, carryIn, control, output, carryOut, alu)
 
         dInputA.set(a.toUInt())
-        dInputB.set(b.toUInt())
-        dCarryIn.set(cIn)
+        dInputB.set(b?.toUInt() ?: Random.nextUInt())
+        dInputL.set(l?.toUInt() ?: Random.nextUInt())
+        dCarryIn.set(cIn ?: Random.nextBoolean())
         dControl.set(c.toUInt())
         sim.tick(100)
         assertEquals(res.toUInt(), output.state)
-        assertEquals(cOut, carryOut.state)
+        if (cOut != null) {
+            assertEquals(cOut, carryOut.state)
+        }
     }
 
 }
