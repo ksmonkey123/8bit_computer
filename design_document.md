@@ -162,15 +162,15 @@ Register Addresses are represented as 2-bit numbers:
 | `1011.yyxx` | 0 bytes | MOV regX regY | Z,N   | Register Copy from regY to regX                    |
 | `1100.00xx` | 2 bytes | MLOAD regX    | Z,N   | Memory Load from Literal Address                   |
 | `1101.xx00` | 2 bytes | MSTORE regX   | -     | Memory Write to Literal Address                    |
-| `1110.0000` | 0 bytes | DYNBX         | -     | Dynamic Branching (Target Address in registers CD) |
-| `1110.1110` | 0 bytes | CLRC          | C     | Clear Carry Flag                                   |
-| `1110.1111` | 0 bytes | SETC          | C     | Set Carry Flag                                     |
-| `1111.0000` | 2 bytes | BXC           |       | conditionally branch if Carry                      |
-| `1111.0001` | 2 bytes | BXZ           |       | conditionally branch if Zero                       |
-| `1111.0010` | 2 bytes | BXN           |       | conditionally branch if Negative                   |
-| `1111.0011` | 2 bytes | BXP           |       | conditionally branch if Positive                   |
-| `1111.0100` | 2 bytes | BXNC          |       | conditionally branch if not Carry                  |
-| `1111.0101` | 2 bytes | BXNZ          |       | conditionally branch if not Zero                   |
-| `1111.0110` | 2 bytes | BXNN          |       | conditionally branch if not Negative               |
-| `1111.0111` | 2 bytes | BXNP          |       | conditionally branch if not Positive               |
-| `1111.1000` | 2 bytes | BX            |       | branch to literal address                          |
+| `1110.0000` | 2 bytes | BXC           | -     | conditionally branch if Carry                      |
+| `1110.0001` | 2 bytes | BXZ           | -     | conditionally branch if Zero                       |
+| `1110.0010` | 2 bytes | BXN           | -     | conditionally branch if Negative                   |
+| `1110.0011` | 2 bytes | BXP           | -     | conditionally branch if Positive                   |
+| `1110.0100` | 2 bytes | BXNC          | -     | conditionally branch if not Carry                  |
+| `1110.0101` | 2 bytes | BXNZ          | -     | conditionally branch if not Zero                   |
+| `1110.0110` | 2 bytes | BXNN          | -     | conditionally branch if not Negative               |
+| `1110.0111` | 2 bytes | BXNP          | -     | conditionally branch if not Positive               |
+| `1110.1000` | 2 bytes | BX            | -     | branch to literal address                          |
+| `1111.0000` | 0 bytes | DBX           | -     | Dynamic Branching (Target Address in registers CD) |
+| `1111.110x` | 0 bytes | SETC val      | C     | Set/Clear Carry Flag                               |
+| `1111.1111` | 0 bytes | NOP           | -     | no-op                                              |
