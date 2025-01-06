@@ -24,10 +24,11 @@ class JKFlipFlop(
 
 
     override fun tick(tickID: Long) {
+        val edge = clockEdge.triggered()
         if (reset?.state == true) {
             internalState = false
         } else {
-            if (clockEdge.triggered()) {
+            if (edge) {
                 val inputs = j.state to kInv.state
                 internalState = when (inputs) {
                     false to false -> false         // J=0, K=1 -> reset

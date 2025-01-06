@@ -58,4 +58,36 @@ class JKFlipFlopTest {
         update(true, true, false)
     }
 
+    @Test
+    fun `clock should not trigger when raised during reset signal`() {
+        val clock = MockSignal()
+        val reset = MockSignal()
+        val q = MockSignal()
+
+        val jk = JKFlipFlop(
+            j = DataSignal.constant(true),
+            kInv = DataSignal.constant(false),
+            clock = clock,
+            reset = reset,
+            q = q
+        )
+
+        jk.tick()
+        reset.state = true
+        jk.tick()
+        assertEquals(false, q.driverState)
+        clock.state = true
+        jk.tick()
+        assertEquals(false, q.driverState)
+        reset.state = false
+        jk.tick()
+        assertEquals(false, q.driverState)
+        clock.state = false
+        jk.tick()
+        assertEquals(false, q.driverState)
+        clock.state = true
+        jk.tick()
+        assertEquals(true, q.driverState)
+    }
+
 }

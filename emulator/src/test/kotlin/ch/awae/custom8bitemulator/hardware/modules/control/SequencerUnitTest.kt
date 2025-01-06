@@ -6,9 +6,9 @@ import org.junit.jupiter.params.*
 import org.junit.jupiter.params.provider.*
 import kotlin.test.*
 
-private val CYCLE_0 = listOf(1, 2, 3, 12, 13, 14, 15, 0)
-private val CYCLE_1 = listOf(1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 0)
-private val CYCLE_2 = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0)
+private val CYCLE_0 = listOf(1, 2, 3, 12, 13, 0)
+private val CYCLE_1 = listOf(1, 2, 3, 4, 5, 6, 7, 12, 13, 0)
+private val CYCLE_2 = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 0)
 
 private const val TICKS = 10
 

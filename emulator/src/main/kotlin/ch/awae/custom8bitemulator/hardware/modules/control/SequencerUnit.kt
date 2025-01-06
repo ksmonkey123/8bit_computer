@@ -20,11 +20,22 @@ class SequencerUnit(
     name: String? = null
 ) : SimulationElement(ElementType.COMPONENT, name) {
 
+    private val internalReset = StandardWritableSignal(false, toString() + "-reset")
+
+    private val resetCircuit = object : SimulationElement(ElementType.COMPONENT, toString() + "-resetCircuit") {
+        val driver = internalReset.connectDriver()
+
+        override fun tick(tickID: Long) {
+            driver.set(reset.state || ((combinedBus.state and 0x0fu) == 0b1110u))
+        }
+    }
+
     private val subStepBus = StandardWritableBus(false, toString() + "-subBus")
-    private val subStepSequencer = SubStepSequencer(step, reset, subStepBus, toString() + "-subSequencer")
+    private val subStepSequencer = SubStepSequencer(step, internalReset, subStepBus, toString() + "-subSequencer")
 
     private val stepBus = StandardWritableBus(false, toString() + "-stepBus")
-    private val stepSequencer = StepSequencer(f, subStepBus.bit(1).inverted(), reset, stepBus, toString() + "-stepSequencer")
+    private val stepSequencer =
+        StepSequencer(f, subStepBus.bit(1).inverted(), internalReset, stepBus, toString() + "-stepSequencer")
 
     private val combinedBus = DataBus.ofSignals(
         0 to subStepBus.bit(0),
@@ -36,6 +47,6 @@ class SequencerUnit(
     private val driver = OctalTristateDriver(combinedBus, DataSignal.constant(true), q, toString() + "-qDriver")
 
     override fun getSubElements(): List<SimulationElement> {
-        return listOf(subStepSequencer, subStepBus, stepBus, stepSequencer, driver)
+        return listOf(subStepSequencer, subStepBus, stepBus, stepSequencer, driver, resetCircuit, internalReset)
     }
 }
