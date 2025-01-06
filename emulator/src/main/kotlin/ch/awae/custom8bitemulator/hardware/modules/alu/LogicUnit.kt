@@ -28,7 +28,7 @@ class LogicUnit(
     // selection logic
     private val selectorBus = StandardWritableBus(false, toString() + "-selector")
     private val selectionDecoder =
-        BinaryToSelectionDecoder(control, selectorBus, 0x03u, toString() + "-selectionDecoder")
+        BinaryToSelectionDecoder(control, selectorBus, 0x03u, name = toString() + "-selectionDecoder")
     private val controlIdentity = selectorBus.bit(0)
     private val controlAndGate = selectorBus.bit(1)
     private val controlIorGate = selectorBus.bit(2)

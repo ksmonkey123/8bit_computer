@@ -13,13 +13,18 @@ class BinaryToSelectionDecoder(
     private val input: DataBus,
     output: WritableBus,
     private val mask: UInt,
+    private val enable: DataSignal? = null,
     name: String? = null,
 ) : SimulationElement(ElementType.COMPONENT, name) {
 
     private val outputDriver = output.connectDriver()
 
     override fun tick(tickID: Long) {
-        outputDriver.set(1u shl (input.state and mask and 0x1fu).toInt())
+        if ((enable != null) && !enable.state) {
+            outputDriver.set(0u)
+        } else {
+            outputDriver.set(1u shl (input.state and mask and 0x1fu).toInt())
+        }
     }
 
 }

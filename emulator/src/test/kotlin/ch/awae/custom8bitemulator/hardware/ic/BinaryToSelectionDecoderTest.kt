@@ -9,7 +9,7 @@ class BinaryToSelectionDecoderTest {
 
     @ParameterizedTest
     @MethodSource("data")
-    fun testSelection(input: Int, output: Long) {
+    fun `correct output selected if no enable signal given`(input: Int, output: Long) {
         val inputBus = MockBus()
         val outputBus = MockBus()
 
@@ -18,6 +18,23 @@ class BinaryToSelectionDecoderTest {
         inputBus.state = input.toUInt()
         decoder.tick()
         assertEquals(output.toUInt(), outputBus.driverState)
+    }
+
+    @ParameterizedTest
+    @MethodSource("data")
+    fun `correct output selected if enabled, none if disabled`(input: Int, output: Long) {
+        val inputBus = MockBus()
+        val outputBus = MockBus()
+        val enabled = MockSignal(true)
+
+        val decoder = BinaryToSelectionDecoder(inputBus, outputBus, 0xffu, enabled)
+
+        inputBus.state = input.toUInt()
+        decoder.tick()
+        assertEquals(output.toUInt(), outputBus.driverState)
+        enabled.state = false
+        decoder.tick()
+        assertEquals(0u, outputBus.driverState)
     }
 
     companion object {
