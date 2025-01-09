@@ -44,6 +44,7 @@ void setup() {
   digitalWrite(ERROR_LED, false);
   digitalWrite(WRITE_LED, false);
 
+  Serial.println("READY");
   delay(1000);
 }
 
