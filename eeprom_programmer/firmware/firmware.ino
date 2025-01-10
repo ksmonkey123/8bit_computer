@@ -17,9 +17,8 @@
 #define WRITE_LED 31
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(230400);
   while(!Serial);
-  Serial.println();
 
   PAGE_BUS_D = 0x1f;
   ADDRESS_BUS_D = 0xff;
@@ -37,15 +36,10 @@ void setup() {
   pinMode(CHIP_ENABLE_LED, OUTPUT);
   pinMode(ERROR_LED, OUTPUT);
   pinMode(WRITE_LED, OUTPUT);
-
-  delay(1000);
-
+  delay(100);
   digitalWrite(CHIP_ENABLE_LED, false);
   digitalWrite(ERROR_LED, false);
   digitalWrite(WRITE_LED, false);
-
-  Serial.println("READY");
-  delay(1000);
 }
 
 static char buffer[256];
@@ -85,15 +79,27 @@ void loop() {
 
 void processBuffer() {
   // TODO
-  if (buffer[0] == 'r') {
+  if (buffer[0] == 'S' && buffer[1] == 'Y' && buffer[2] == 'N' && buffer[3] == '_' && buffer_length == 6) {
+    processSync();
+  } else if (buffer[0] == 'r') {
     processReadCommand();
   } else if (buffer[0] == 'w') {
     processWriteCommand();
   } else {
     digitalWrite(ERROR_LED, true);
-    Serial.print("-SYNTAX ERROR: INVALID COMMAND ");
-    Serial.println(buffer[0]);
+    Serial.print("-SYNTAX ERROR: INVALID COMMAND: ");
+    for (int i = 0; i < buffer_length; i++) {
+      Serial.print(buffer[i]);
+    }
+    Serial.println();
   }
+}
+
+void processSync() {
+  for (int i = 0; i < 6; i++) {
+    Serial.print(buffer[i]);
+  }
+  Serial.println();
 }
 
 void processReadCommand() {
