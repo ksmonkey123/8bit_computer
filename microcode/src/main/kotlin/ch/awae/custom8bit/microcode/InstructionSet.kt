@@ -58,3 +58,17 @@ val INSTRUCTION_SET = mapOf(
     "SETC 1" to Op(0xf1, CARRY_SET),
     "NOP" to Op(0xff),
 )
+
+
+fun compileInstructionSet(): ByteArray {
+    val compiledCode = INSTRUCTION_SET.values.flatMap {
+        OpcodeCompiler.compile(it)
+    }.toMap()
+
+    // generate binary
+    val binary = ByteArray(8192) { adr ->
+        compiledCode.getOrDefault(adr, 0x00).toByte()
+    }
+
+    return binary
+}
