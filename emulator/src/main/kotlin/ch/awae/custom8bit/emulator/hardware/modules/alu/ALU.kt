@@ -4,6 +4,28 @@ import ch.awae.custom8bit.emulator.*
 import ch.awae.custom8bit.emulator.hardware.ic.*
 import ch.awae.custom8bit.emulator.hardware.wiring.*
 
+/**
+ * Commands:
+ *
+ * 0000 -> nibble swap (high input bis as carry out)
+ * 0001 -> shift left through carry
+ * 0010 -> shift right through carry
+ * 0011 -> 2s complement with carry
+ * 0100 -> decrement with carry
+ * 0101 -> increment with carry
+ * 0110 -> add with carry
+ * 0111 -> subtract with carry
+ * 1000 -> identity
+ * 1001 -> bitwise and
+ * 1010 -> bitwise inclusive or
+ * 1011 -> bitwise exclusive or
+ * 1100 -> bitwise inverse
+ * 1101 -> bitwise not and
+ * 1110 -> bitwise inclusive not or
+ * 1111 -> bitwise exclusive not or
+ *
+ * Additional 5th bit (MSB) controls if literal L1 is used instead of regB
+ */
 class ALU(
     inputA: DataBus,
     inputB: DataBus,

@@ -9,7 +9,7 @@ import kotlin.test.*
 class MathUnitTest {
 
     @ParameterizedTest
-    @CsvFileSource(resources = ["/modules/alu/math_unit_test.csv"], numLinesToSkip = 1)
+    @CsvFileSource(resources = ["/modules/alu/math_unit_test.csv"], numLinesToSkip = 1, )
     fun testMathUnit(c: Int, a: Int, b: Int, cIn: Boolean, res: Int, cOut: Boolean) {
         val inputA = StandardWritableBus(false, "inputA")
         val inputB = StandardWritableBus(false, "inputB")

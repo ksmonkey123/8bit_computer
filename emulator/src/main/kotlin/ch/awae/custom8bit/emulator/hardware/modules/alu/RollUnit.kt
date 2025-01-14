@@ -32,20 +32,20 @@ class RollUnit(
                 outputDriver.set(((inputA.state and 0xf0u) shr 4) + ((inputA.state and 0x0fu) shl 4))
                 carryOutDriver.set(inputA.state and 0x80u != 0u)
             }
-            // 01: shl
-            1 -> {
+            // 10: shl
+            2 -> {
                 outputDriver.set(((inputA.state shl 1) and 0xfeu) + cin)
                 carryOutDriver.set(inputA.state and 0x80u != 0u)
             }
-            // 10: shr
-            2 -> {
+            // 11: shr
+            3 -> {
                 outputDriver.set(((inputA.state shr 1) and 0x7fu) + (cin shl 7))
                 carryOutDriver.set(inputA.state and 0x01u != 0u)
             }
-            // 11: no operation (special case `neg` in Math unit)
+            // 01: no operation (special case `neg` in Math unit)
             else -> {
                 outputDriver.release()
-                carryOutDriver.set(inputA.state and 0x01u != 0u)
+                carryOutDriver.set(inputA.state and 0x80u != 0u)
             }
         }
     }

@@ -19,8 +19,8 @@ class AluControlCircuitTest {
             if (input and 0x08 == 0) {
                 // logic unit is active when bit 3 is 0
                 assertEquals(0x30u, control.driverState!! and 0x38u)
-            } else if (input in listOf(0x18, 0x19, 0x1a)) {
-                // roll unit is active for special codes
+            } else if (input in listOf(0x0c, 0x0e, 0x0f, 0x1c, 0x1e, 0x1f)) {
+                // roll unit is active when input is x1100,x1110,x1111
                 assertEquals(0x18u, control.driverState!! and 0x38u)
             } else {
                 // math unit is active in all other cases
@@ -39,7 +39,7 @@ class AluControlCircuitTest {
             assertEquals(0x01u, control.driverState!! and 0x03u)
         }
 
-        if (input == 0x1b) {
+        if (input in listOf(0x0d, 0x1d)) {
             // a is inverted if command is 11011
             assertEquals(0x04u, control.driverState!! and 0x04u)
         } else {

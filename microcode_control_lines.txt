@@ -23,4 +23,4 @@ EXECUTE CYCLE:
     > 111: read ALU
  * bit 5: feed address bus from register (if low, feed from literal; only relevant for execution cycle)
  * bit 6: branch (set programm counter from address bus)
- * bit 7: <unused>
+ * bit 7: feed alu from literal register instead of B
