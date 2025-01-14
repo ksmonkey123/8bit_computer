@@ -32,7 +32,7 @@ object OpcodeCompiler {
             true -> 0x0c
             false -> 0x08
             null -> 0x00
-        }
+        } + op.fetch.aluOperation.shl(4)
 
         val executeValue = when (op.execute.dataWrite) {
             CompiledOperation.DataWrite.MEMORY -> 0x01
@@ -92,7 +92,8 @@ object OpcodeCompiler {
             op.actions.contains(Action.CARRY_SET) -> true
             op.actions.contains(Action.CARRY_CLEAR) -> false
             else -> null
-        }
+        },
+        aluOperation = op.alu?.operation ?: 0
     )
 
     fun getExecuteForFlags(op: Op, flags: Int): CompiledOperation.Execute? {

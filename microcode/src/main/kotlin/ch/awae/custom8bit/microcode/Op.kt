@@ -45,6 +45,7 @@ data class ConditionChoice(val conditions: List<FlagCondition>) : Condition {
 data class Op(
     val address: Int,
     val mask: Int = 0,
+    val alu: ALUInstruction? = null,
     val conditions: List<Condition> = emptyList(),
     val actions: List<Action> = emptyList(),
 ) {
@@ -62,4 +63,35 @@ data class Op(
         conditions = actionOrCondition.filterIsInstance<Condition>(),
         actions = actionOrCondition.filterIsInstance<Action>(),
     )
+
+    companion object {
+        fun ALU(address: Int, alu: ALUInstruction, vararg actionOrCondition: ActionOrCondition): Op {
+            return Op(
+                address,
+                mask = 0x03,
+                alu = alu,
+                conditions = actionOrCondition.filterIsInstance<Condition>(),
+                actions = actionOrCondition.filterIsInstance<Action>(),
+            )
+        }
+    }
+}
+
+enum class ALUInstruction(val operation: Int) {
+    NSWP(0),
+    SHL(1),
+    SHR(2),
+    CMP(3),
+    DEC(4),
+    INC(5),
+    ADD(6),
+    SUB(7),
+    IDENT(8),
+    AND(9),
+    IOR(10),
+    XOR(11),
+    NOT(12),
+    NAND(13),
+    INOR(14),
+    XNOR(15),
 }

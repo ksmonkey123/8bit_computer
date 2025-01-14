@@ -9,6 +9,7 @@ data class CompiledOperation(
     data class Fetch(
         val fetchSize: Int,
         val carryUpdate: Boolean?,
+        val aluOperation: Int,
     )
 
     enum class DataRead {
