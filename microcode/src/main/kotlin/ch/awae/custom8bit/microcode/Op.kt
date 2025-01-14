@@ -79,9 +79,9 @@ data class Op(
 
 enum class ALUInstruction(val operation: Int) {
     NSWP(0),
-    SHL(1),
-    SHR(2),
-    CMP(3),
+    CMP(1),
+    SHL(2),
+    SHR(3),
     DEC(4),
     INC(5),
     ADD(6),

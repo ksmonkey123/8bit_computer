@@ -125,52 +125,52 @@ Register Addresses are represented as 2-bit numbers:
 
 | Operation   |   Fetch | Mnemonic      | Flags | Description                                        |
 |:------------|--------:|:--------------|:------|:---------------------------------------------------|
-| `0000.00xx` | 0 bytes | IDENT regX    | Z,N   | Identity Function                                  |
-| `0000.01xx` | 0 bytes | AND regX      | Z,N   | Bitwise And                                        |
-| `0000.10xx` | 0 bytes | IOR regX      | Z,N   | Bitwise Inclusive Or                               |
-| `0000.11xx` | 0 bytes | XOR regX      | Z,N   | Bitwise Exclusive Or                               |
-| `0001.00xx` | 0 bytes | NOT regX      | Z,N   | Bitwise Complement                                 |
-| `0001.01xx` | 0 bytes | NAND regX     | Z,N   | Bitwise Not-And                                    |
-| `0001.10xx` | 0 bytes | NIOR regX     | Z,N   | Bitwise Inclusive Not-Or                           |
-| `0001.11xx` | 0 bytes | NXOR regX     | Z,N   | Bitwise Exclusive Not-Or                           |
-| `0010.00xx` | 0 bytes | DEC regX      | Z,N,C | Decrement                                          |
-| `0010.01xx` | 0 bytes | DECC regX     | Z,N,C | Decrement with Carry-In                            |
-| `0010.10xx` | 0 bytes | INC regX      | Z,N,C | Increment                                          |
-| `0010.11xx` | 0 bytes | INCC regX     | Z,N,C | Increment with Carry-In                            |
-| `0011.00xx` | 0 bytes | ADD regX      | Z,N,C | Addition                                           |
-| `0011.01xx` | 0 bytes | ADDC regX     | Z,N,C | Addition with Carry-In                             |
-| `0011.10xx` | 0 bytes | SUB regX      | Z,N,C | Subtraction                                        |
-| `0011.11xx` | 0 bytes | SUBC regX     | Z,N,C | Subtraction with Carry-In                          |
-| `0100.01xx` |  1 byte | LAND regX     | Z,N   | Bitwise And with Literal                           |
-| `0100.10xx` |  1 byte | LIOR regX     | Z,N   | Bitwise Inclusive Or with Literal                  |
-| `0100.11xx` |  1 byte | LXOR regX     | Z,N   | Bitwise Exclusive Or with Literal                  |
-| `0101.01xx` |  1 byte | LNAND regX    | Z,N   | Bitwise Not-And with Literal                       |
-| `0101.10xx` |  1 byte | LNIOR regX    | Z,N   | Bitwise Inclusive Not-Or with Literal              |
-| `0101.11xx` |  1 byte | LNXOR regX    | Z,N   | Bitwise Exclusive Not-Or with Literal              |
-| `0110.00xx` | 0 bytes | NSWP regX     | Z,N,C | Nibble Swap                                        |
-| `0110.01xx` | 0 bytes | SHL regX      | Z,N,C | Roll Left through Carry                            |
-| `0110.10xx` | 0 bytes | SHR regX      | Z,N,C | Roll Right through Carry                           |
-| `0110.11xx` | 0 bytes | COMPC regX    | Z,N,C | 2s Complement with Carry                           |
-| `0111.00xx` |  1 byte | LADD regX     | Z,N,C | Literal Addition                                   |
-| `0111.01xx` |  1 byte | LADDC regX    | Z,N,C | Literal Addition with Carry-In                     |
-| `0111.10xx` |  1 byte | LSUB regX     | Z,N,C | Literal Subtraction                                |
-| `0111.11xx` |  1 byte | LSUBC regX    | Z,N,C | Literal Subtraction with Carry-In                  |
-| `1000.00xx` | 0 bytes | ILOAD regX    | Z,N   | Indirect Memory Load (Address in registers CD)     |
-| `1000.01xx` | 0 bytes | CLR regX      | Z,N   | Register Clear                                     |
-| `1001.xx00` | 0 bytes | ISTORE regX   | -     | Indirect Memory Load (Address in registers CD)     |
-| `1010.00xx` |  1 byte | LLOAD regX    | Z,N   | Literal Load                                       |
-| `1011.yyxx` | 0 bytes | MOV regX regY | Z,N   | Register Copy from regY to regX                    |
-| `1100.00xx` | 2 bytes | MLOAD regX    | Z,N   | Memory Load from Literal Address                   |
-| `1101.xx00` | 2 bytes | MSTORE regX   | -     | Memory Write to Literal Address                    |
-| `1110.0000` | 2 bytes | BXC           | -     | conditionally branch if Carry                      |
-| `1110.0001` | 2 bytes | BXZ           | -     | conditionally branch if Zero                       |
-| `1110.0010` | 2 bytes | BXN           | -     | conditionally branch if Negative                   |
-| `1110.0011` | 2 bytes | BXP           | -     | conditionally branch if Positive                   |
-| `1110.0100` | 2 bytes | BXNC          | -     | conditionally branch if not Carry                  |
-| `1110.0101` | 2 bytes | BXNZ          | -     | conditionally branch if not Zero                   |
-| `1110.0110` | 2 bytes | BXNN          | -     | conditionally branch if not Negative               |
-| `1110.0111` | 2 bytes | BXNP          | -     | conditionally branch if not Positive               |
-| `1110.1000` | 2 bytes | BX            | -     | branch to literal address                          |
-| `1111.0000` | 0 bytes | DBX           | -     | Dynamic Branching (Target Address in registers CD) |
-| `1111.110x` | 0 bytes | SETC val      | C     | Set/Clear Carry Flag                               |
+| `0000.00xx` |       0 | NSWP regX     | Z,N,C | Nibble Swap                                        |
+| `0000.01xx` |       0 | SHL regX      | Z,N,C | Roll Left through Carry                            |
+| `0000.10xx` |       0 | SHR regX      | Z,N,C | Roll Right through Carry                           |
+| `0001.00xx` |       0 | DECC regX     | Z,N,C | Decrement with Carry-In                            |
+| `0001.01xx` |       0 | INCC regX     | Z,N,C | Increment with Carry-In                            |
+| `0001.10xx` |       0 | ADDC regX     | Z,N,C | Addition with Carry-In                             |
+| `0001.11xx` |       0 | SUBC regX     | Z,N,C | Subtraction with Carry-In                          |
+| `0010.01xx` |       0 | AND regX      | Z,N   | Bitwise And                                        |
+| `0010.10xx` |       0 | IOR regX      | Z,N   | Bitwise Inclusive Or                               |
+| `0010.11xx` |       0 | XOR regX      | Z,N   | Bitwise Exclusive Or                               |
+| `0011.00xx` |       0 | NOT regX      | Z,N   | Bitwise Complement                                 |
+| `0011.01xx` |       0 | NAND regX     | Z,N   | Bitwise Not-And                                    |
+| `0011.10xx` |       0 | INOR regX     | Z,N   | Bitwise Inclusive Not-Or                           |
+| `0011.11xx` |       0 | XNOR regX     | Z,N   | Bitwise Exclusive Not-Or                           |
+| `0100.00xx` |       1 | LADD reg      | Z,N,C | Literal Addition                                   |
+| `0100.01xx` |       1 | LSUB regX     | Z,N,C | Literal Subtraction                                |
+| `0100.10xx` |       1 | LADDC regX    | Z,N,C | Literal Addition with Carry-In                     |
+| `0100.11xx` |       1 | LSUBC regX    | Z,N,C | Literal Subtraction with Carry-In                  |
+| `0101.00xx` |       0 | COMPC regX    | Z,N,C | 2s Complement with Carry                           |
+| `0101.01xx` |       1 | LAND regX     | Z,N   | Bitwise And with Literal                           |
+| `0101.10xx` |       1 | LIOR regX     | Z,N   | Bitwise Inclusive Or with Literal                  |
+| `0101.11xx` |       1 | LXOR regX     | Z,N   | Bitwise Exclusive Or with Literal                  |
+| `0110.00xx` |       0 | COMP regX     | Z,N,C | 2s Complement                                      |
+| `0110.01xx` |       1 | LNAND regX    | Z,N   | Bitwise Not-And with Literal                       |
+| `0110.10xx` |       1 | LINOR regX    | Z,N   | Bitwise Inclusive Not-Or with Literal              |
+| `0110.11xx` |       1 | LXNOR regX    | Z,N   | Bitwise Exclusive Not-Or with Literal              |
+| `0111.00xx` |       0 | DEC regX      | Z,N,C | Decrement                                          |
+| `0111.10xx` |       0 | INC regX      | Z,N,C | Increment                                          |
+| `0111.00xx` |       0 | ADD regX      | Z,N,C | Addition                                           |
+| `0111.10xx` |       0 | SUB regX      | Z,N,C | Subtraction                                        |
+| `1000.yyxx` |       0 | MOV regX regY | Z,N   | Register Copy from regY to regX                    |
+| `1001.00xx` |       2 | LOAD regX     | Z,N   | Memory Load from Literal Address                   |
+| `1001.01xx` |       0 | ILOAD regX    | Z,N   | Indirect Memory Load (Address in registers CD)     |
+| `1001.10xx` |       1 | LLOAD regX    | Z,N   | Literal Load                                       |
+| `1001.11xx` |       0 | CLR regX      | Z,N   | Register Clear                                     |
+| `1010.xx00` |       2 | STORE regX    | -     | Memory Write to Literal Address                    |
+| `1010.xx01` |       0 | ISTORE regX   | -     | Indirect Memory Load (Address in registers CD)     |
+| `1011.0000` | 2 bytes | BRCS          | -     | conditionally branch if carry set                  |
+| `1011.0001` | 2 bytes | BRCC          | -     | conditionally branch if carry not set              |
+| `1011.0010` | 2 bytes | BRZ           | -     | conditionally branch if zero                       |
+| `1011.0011` | 2 bytes | BRNZ          | -     | conditionally branch if not zero                   |
+| `1011.0100` | 2 bytes | BRLZ          | -     | conditionally branch if negative                   |
+| `1011.0101` | 2 bytes | BRGZ          | -     | conditionally branch if positive                   |
+| `1011.0110` | 2 bytes | BRNLZ         | -     | conditionally branch if not negative               |
+| `1011.0111` | 2 bytes | BRNGZ         | -     | conditionally branch if not positive               |
+| `1011.1000` | 2 bytes | GOTO          | -     | branch to literal address                          |
+| `1011.1001` | 0 bytes | RGOTO         | -     | Dynamic Branching (Target Address in registers CD) |
+| `1111.000x` | 0 bytes | SETC x        | C     | Set/Clear Carry Flag                               |
 | `1111.1111` | 0 bytes | NOP           | -     | no-op                                              |
