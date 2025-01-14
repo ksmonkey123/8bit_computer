@@ -13,7 +13,7 @@ The computer contains 4 general purpose 8-bit registers named `regA` through `re
 ### Literal Argument Register
 
 The `regL` literal register can hold a one-byte literal opcode extension.
-This register cannot be directly adressed and is only interacted with through microcode.
+This register cannot be directly addressed and is only interacted with through microcode.
 
 ## ALU Design
 
@@ -24,26 +24,20 @@ The calculation result can be stored in registers A through D
 
 ### Arithmetic Unit
 
-The arithmetic unit is controlled by a 3 bit control bus defining the operation.
+The arithmetic unit is controlled by a 2 bit control bus defining the operation.
 
 | Operation | Mnemonic | Result      | Description          |
 |----------:|:---------|:------------|:---------------------|
-|       000 | DEC      | A + 255 + 0 | Decrement            |
-|       001 | DECC     | A + 255 + C | Decrement with Carry |
-|       010 | INC      | A + 0 + 1   | Increment            |
-|       011 | INCC     | A + 0 + C   | Increment with Carry |
-|       100 | ADD      | A + B + 0   | Add                  |
-|       101 | ADDC     | A + B + C   | Add with Carry       |
-|       110 | SUB      | A + !B + 1  | Subtract             |
-|       111 | SUBC     | A + !B + C  | Subtract with Carry  |
+|        00 | DECC     | A + 255 + C | Decrement with Carry |
+|        01 | INCC     | A + 0 + C   | Increment with Carry |
+|        10 | ADDC     | A + B + C   | Add with Carry       |
+|        11 | SUBC     | A + !B + C  | Subtract with Carry  |
 
 #### Opcode structure
 
-* Bit 2 indicates if the input from `regB` should be used.
+* Bit 1 indicates if the input from `regB` should be used.
     * If not, the intermediate bus must be pulled high. (yielding a value of `255`)
-* Bit 1 indicates if input B (`regB` or `255`) should be bitwise inverted.
-* Bit 0 indicates if the carry flag is used as an input.
-    * If not, the input (0, 1) is taken from bit 1.
+* Bit 0 indicates if input B (`regB` or `255`) should be bitwise inverted.
 
 ### Logic Unit
 
@@ -69,19 +63,18 @@ The arithmetic unit is controlled by a 3 bit control bus defining the operation.
 
 ### Roll Unit
 
-The roll unit implements 4 operations that did not fit the ALU:
+The roll unit implements 3 operations that did not fit the ALU:
 
 * `shl`: roll left through carry
 * `shr`: roll right through carry
 * `swp`: swap high and low nibbles
-* `neg`: calculate 2's complement
 
-| Operation | Mnemonic | Result                                | Description                               |
-|----------:|:---------|:--------------------------------------|:------------------------------------------|
-|        00 | swp      | ((A & 0x0f) << 4) + ((A & 0xf0) >> 4) | Nibble Swap (high input bit as Carry-Out) |
-|        01 | shl      | (A << 1) + C                          | Roll Left through Carry                   |
-|        10 | shr      | (A >> 1) + (C << 8)                   | Roll Right through Carry                  |
-|        11 | neg      | !A + 1                                | 2s Complement                             |
+| Operation | Mnemonic | Result                                | Description                                               |
+|----------:|:---------|:--------------------------------------|:----------------------------------------------------------|
+|        00 | swp      | ((A & 0x0f) << 4) + ((A & 0xf0) >> 4) | Nibble Swap (high input bit as Carry-Out)                 |
+|        01 | comp     | no output                             | reserved for 2s complement calculation in arithmetic unit |
+|        10 | shl      | (A << 1) + C                          | Roll Left through Carry                                   |
+|        11 | shr      | (A >> 1) + (C << 8)                   | Roll Right through Carry                                  |
 
 ### ALU integration
 
@@ -91,22 +84,25 @@ The `B`-Side of the ALU can be fed by both `regB` and `regL`.
 
 2 additional lines:
 
-| Operation | ALU Mode | Registers         | Notes                                                    |
-|:----------|:---------|:------------------|:---------------------------------------------------------|
-| 00xxx     | Logic    | `regA` and `regB` |                                                          |
-| 01xxx     | Math     | `regA` and `regB` |                                                          |
-| 10xxx     | Logic    | `regA` and `regL` | operations `000` and `100` redundant                     |
-| 110xx     | Roll     | `regA`            |                                                          |
-| 11011     | Math*    | `regA`            | 2's complement calculation Address in Range of Roll unit |
-| 111xx     | Math     | `regA` and `regL` | only higher-order 2-argument functions implemented       |
+| Operation | ALU Mode | Registers         | Notes                                |
+|:----------|:---------|:------------------|:-------------------------------------|
+| 00xxx     | Logic    | `regA` and `regB` | operation `000` unused               |
+| 010xx     | Math     | `regA` and `regB` |                                      |
+| 01101     | Math*    | `regA` and `regB` | 2s complement                        |
+| 011xx     | Roll     | `regA` and `regB` |                                      |
+| 10xxx     | Logic    | `regA` and `regL` | operations `000` and `100` redundant |
+| 10xxx     | Logic    | `regA` and `regL` | operation `000` unused               |
+| 110xx     | Math     | `regA` and `regL` | operations `00` and `01` redundant   |
+| 11101     | Math*    | `regA` and `regL` | 2s complement. redundant             |
+| 111xx     | Roll     | `regA` and `regL` | redundant                            |
 
 #### Rules:
 
 * Logic Unit is active when bit 3 is `0`
-* Math Unit is active when bit 3 is `1`, unless command is `11000`, `11001` or `11010`
+* Math Unit is active when bit 3 is `1`, unless command is `x1100`, `x1110` or `x1111`
     * `regL` used instead of `regB` when bit 4 is `1`
-    * `regA` is inverted if command is `11011`
-* Roll Unit is active when command is `11000`, `11001` or `11010`
+    * `regA` is inverted if command is `x1101`
+* Roll Unit is active when command is `x1100`, `x1110`, `x1111`
 
 ## Instruction Set
 
