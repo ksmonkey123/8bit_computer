@@ -41,7 +41,7 @@ object OpcodeCompiler {
         } + when (op.execute.dataRead) {
             CompiledOperation.DataRead.MEMORY -> 0x10
             CompiledOperation.DataRead.REGISTER -> 0x14
-            CompiledOperation.DataRead.LITERAL -> 0x08
+            CompiledOperation.DataRead.LITERAL -> 0x18
             CompiledOperation.DataRead.ALU -> 0x1c
             null -> 0x00
         } + when (op.execute.addressFromRegisters) {
