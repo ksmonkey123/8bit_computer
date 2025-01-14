@@ -54,8 +54,8 @@ object OpcodeCompiler {
 
         return listOf(
             // fetch cycle
-            op.opcode + 0x000 to fetchValue,
-            op.opcode + 0x800 to executeValue,
+            op.opcode + 0x0000 to fetchValue,
+            op.opcode + 0x1000 to executeValue,
         )
     }
 

@@ -3,7 +3,8 @@ INPUT SIGNALS:
  * bit 8: zero flag
  * bit 9: negative flag
  * bit 10: carry flag
- * bit 11: cycle (0 during fetch, 1 during execute)
+ * bit 11: <unused, must be low>
+ * bit 12: cycle (0 during fetch, 1 during execute)
 
 FETCH CYCLE:
  * bits 0-1: fetch size (0/1/3)
