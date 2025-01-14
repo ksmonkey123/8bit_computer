@@ -24,7 +24,8 @@ data class CompiledOperation(
         val dataRead: DataRead?,
         val dataWrite: DataWrite?,
         val addressFromRegisters: Boolean,
-        val branch: Boolean
+        val branch: Boolean,
+        val literalALU: Boolean,
     )
 
 }

@@ -2,7 +2,13 @@ package ch.awae.custom8bit.microcode
 
 object OpcodeCompiler {
 
-    val executeNoOp = CompiledOperation.Execute(null, null, false, false)
+    val executeNoOp = CompiledOperation.Execute(
+        dataRead = null,
+        dataWrite = null,
+        addressFromRegisters = false,
+        branch = false,
+        literalALU = false,
+    )
 
     fun compileOperation(op: Op): List<CompiledOperation> {
         return (0..255).flatMap { candidate ->
@@ -50,6 +56,9 @@ object OpcodeCompiler {
         } + when (op.execute.branch) {
             true -> 0x40
             false -> 0x00
+        } + when (op.execute.literalALU) {
+            true -> 0x80
+            false -> 0x00
         }
 
         return listOf(
@@ -79,6 +88,7 @@ object OpcodeCompiler {
         },
         addressFromRegisters = op.actions.contains(Action.ADDRESS_FROM_REGISTERS),
         branch = op.actions.contains(Action.BRANCH),
+        literalALU = op.actions.contains(Action.READ_ALU_WITH_LITERAL),
     )
 
     fun getFetchForOp(op: Op) = CompiledOperation.Fetch(
