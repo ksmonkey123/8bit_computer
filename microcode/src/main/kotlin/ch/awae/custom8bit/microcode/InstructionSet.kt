@@ -54,4 +54,5 @@ val INSTRUCTION_SET = mapOf(
     "RGOTO" to Op(0xe8, ADDRESS_FROM_REGISTERS, BRANCH),
     "SETC 0" to Op(0xf0, CARRY_CLEAR),
     "SETC 1" to Op(0xf1, CARRY_SET),
+    "NOP" to Op(0xff),
 )
