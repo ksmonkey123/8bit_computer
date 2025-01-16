@@ -12,12 +12,12 @@ class OctalFullAdder(
     private val inB: DataBus,
     private val carryIn: DataSignal,
     sum: WritableBus,
-    carryOut: WritableSignal,
+    carryOut: WritableSignal?,
     name: String? = null,
 ) : SimulationElement(ElementType.COMPONENT, name) {
 
     private val sumDriver = sum.connectDriver().also { it.setRandom(0xffu) }
-    private val carryOutDriver = carryOut.connectDriver().also { it.set(Random.nextBoolean()) }
+    private val carryOutDriver = carryOut?.connectDriver()?.also { it.set(Random.nextBoolean()) }
 
     override fun tick(tickID: Long) {
         val a = inA.state and 0xffu
@@ -26,7 +26,7 @@ class OctalFullAdder(
         val sum = a + b + if (carryIn.state) 1u else 0u
 
         sumDriver.set(sum and 0xffu)
-        carryOutDriver.set((sum and 0x100u) != 0u)
+        carryOutDriver?.set((sum and 0x100u) != 0u)
     }
 
 }

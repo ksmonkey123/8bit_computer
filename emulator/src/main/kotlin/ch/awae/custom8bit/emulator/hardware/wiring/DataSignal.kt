@@ -12,6 +12,16 @@ interface DataSignal {
 
     fun edge(raising: Boolean = true): Edge = EdgeImpl(this, raising)
 
+    fun bus(high: UInt, low: UInt): DataBus = SignalDerivedBus(this, high, low)
+
+    private data class SignalDerivedBus(val signal: DataSignal, val high: UInt, val low: UInt) : DataBus {
+        override val state: UInt
+            get() = if (signal.state) high else low
+        override val contention: UInt
+            get() = 0u
+
+    }
+
     private data class ConstantSignal(override val state: Boolean) : DataSignal {
         override val contention: Boolean
             get() = false
