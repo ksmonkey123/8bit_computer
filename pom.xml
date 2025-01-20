@@ -10,6 +10,8 @@
     <modules>
         <module>hardware</module>
         <module>microcode</module>
+        <module>emulator</module>
+        <module>assembler</module>
     </modules>
 
 </project>
