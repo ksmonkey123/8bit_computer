@@ -47,6 +47,9 @@ object Compiler {
             true -> 0b1100
             false -> 0b1000
             null -> 0b0000
+        } + when (operation.halt) {
+            true -> 0x80
+            false -> 0x00
         }
     }
 

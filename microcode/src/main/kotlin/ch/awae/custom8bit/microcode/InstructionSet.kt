@@ -287,6 +287,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     // 0xe0:f available
     Operation(0xf0, "SETC 0", 0, false),
     Operation(0xf1, "SETC 1", 0, true),
-    // 0xf2:e available
+    // 0xf2:d available
+    Operation(0xfe, "HALT", 0, halt = true),
     Operation(0xff, "NOP", 0),
 )
