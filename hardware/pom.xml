@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ch.awae</groupId>
-    <artifactId>custom8bit-emulator</artifactId>
+    <artifactId>custom8bit-hardware</artifactId>
     <version>1.0.x-SNAPSHOT</version>
 
     <properties>
