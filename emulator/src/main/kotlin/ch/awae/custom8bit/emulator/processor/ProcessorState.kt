@@ -7,6 +7,7 @@ data class ProcessorState(
     val programCounter: Int = 0,
     val stackPointer: Int = 0,
     val incrementRegister: Int = 0,
+    val aluInput: Int = 0,
     val flags: Flags = Flags(),
     val literal1: Int = 0,
     val literal2: Int = 0,

@@ -14,6 +14,7 @@ enum class DataSource(val port: Int) {
 }
 
 enum class DataTarget(val port: Int) {
+    WRITE_ALU_INPUT(0),
     WRITE_REG_A(1),
     WRITE_REG_B(2),
     WRITE_REG_C(3),
@@ -36,35 +37,23 @@ sealed interface Action {
 }
 
 enum class AluOperation(override val command: Int) : Action {
-    AND(1),
-    IOR(2),
-    XOR(3),
-    INVERT(4),
-    NAND(5),
-    INOR(6),
-    XNOR(7),
-    DECREMENT(8),
-    INCREMENT(9),
-    ADDITION(10),
-    SUBTRACTION(11),
-    NIBBLE_SWAP(12),
-    COMPLEMENT(13),
-    SHIFT_LEFT(14),
-    SHIFT_RIGHT(15),
-    LITERAL_AND(17),
-    LITERAL_IOR(18),
-    LITERAL_XOR(19),
-    LITERAL_NAND(21),
-    LITERAL_INOR(22),
-    LITERAL_XNOR(23),
-    LITERAL_ADDITION(26),
-    LITERAL_SUBTRACTION(27),
+    AND(0),
+    IOR(1),
+    XOR(2),
+    INVERT(3),
+    DECREMENT(4),
+    INCREMENT(5),
+    ADDITION(6),
+    SUBTRACTION(7),
+    COMPLEMENT(8),
+    SHIFT_LEFT(9),
+    SHIFT_RIGHT(10),
 }
 
 enum class AddressTarget(override val command: Int) : Action {
-    WRITE_PC(28),
-    WRITE_REG_CD(29),
-    WRITE_STACK_POINTER(31),
+    WRITE_PC(16),
+    WRITE_REG_CD(17),
+    WRITE_STACK_POINTER(18),
 }
 
 sealed interface MicroOperation {

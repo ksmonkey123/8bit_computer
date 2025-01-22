@@ -27,29 +27,28 @@ class ProcessingUnitTest {
     }
 
     @Test
-    fun test() {
+    fun `load A, load B, A = A + B`() {
         val program = intArrayOf(
-            // LLOAD A, 0x0f
-            0x98, 0x0f,
-            // LLOAD B, 0x01
-            0x99, 0x01,
-            // ADD C
-            0x7a,
+            // LOAD A 15
+            0x6c, 0x0f,
+            // LOAD B 1
+            0x6d, 0x01,
+            // ADD B
+            0x20,
         )
 
         val result = execute(program, 3)
 
-        assertEquals(15, result.registerA)
+        assertEquals(16, result.registerA)
         assertEquals(1, result.registerB)
-        assertEquals(16, result.registerC)
     }
 
     @Test
     fun testMemoryLoad() {
         val program = intArrayOf(
             // LOAD A, $0004
-            0x90, 0x00, 0x04,
-            // NOP
+            0x60, 0x00, 0x04,
+            // HALT
             0xff,
             // referenced value $0004
             0x69
@@ -59,5 +58,21 @@ class ProcessingUnitTest {
         assertEquals(0x00, result.literal2)
         assertEquals(0x04, result.literal1)
         assertEquals(0x0003, result.programCounter)
+    }
+
+    @Test
+    fun `swap A B`() {
+        val program = intArrayOf(
+            // LOAD A, 105
+            0x6c, 0x69,
+            // LOAD B, 150
+            0x6d, 0x96,
+            // SWAP B
+            0x1d
+        )
+
+        val result = execute(program, 3)
+        assertEquals(150, result.registerA)
+        assertEquals(105, result.registerB)
     }
 }

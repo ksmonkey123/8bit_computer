@@ -99,6 +99,7 @@ class ProcessingUnit(
         }
 
         val stateAfterDataTarget = when (execute.dataTarget) {
+            DataTarget.WRITE_ALU_INPUT -> state.copy(aluInput = data)
             DataTarget.WRITE_REG_A -> state.copy(registerA = data)
             DataTarget.WRITE_REG_B -> state.copy(registerB = data)
             DataTarget.WRITE_REG_C -> state.copy(registerC = data)

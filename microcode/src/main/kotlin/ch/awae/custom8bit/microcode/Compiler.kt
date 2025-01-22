@@ -31,7 +31,7 @@ object Compiler {
 
         // current step has content
         return (selectedOp.dataSource?.port ?: 0) +
-                ((selectedOp.dataTarget?.port ?: 0) shl 4) +
+                (((selectedOp.dataTarget ?: DataTarget.WRITE_ALU_INPUT).port) shl 4) +
                 (if (hasNextStep) 0 else 0x0080) +
                 ((selectedOp.action?.command ?: 0) shl 8) +
                 ((selectedOp.addressSource?.port ?: 0) shl 13)
@@ -57,7 +57,7 @@ object Compiler {
         val map = operations.map { compileOperation(it) }.reduce { a, b -> a + b }
 
         val lowMap = ByteArray(8192) {
-            (map[it]?.and(0x0000_00ff) ?: if (it.and(0x0000_ff00) == 0x0000_0700) 0x03 else 0x80).toByte()
+            (map[it]?.and(0x0000_00ff) ?: if (it.and(0x0000_ff00) == 0x0000_0700) 0x83 else 0x80).toByte()
         }
 
         val highMap = ByteArray(8192) {
