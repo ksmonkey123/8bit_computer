@@ -30,7 +30,12 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>ch.awae</groupId>
+            <artifactId>custom8bit-microcode</artifactId>
+            <version>1.0.x-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
