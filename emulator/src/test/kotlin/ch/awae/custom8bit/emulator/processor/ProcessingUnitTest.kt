@@ -30,9 +30,9 @@ class ProcessingUnitTest {
     fun `load A, load B, A = A + B`() {
         val program = intArrayOf(
             // LOAD A 15
-            0x6c, 0x0f,
+            0x7c, 0x0f,
             // LOAD B 1
-            0x6d, 0x01,
+            0x7d, 0x01,
             // ADD B
             0x20,
         )
@@ -47,7 +47,7 @@ class ProcessingUnitTest {
     fun testMemoryLoad() {
         val program = intArrayOf(
             // LOAD A, $0004
-            0x60, 0x00, 0x04,
+            0x70, 0x00, 0x04,
             // HALT
             0xff,
             // referenced value $0004
@@ -64,9 +64,9 @@ class ProcessingUnitTest {
     fun `swap A B`() {
         val program = intArrayOf(
             // LOAD A, 105
-            0x6c, 0x69,
+            0x7c, 0x69,
             // LOAD B, 150
-            0x6d, 0x96,
+            0x7d, 0x96,
             // SWAP B
             0x1d
         )
