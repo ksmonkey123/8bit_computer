@@ -675,7 +675,6 @@ class SingleCommandTests {
         assertTrue(output.flags.carry)
     }
 
-
     @Test
     fun `ADD (CD)`() {
         val output = execute(
@@ -708,7 +707,6 @@ class SingleCommandTests {
         assertEquals(45, output.registerA)
         assertTrue(output.flags.carry)
     }
-
 
     @Test
     fun `SUB B`() {
@@ -884,7 +882,6 @@ class SingleCommandTests {
         assertFalse(output.flags.carry)
     }
 
-
     @Test
     fun `SUB (CD)`() {
         val output = execute(
@@ -917,8 +914,6 @@ class SingleCommandTests {
         assertEquals(155, output.registerA)
         assertFalse(output.flags.carry)
     }
-
-
 
     @Test
     fun `ISUB B`() {
@@ -1021,7 +1016,6 @@ class SingleCommandTests {
         assertEquals(99, output.registerA)
         assertTrue(output.flags.carry)
     }
-
 
     @Test
     fun `ISUB (CD)`() {
