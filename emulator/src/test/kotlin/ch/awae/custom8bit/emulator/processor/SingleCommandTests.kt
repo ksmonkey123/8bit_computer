@@ -501,4 +501,559 @@ class SingleCommandTests {
         assertEquals(0b01101001, output.registerD)
     }
 
+    @Test
+    fun `ADD B`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 12, flags = Flags(carry = true)),
+            0x20
+        )
+
+        assertEquals(112, output.registerA)
+        assertEquals(12, output.registerB)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC B, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = false)),
+            0x21
+        )
+
+        assertEquals(44, output.registerA)
+        assertEquals(200, output.registerB)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC B, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = true)),
+            0x21
+        )
+
+        assertEquals(45, output.registerA)
+        assertEquals(200, output.registerB)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADD C`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 12, flags = Flags(carry = true)),
+            0x22
+        )
+
+        assertEquals(112, output.registerA)
+        assertEquals(12, output.registerC)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC C, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 200, flags = Flags(carry = false)),
+            0x23
+        )
+
+        assertEquals(44, output.registerA)
+        assertEquals(200, output.registerC)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC C, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 200, flags = Flags(carry = true)),
+            0x23
+        )
+
+        assertEquals(45, output.registerA)
+        assertEquals(200, output.registerC)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADD D`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerD = 12, flags = Flags(carry = true)),
+            0x24
+        )
+
+        assertEquals(112, output.registerA)
+        assertEquals(12, output.registerD)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC D, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerD = 200, flags = Flags(carry = false)),
+            0x25
+        )
+
+        assertEquals(44, output.registerA)
+        assertEquals(200, output.registerD)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC D, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerD = 200, flags = Flags(carry = true)),
+            0x25
+        )
+
+        assertEquals(45, output.registerA)
+        assertEquals(200, output.registerD)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADD i`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = true)),
+            0x26, 12
+        )
+
+        assertEquals(112, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC i, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x27, 200
+        )
+
+        assertEquals(44, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC i, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = true)),
+            0x27, 200
+        )
+
+        assertEquals(45, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADD (L)`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = true)),
+            0x28, 0x00, 0x04, 0xff, 12
+        )
+
+        assertEquals(112, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC (L), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x29, 0x00, 0x04, 0xff, 200
+        )
+
+        assertEquals(44, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC (L), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = true)),
+            0x29, 0x00, 0x04, 0xff, 200
+        )
+
+        assertEquals(45, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+
+    @Test
+    fun `ADD (CD)`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = true)),
+            0x2a, 0x00, 0x04, 0xff, 12
+        )
+
+        assertEquals(112, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC (CD), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = false)),
+            0x2b, 0xff, 0xff, 0xff, 200
+        )
+
+        assertEquals(44, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADDC (CD), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = true)),
+            0x2b, 0xff, 0xff, 0xff, 200
+        )
+
+        assertEquals(45, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+
+    @Test
+    fun `SUB B`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 12, flags = Flags(carry = false)),
+            0x2c
+        )
+
+        assertEquals(88, output.registerA)
+        assertEquals(12, output.registerB)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC B, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = true)),
+            0x2d
+        )
+
+        assertEquals(156, output.registerA)
+        assertEquals(200, output.registerB)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC B, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = false)),
+            0x2d
+        )
+
+        assertEquals(155, output.registerA)
+        assertEquals(200, output.registerB)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUB C`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 12, flags = Flags(carry = false)),
+            0x2e
+        )
+
+        assertEquals(88, output.registerA)
+        assertEquals(12, output.registerC)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC C, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 200, flags = Flags(carry = true)),
+            0x2f
+        )
+
+        assertEquals(156, output.registerA)
+        assertEquals(200, output.registerC)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC C, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 200, flags = Flags(carry = false)),
+            0x2f
+        )
+
+        assertEquals(155, output.registerA)
+        assertEquals(200, output.registerC)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUB D`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerD = 12, flags = Flags(carry = false)),
+            0x30
+        )
+
+        assertEquals(88, output.registerA)
+        assertEquals(12, output.registerD)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC D, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerD = 200, flags = Flags(carry = true)),
+            0x31
+        )
+
+        assertEquals(156, output.registerA)
+        assertEquals(200, output.registerD)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC D, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerD = 200, flags = Flags(carry = false)),
+            0x31
+        )
+
+        assertEquals(155, output.registerA)
+        assertEquals(200, output.registerD)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUB i`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x32, 12
+        )
+
+        assertEquals(88, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC i, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = true)),
+            0x33, 200
+        )
+
+        assertEquals(156, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC i, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x33, 200
+        )
+
+        assertEquals(155, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUB (L)`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x34, 0x00, 0x04, 0xff, 12
+        )
+
+        assertEquals(88, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC (L), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = true)),
+            0x35, 0x00, 0x04, 0xff, 200
+        )
+
+        assertEquals(156, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC (L), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x35, 0x00, 0x04, 0xff, 200
+        )
+
+        assertEquals(155, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+
+    @Test
+    fun `SUB (CD)`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = false)),
+            0x36, 0x00, 0x04, 0xff, 12
+        )
+
+        assertEquals(88, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC (CD), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = true)),
+            0x37, 0xff, 0xff, 0xff, 200
+        )
+
+        assertEquals(156, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SUBC (CD), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = false)),
+            0x37, 0xff, 0xff, 0xff, 200
+        )
+
+        assertEquals(155, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+
+
+    @Test
+    fun `ISUB B`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 12, flags = Flags(carry = false)),
+            0x38
+        )
+
+        assertEquals(168, output.registerA)
+        assertEquals(12, output.registerB)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUBC B, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = true)),
+            0x39
+        )
+
+        assertEquals(100, output.registerA)
+        assertEquals(200, output.registerB)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUBC B, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = false)),
+            0x39
+        )
+
+        assertEquals(99, output.registerA)
+        assertEquals(200, output.registerB)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUB i`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x3a, 12
+        )
+
+        assertEquals(168, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUBC i, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = true)),
+            0x3b, 200
+        )
+
+        assertEquals(100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUBC i, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x3b, 200
+        )
+
+        assertEquals(99, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUB (L)`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x3c, 0x00, 0x04, 0xff, 12
+        )
+
+        assertEquals(168, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUBC (L), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = true)),
+            0x3d, 0x00, 0x04, 0xff, 200
+        )
+
+        assertEquals(100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUBC (L), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, flags = Flags(carry = false)),
+            0x3d, 0x00, 0x04, 0xff, 200
+        )
+
+        assertEquals(99, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+
+    @Test
+    fun `ISUB (CD)`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = false)),
+            0x3e, 0x00, 0x04, 0xff, 12
+        )
+
+        assertEquals(168, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUBC (CD), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = true)),
+            0x3f, 0xff, 0xff, 0xff, 200
+        )
+
+        assertEquals(100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ISUBC (CD), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = false)),
+            0x3f, 0xff, 0xff, 0xff, 200
+        )
+
+        assertEquals(99, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
 }
