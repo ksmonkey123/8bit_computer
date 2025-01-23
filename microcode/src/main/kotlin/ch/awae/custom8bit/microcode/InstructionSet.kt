@@ -99,7 +99,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x12, "XOR D", 0,
-        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
@@ -130,8 +130,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
         0x18, "RL", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
-        // shift once to get top bit into carry
-        step1 = MicroOp(action = SHIFT_LEFT),
+        // shift once to get top bit into carry (write to A necessary to not rewrite alu input)
+        step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_LEFT),
         // do real shift with carry to get it into the bottom bit
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
     ),
@@ -143,8 +143,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
         0x1a, "ASHR", 0, false,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
-        // shift left to get top bit into carry for replication
-        step1 = MicroOp(action = SHIFT_LEFT),
+        // shift once to get top bit into carry (write to A necessary to not rewrite alu input)
+        step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_LEFT),
         // real shift right with replicated top bit
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
@@ -156,7 +156,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
         0x1c, "RR", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
-        step1 = MicroOp(action = SHIFT_RIGHT),
+        // shift once to get bottom bit into carry (write to A necessary to not rewrite alu input)
+        step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_RIGHT),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
     Operation(

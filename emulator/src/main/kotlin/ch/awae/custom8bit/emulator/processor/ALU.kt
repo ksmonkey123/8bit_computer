@@ -50,8 +50,8 @@ object ALU {
                 )
             }
 
-            AluOperation.SHIFT_LEFT -> AluOutput(state.aluInput.shl(1) and 0xff, state.aluInput > 0x7f)
-            AluOperation.SHIFT_RIGHT -> AluOutput(state.aluInput.ushr(1) and 0xff, (state.aluInput and 0x01) != 0)
+            AluOperation.SHIFT_LEFT -> AluOutput((state.aluInput.shl(1) + state.flags.carry.toInt()) and 0xff, state.aluInput > 0x7f)
+            AluOperation.SHIFT_RIGHT -> AluOutput((state.aluInput.ushr(1) + (state.flags.carry.toInt().shl(7) )) and 0xff, (state.aluInput and 0x01) != 0)
 
         }
     }

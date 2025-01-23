@@ -205,5 +205,300 @@ class SingleCommandTests {
         assertEquals(0x96, output.registerD)
     }
 
+    @Test
+    fun `XOR B`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, registerB = 0b00110011),
+            0x10
+        )
+
+        assertEquals(0b01011010, output.registerA)
+        assertEquals(0b00110011, output.registerB)
+    }
+
+    @Test
+    fun `XOR C`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, registerC = 0b00110011),
+            0x11
+        )
+
+        assertEquals(0b01011010, output.registerA)
+        assertEquals(0b00110011, output.registerC)
+    }
+
+    @Test
+    fun `XOR D`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, registerD = 0b00110011),
+            0x12
+        )
+
+        assertEquals(0b01011010, output.registerA)
+        assertEquals(0b00110011, output.registerD)
+    }
+
+    @Test
+    fun `XOR 51`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001),
+            0x13, 0x33
+        )
+
+        assertEquals(0b01011010, output.registerA)
+    }
+
+    @Test
+    fun `XOR $4`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001),
+            0x14, 0x00, 0x04, 0xff, 0x33
+        )
+
+        assertEquals(0b01011010, output.registerA)
+    }
+
+    @Test
+    fun `XOR (CD)`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, registerC = 4, registerD = 0),
+            0x15, 0xff, 0xff, 0xff, 0x33
+        )
+
+        assertEquals(0b01011010, output.registerA)
+        assertEquals(0b00000100, output.registerC)
+        assertEquals(0b00000000, output.registerD)
+    }
+
+    @Test
+    fun `SHL carry set, top bit clear`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, flags = Flags(carry = true)),
+            0x16
+        )
+
+        assertEquals(0b11010010, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SHL carry clear, top bit set`() {
+        val output = execute(
+            ProcessorState(registerA = 0b10010110, flags = Flags(carry = false)),
+            0x16
+        )
+
+        assertEquals(0b00101100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `RLC carry set, top clear`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, flags = Flags(carry = true)),
+            0x17
+        )
+
+        assertEquals(0b11010011, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `RLC carry clear, top bit set`() {
+        val output = execute(
+            ProcessorState(registerA = 0b10010110, flags = Flags(carry = false)),
+            0x17
+        )
+
+        assertEquals(0b00101100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `RL carry set, top clear`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, flags = Flags(carry = true)),
+            0x18
+        )
+
+        assertEquals(0b11010010, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `RL carry clear, top bit set`() {
+        val output = execute(
+            ProcessorState(registerA = 0b10010110, flags = Flags(carry = false)),
+            0x18
+        )
+
+        assertEquals(0b00101101, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `USHR carry set, top clear`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, flags = Flags(carry = true)),
+            0x19
+        )
+
+        assertEquals(0b00110100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `USHR carry clear, top bit set`() {
+        val output = execute(
+            ProcessorState(registerA = 0b10010110, flags = Flags(carry = false)),
+            0x19
+        )
+
+        assertEquals(0b01001011, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `ASHR carry set, top clear`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, flags = Flags(carry = true)),
+            0x1a
+        )
+
+        assertEquals(0b00110100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ASHR carry clear, top bit set`() {
+        val output = execute(
+            ProcessorState(registerA = 0b10010110, flags = Flags(carry = false)),
+            0x1a
+        )
+
+        assertEquals(0b11001011, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `RRC carry set, top clear`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, flags = Flags(carry = true)),
+            0x1b
+        )
+
+        assertEquals(0b10110100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `RRC carry clear, top bit set`() {
+        val output = execute(
+            ProcessorState(registerA = 0b10010110, flags = Flags(carry = false)),
+            0x1b
+        )
+
+        assertEquals(0b01001011, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `RRC carry clear, top clear`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, flags = Flags(carry = false)),
+            0x1b
+        )
+
+        assertEquals(0b00110100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `RRC carry set, top bit set`() {
+        val output = execute(
+            ProcessorState(registerA = 0b10010110, flags = Flags(carry = true)),
+            0x1b
+        )
+
+        assertEquals(0b11001011, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `RR carry set, top clear`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, flags = Flags(carry = true)),
+            0x1c
+        )
+
+        assertEquals(0b10110100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `RR carry clear, top bit set`() {
+        val output = execute(
+            ProcessorState(registerA = 0b10010110, flags = Flags(carry = false)),
+            0x1c
+        )
+
+        assertEquals(0b01001011, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `RR carry clear, top clear`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, flags = Flags(carry = false)),
+            0x1c
+        )
+
+        assertEquals(0b10110100, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `RR carry set, top bit set`() {
+        val output = execute(
+            ProcessorState(registerA = 0b10010110, flags = Flags(carry = true)),
+            0x1c
+        )
+
+        assertEquals(0b01001011, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SWAP B`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, registerB = 0b00110011),
+            0x1d
+        )
+
+        assertEquals(0b00110011, output.registerA)
+        assertEquals(0b01101001, output.registerB)
+    }
+
+    @Test
+    fun `SWAP C`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, registerC = 0b00110011),
+            0x1e
+        )
+
+        assertEquals(0b00110011, output.registerA)
+        assertEquals(0b01101001, output.registerC)
+    }
+
+    @Test
+    fun `SWAP D`() {
+        val output = execute(
+            ProcessorState(registerA = 0b01101001, registerD = 0b00110011),
+            0x1f
+        )
+
+        assertEquals(0b00110011, output.registerA)
+        assertEquals(0b01101001, output.registerD)
+    }
 
 }
