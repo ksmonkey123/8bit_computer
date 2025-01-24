@@ -3,8 +3,8 @@ package ch.awae.custom8bit.emulator.processor
 import ch.awae.custom8bit.emulator.memory.*
 
 class ProcessingUnit(
-    val microcode: Microcode,
-    val memoryBus: MemoryBus,
+    private val microcode: Microcode,
+    private val memoryBus: MemoryBus,
 ) {
 
     fun singleStep(state: ProcessorState): ProcessorState {
