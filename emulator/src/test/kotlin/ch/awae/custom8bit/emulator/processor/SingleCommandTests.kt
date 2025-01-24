@@ -1050,4 +1050,354 @@ class SingleCommandTests {
         assertTrue(output.flags.carry)
     }
 
+    @Test
+    fun `DEC A no underflow`() {
+        val output = execute(
+            ProcessorState(registerA = 12, flags = Flags(carry = true)),
+            0x40
+        )
+
+        assertEquals(11, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DEC A with underflow`() {
+        val output = execute(
+            ProcessorState(registerA = 0, flags = Flags(carry = true)),
+            0x40
+        )
+
+        assertEquals(255, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+
+    @Test
+    fun `DEC B no underflow`() {
+        val output = execute(
+            ProcessorState(registerB = 12, flags = Flags(carry = true)),
+            0x41
+        )
+
+        assertEquals(11, output.registerB)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DEC B with underflow`() {
+        val output = execute(
+            ProcessorState(registerB = 0, flags = Flags(carry = true)),
+            0x41
+        )
+
+        assertEquals(255, output.registerB)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `DEC C no underflow`() {
+        val output = execute(
+            ProcessorState(registerC = 12, flags = Flags(carry = true)),
+            0x42
+        )
+
+        assertEquals(11, output.registerC)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DEC C with underflow`() {
+        val output = execute(
+            ProcessorState(registerC = 0, flags = Flags(carry = true)),
+            0x42
+        )
+
+        assertEquals(255, output.registerC)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `DEC D no underflow`() {
+        val output = execute(
+            ProcessorState(registerD = 12, flags = Flags(carry = true)),
+            0x43
+        )
+
+        assertEquals(11, output.registerD)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DEC D with underflow`() {
+        val output = execute(
+            ProcessorState(registerD = 0, flags = Flags(carry = true)),
+            0x43
+        )
+
+        assertEquals(255, output.registerD)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `DECC A carry set`() {
+        val output = execute(
+            ProcessorState(registerA = 12, flags = Flags(carry = true)),
+            0x44
+        )
+
+        assertEquals(12, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DECC A carry clear`() {
+        val output = execute(
+            ProcessorState(registerA = 12, flags = Flags(carry = false)),
+            0x44
+        )
+
+        assertEquals(11, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DECC B carry set`() {
+        val output = execute(
+            ProcessorState(registerB = 12, flags = Flags(carry = true)),
+            0x45
+        )
+
+        assertEquals(12, output.registerB)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DECC B carry clear`() {
+        val output = execute(
+            ProcessorState(registerB = 12, flags = Flags(carry = false)),
+            0x45
+        )
+
+        assertEquals(11, output.registerB)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DECC C carry set`() {
+        val output = execute(
+            ProcessorState(registerC = 12, flags = Flags(carry = true)),
+            0x46
+        )
+
+        assertEquals(12, output.registerC)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DECC C carry clear`() {
+        val output = execute(
+            ProcessorState(registerC = 12, flags = Flags(carry = false)),
+            0x46
+        )
+
+        assertEquals(11, output.registerC)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DECC D carry set`() {
+        val output = execute(
+            ProcessorState(registerD = 12, flags = Flags(carry = true)),
+            0x47
+        )
+
+        assertEquals(12, output.registerD)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `DECC D carry clear`() {
+        val output = execute(
+            ProcessorState(registerD = 12, flags = Flags(carry = false)),
+            0x47
+        )
+
+        assertEquals(11, output.registerD)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `INC A no overflow`() {
+        val output = execute(
+            ProcessorState(registerA = 12, flags = Flags(carry = false)),
+            0x48
+        )
+
+        assertEquals(13, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `INC A with overflow`() {
+        val output = execute(
+            ProcessorState(registerA = 255, flags = Flags(carry = true)),
+            0x48
+        )
+
+        assertEquals(0, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `INC B no overflow`() {
+        val output = execute(
+            ProcessorState(registerB = 12, flags = Flags(carry = false)),
+            0x49
+        )
+
+        assertEquals(13, output.registerB)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `INC B with overflow`() {
+        val output = execute(
+            ProcessorState(registerB = 255, flags = Flags(carry = true)),
+            0x49
+        )
+
+        assertEquals(0, output.registerB)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `INC C no overflow`() {
+        val output = execute(
+            ProcessorState(registerC = 12, flags = Flags(carry = false)),
+            0x4a
+        )
+
+        assertEquals(13, output.registerC)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `INC C with overflow`() {
+        val output = execute(
+            ProcessorState(registerC = 255, flags = Flags(carry = true)),
+            0x4a
+        )
+
+        assertEquals(0, output.registerC)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `INC D no overflow`() {
+        val output = execute(
+            ProcessorState(registerD = 12, flags = Flags(carry = false)),
+            0x4b
+        )
+
+        assertEquals(13, output.registerD)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `INC D with overflow`() {
+        val output = execute(
+            ProcessorState(registerD = 255, flags = Flags(carry = true)),
+            0x4b
+        )
+
+        assertEquals(0, output.registerD)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `INCC A carry clear`() {
+        val output = execute(
+            ProcessorState(registerA = 12, flags = Flags(carry = false)),
+            0x4c
+        )
+
+        assertEquals(12, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `INCC A carry set`() {
+        val output = execute(
+            ProcessorState(registerA = 12, flags = Flags(carry = true)),
+            0x4c
+        )
+
+        assertEquals(13, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+    @Test
+    fun `INCC B carry clear`() {
+        val output = execute(
+            ProcessorState(registerB = 12, flags = Flags(carry = false)),
+            0x4d
+        )
+
+        assertEquals(12, output.registerB)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `INCC B carry set`() {
+        val output = execute(
+            ProcessorState(registerB = 12, flags = Flags(carry = true)),
+            0x4d
+        )
+
+        assertEquals(13, output.registerB)
+        assertFalse(output.flags.carry)
+    }
+    @Test
+    fun `INCC C carry clear`() {
+        val output = execute(
+            ProcessorState(registerC = 12, flags = Flags(carry = false)),
+            0x4e
+        )
+
+        assertEquals(12, output.registerC)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `INCC C carry set`() {
+        val output = execute(
+            ProcessorState(registerC = 12, flags = Flags(carry = true)),
+            0x4e
+        )
+
+        assertEquals(13, output.registerC)
+        assertFalse(output.flags.carry)
+    }
+    @Test
+    fun `INCC D carry clear`() {
+        val output = execute(
+            ProcessorState(registerD = 12, flags = Flags(carry = false)),
+            0x4f
+        )
+
+        assertEquals(12, output.registerD)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `INCC D carry set`() {
+        val output = execute(
+            ProcessorState(registerD = 12, flags = Flags(carry = true)),
+            0x4f
+        )
+
+        assertEquals(13, output.registerD)
+        assertFalse(output.flags.carry)
+    }
+
 }
