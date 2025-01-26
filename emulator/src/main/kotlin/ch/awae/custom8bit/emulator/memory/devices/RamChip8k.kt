@@ -44,4 +44,10 @@ data class RamChip8k(val page: Int) : MemoryBusDevice {
         result *= 31
         return result
     }
+
+    fun clear() {
+        for (i in state.indices) {
+            state[i] = 0
+        }
+    }
 }
