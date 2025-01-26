@@ -15,7 +15,7 @@ data class RamChip8k(val page: Int) : MemoryBusDevice {
 
     override fun read(address: Int): Int? {
         return if (addressInRange(address)) {
-            state[(address - page)].toInt()
+            state[(address - page)].toInt() and 0xff
         } else {
             null
         }

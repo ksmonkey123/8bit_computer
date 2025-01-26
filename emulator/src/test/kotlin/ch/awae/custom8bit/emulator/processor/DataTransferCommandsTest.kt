@@ -267,6 +267,54 @@ class DataTransferCommandsTest {
     }
 
     @Test
+    fun `LOAD AB (L)`() {
+        val output = execute(
+            ProcessorState(),
+            0x76, 0x00, 0x04, 0xff, 0x69, 0x96
+        )
+
+        assertEquals(0x69, output.registerA)
+        assertEquals(0x96, output.registerB)
+    }
+
+    @Test
+    fun `LOAD CD (L)`() {
+        val output = execute(
+            ProcessorState(),
+            0x77, 0x00, 0x04, 0xff, 0x69, 0x96
+        )
+
+        assertEquals(0x69, output.registerC)
+        assertEquals(0x96, output.registerD)
+    }
+
+    @Test
+    fun `LOAD AB (CD)`() {
+        val output = execute(
+            ProcessorState(registerC = 0x04, registerD = 0x00),
+            0x78, 0x00, 0x04, 0xff, 0x69, 0x96
+        )
+
+        assertEquals(0x69, output.registerA)
+        assertEquals(0x96, output.registerB)
+        assertEquals(0x04, output.registerC)
+        assertEquals(0x00, output.registerD)
+    }
+
+    @Test
+    fun `LOAD CD (CD)`() {
+        val output = execute(
+            ProcessorState(registerC = 0x04, registerD = 0x00),
+            0x79, 0x00, 0x04, 0xff, 0x69, 0x96
+        )
+
+        assertEquals(0x00, output.registerA)
+        assertEquals(0x00, output.registerB)
+        assertEquals(0x69, output.registerC)
+        assertEquals(0x96, output.registerD)
+    }
+
+    @Test
     fun `LOAD A i`() {
         val output = execute(
             ProcessorState(),
@@ -372,5 +420,40 @@ class DataTransferCommandsTest {
         assertEquals(0x69, ram.read(0xffab))
     }
 
+    @Test
+    fun `STORE AB (L)`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerA = 0x69, registerB = 0x96),
+            0x86, 0xff, 0xab
+        )
+
+        assertEquals(0x69, ram.read(0xffab))
+        assertEquals(0x96, ram.read(0xffac))
+    }
+
+    @Test
+    fun `STORE CD (L)`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerC = 0x69, registerD = 0x96),
+            0x87, 0xff, 0xab
+        )
+
+        assertEquals(0x69, ram.read(0xffab))
+        assertEquals(0x96, ram.read(0xffac))
+    }
+
+    @Test
+    fun `STORE AB (CD)`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerA = 0x69, registerB = 0x96, registerC = 0xab, registerD = 0xff),
+            0x88
+        )
+
+        assertEquals(0x69, ram.read(0xffab))
+        assertEquals(0x96, ram.read(0xffac))
+    }
 
 }

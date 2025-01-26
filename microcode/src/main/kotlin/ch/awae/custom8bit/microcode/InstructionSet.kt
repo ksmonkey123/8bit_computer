@@ -503,7 +503,27 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(0x73, "LOAD D (L)", 2, step0 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_LITERAL)),
     Operation(0x74, "LOAD A (CD)", 0, step0 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_REG_CD)),
     Operation(0x75, "LOAD B (CD)", 0, step0 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_REG_CD)),
-    // 0x76:6b
+    Operation(
+        0x76, "LOAD AB (L)", 2,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_LITERAL),
+        step1 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER),
+    ),
+    Operation(
+        0x77, "LOAD CD (L)", 2,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_LITERAL),
+        step1 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER),
+    ),
+    Operation(
+        0x78, "LOAD AB (CD)", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_REG_CD),
+        step1 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER),
+    ),
+    Operation(
+        0x79, "LOAD CD (CD)", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_REG_CD),
+        step1 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER),
+    ),
+    // 0x7a:6b
     Operation(0x7c, "LOAD A i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_A)),
     Operation(0x7d, "LOAD B i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_B)),
     Operation(0x7e, "LOAD C i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_C)),
@@ -514,6 +534,21 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(0x83, "STORE D (L)", 2, step0 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_LITERAL)),
     Operation(0x84, "STORE A (CD)", 0, step0 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_REG_CD)),
     Operation(0x85, "STORE B (CD)", 0, step0 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_REG_CD)),
+    Operation(
+        0x86, "STORE AB (L)", 2,
+        step0 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_LITERAL),
+        step1 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER),
+    ),
+    Operation(
+        0x87, "STORE CD (L)", 2,
+        step0 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_LITERAL),
+        step1 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER),
+    ),
+    Operation(
+        0x88, "STORE AB (CD)", 0,
+        step0 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_REG_CD),
+        step1 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER),
+    ),
 
 // management operations
     Operation(0xfe, "NOP", 0),
