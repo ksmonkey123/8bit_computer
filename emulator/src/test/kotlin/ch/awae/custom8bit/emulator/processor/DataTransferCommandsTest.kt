@@ -315,6 +315,28 @@ class DataTransferCommandsTest {
     }
 
     @Test
+    fun `LOAD AB i`() {
+        val output = execute(
+            ProcessorState(),
+            0x7a, 0x96, 0x69
+        )
+
+        assertEquals(0x69, output.registerA)
+        assertEquals(0x96, output.registerB)
+    }
+
+    @Test
+    fun `LOAD CD i`() {
+        val output = execute(
+            ProcessorState(),
+            0x7b, 0x96, 0x69
+        )
+
+        assertEquals(0x69, output.registerC)
+        assertEquals(0x96, output.registerD)
+    }
+
+    @Test
     fun `LOAD A i`() {
         val output = execute(
             ProcessorState(),

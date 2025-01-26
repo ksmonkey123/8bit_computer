@@ -523,7 +523,16 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step0 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER),
     ),
-    // 0x7a:6b
+    Operation(
+        0x7a, "LOAD AB i", 2,
+        step0 = MicroOp(READ_LITERAL_1, WRITE_REG_A),
+        step1 = MicroOp(READ_LITERAL_2, WRITE_REG_B),
+    ),
+    Operation(
+        0x7b, "LOAD CD i", 2,
+        step0 = MicroOp(READ_LITERAL_1, WRITE_REG_C),
+        step1 = MicroOp(READ_LITERAL_2, WRITE_REG_D),
+    ),
     Operation(0x7c, "LOAD A i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_A)),
     Operation(0x7d, "LOAD B i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_B)),
     Operation(0x7e, "LOAD C i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_C)),
