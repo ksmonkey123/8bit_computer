@@ -350,13 +350,13 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
-        0x3e, "ISUB (CD)", 2, true,
+        0x3e, "ISUB (CD)", 0, true,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_REG_CD),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
-        0x3f, "ISUBC (CD)", 2,
+        0x3f, "ISUBC (CD)", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_REG_CD),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
