@@ -1,6 +1,7 @@
 package ch.awae.custom8bit.microcode
 
 import ch.awae.custom8bit.microcode.AddressSource.*
+import ch.awae.custom8bit.microcode.AddressTarget.*
 import ch.awae.custom8bit.microcode.AluOperation.*
 import ch.awae.custom8bit.microcode.DataSource.*
 import ch.awae.custom8bit.microcode.DataTarget.*
@@ -557,6 +558,63 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         0x88, "STORE AB (CD)", 0,
         step0 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_REG_CD),
         step1 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER),
+    ),
+    // 0x89:0x8f available
+    Operation(
+        0x90, "PUSH A", 0,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT, WRITE_STACK_POINTER),
+    ),
+    Operation(
+        0x91, "PUSH B", 0,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT, WRITE_STACK_POINTER),
+    ),
+    Operation(
+        0x92, "PUSH C", 0,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT, WRITE_STACK_POINTER),
+    ),
+    Operation(
+        0x93, "PUSH D", 0,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT, WRITE_STACK_POINTER),
+    ),
+    Operation(
+        0x94, "POP A", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_STACK_POINTER),
+        step1 = MicroOp(addressSource = ADR_INCREMENTER, action = WRITE_STACK_POINTER),
+    ),
+    Operation(
+        0x95, "POP B", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_STACK_POINTER),
+        step1 = MicroOp(addressSource = ADR_INCREMENTER, action = WRITE_STACK_POINTER),
+    ),
+    Operation(
+        0x96, "POP C", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_STACK_POINTER),
+        step1 = MicroOp(addressSource = ADR_INCREMENTER, action = WRITE_STACK_POINTER),
+    ),
+    Operation(
+        0x97, "POP D", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_STACK_POINTER),
+        step1 = MicroOp(addressSource = ADR_INCREMENTER, action = WRITE_STACK_POINTER),
+    ),
+    Operation(
+        0x98, "PEEK A", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_STACK_POINTER),
+    ),
+    Operation(
+        0x99, "PEEK B", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_STACK_POINTER),
+    ),
+    Operation(
+        0x9a, "PEEK C", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_STACK_POINTER),
+    ),
+    Operation(
+        0x9b, "PEEK D", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_STACK_POINTER),
     ),
 
 // management operations
