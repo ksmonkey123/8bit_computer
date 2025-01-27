@@ -1,0 +1,64 @@
+Cmd,carry,sign,shouldBranch
+# bcc - branch carry clear
+0xb0,false,-1,true
+0xb0,false,0,true
+0xb0,false,1,true
+0xb0,true,-1,false
+0xb0,true,0,false
+0xb0,true,1,false
+# bcs - branch carry set
+0xb1,false,-1,false
+0xb1,false,0,false
+0xb1,false,1,false
+0xb1,true,-1,true
+0xb1,true,0,true
+0xb1,true,1,true
+# bz - branch if zero
+0xb2,false,-1,false
+0xb2,false,0,true
+0xb2,false,1,false
+0xb2,true,-1,false
+0xb2,true,0,true
+0xb2,true,1,false
+# bnz - branch if zero
+0xb3,false,-1,true
+0xb3,false,0,false
+0xb3,false,1,true
+0xb3,true,-1,true
+0xb3,true,0,false
+0xb3,true,1,true
+# blz - branch if less than zero
+0xb4,false,-1,true
+0xb4,false,0,false
+0xb4,false,1,false
+0xb4,true,-1,true
+0xb4,true,0,false
+0xb4,true,1,false
+# bgz - branch if greater than zero
+0xb5,false,-1,false
+0xb5,false,0,false
+0xb5,false,1,true
+0xb5,true,-1,false
+0xb5,true,0,false
+0xb5,true,1,true
+# blez - branch if less than or equal to zero
+0xb6,false,-1,true
+0xb6,false,0,true
+0xb6,false,1,false
+0xb6,true,-1,true
+0xb6,true,0,true
+0xb6,true,1,false
+# bgez - branch if greater than or equal to zero
+0xb7,false,-1,false
+0xb7,false,0,true
+0xb7,false,1,true
+0xb7,true,-1,false
+0xb7,true,0,true
+0xb7,true,1,true
+# goto - branch unconditionally
+0xb8,false,-1,true
+0xb8,false,0,true
+0xb8,false,1,true
+0xb8,true,-1,true
+0xb8,true,0,true
+0xb8,true,1,true

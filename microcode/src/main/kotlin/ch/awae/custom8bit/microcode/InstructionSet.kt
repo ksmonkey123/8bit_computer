@@ -482,6 +482,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_D, action = COMPLEMENT),
     ),
+    // 0x58:5f [8] available
     Operation(0x60, "MOV A A", 0, step0 = MicroOp(READ_REG_A, WRITE_REG_A)),
     Operation(0x61, "MOV A B", 0, step0 = MicroOp(READ_REG_B, WRITE_REG_A)),
     Operation(0x62, "MOV A C", 0, step0 = MicroOp(READ_REG_C, WRITE_REG_A)),
@@ -559,7 +560,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step0 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_REG_CD),
         step1 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER),
     ),
-    // 0x89:0x8f available
+    // 0x89:8f [7] available
     Operation(
         0x90, "PUSH A", 0,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
@@ -616,8 +617,63 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         0x9b, "PEEK D", 0,
         step0 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_STACK_POINTER),
     ),
-
-// management operations
+    // 0x9c:9f [4] available
+    // 0xa0:af [16] available
+    Operation(
+        0xb0, "BCC i", 2,
+        step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_CLEAR),
+    ),
+    Operation(
+        0xb1, "BCS i", 2,
+        step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_SET),
+    ),
+    Operation(
+        0xb2, "BZ i", 2,
+        step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.ZERO),
+    ),
+    Operation(
+        0xb3, "BNZ i", 2,
+        step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_ZERO),
+    ),
+    Operation(
+        0xb4, "BLZ i", 2,
+        step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NEGATIVE),
+    ),
+    Operation(
+        0xb5, "BGZ i", 2,
+        step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.POSITIVE),
+    ),
+    Operation(
+        0xb6, "BLEZ i", 2,
+        step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_POSITIVE),
+    ),
+    Operation(
+        0xb7, "BGEZ i", 2,
+        step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_NEGATIVE),
+    ),
+    Operation(
+        0xb8, "GOTO i", 2,
+        step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC)
+    ),
+    // 0xb9 [1] available
+    Operation(
+        0xba, "CALL i", 2,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_PC_HIGH, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT),
+        step2 = MicroOp(READ_PC_LOW, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT, WRITE_STACK_POINTER),
+        step3 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC),
+    ),
+    Operation(
+        0xbb, "RETURN", 0,
+        step0 = MicroOp(READ_MEMORY, WRITE_PC_LOW, ADR_STACK_POINTER),
+        step1 = MicroOp(READ_MEMORY, WRITE_PC_HIGH, ADR_INCREMENTER),
+        step2 = MicroOp(addressSource = ADR_INCREMENTER, action = WRITE_STACK_POINTER),
+    ),
+    // 0xbc:bf [4] available
+    // 0xc0:cf [16] available
+    // 0xd0:df [16] available
+    // 0xe0:ef [16] available
+    // 0xf0:fd [14] available
     Operation(0xfe, "NOP", 0),
     Operation(0xff, "HALT", 0, halt = true),
 )
