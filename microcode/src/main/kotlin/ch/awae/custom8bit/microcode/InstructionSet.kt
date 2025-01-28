@@ -618,7 +618,31 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step0 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_STACK_POINTER),
     ),
     // 0x9c:9f [4] available
-    // 0xa0:af [16] available
+    Operation(
+        0xa0, "DECBNZ A", 2, false,
+        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = DECREMENT),
+        step2 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_ZERO),
+    ),
+    Operation(
+        0xa1, "DECBNZ B", 2, false,
+        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_B, action = DECREMENT),
+        step2 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_ZERO),
+    ),
+    Operation(
+        0xa2, "DECBNZ C", 2, false,
+        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_C, action = DECREMENT),
+        step2 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_ZERO),
+    ),
+    Operation(
+        0xa3, "DECBNZ D", 2, false,
+        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_D, action = DECREMENT),
+        step2 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_ZERO),
+    ),
+    // 0xa4:af [12] available
     Operation(
         0xb0, "BCC i", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_CLEAR),

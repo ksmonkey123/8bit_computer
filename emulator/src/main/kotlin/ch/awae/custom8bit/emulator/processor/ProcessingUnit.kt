@@ -7,6 +7,11 @@ class ProcessingUnit(
     private val memoryBus: MemoryBus,
 ) {
 
+    data class Statistics(val instructionCount: Int, val stepCount: Int)
+
+    var statistics = Statistics(0, 0)
+        private set
+
     fun singleStep(state: ProcessorState): ProcessorState {
         if (state.halted) {
             throw IllegalStateException("halted state")
@@ -25,7 +30,9 @@ class ProcessingUnit(
         var state = inputState
         do {
             state = singleStep(state)
+            statistics = statistics.copy(stepCount = statistics.stepCount + 1)
         } while (!state.halted && state.stepCounter != 0)
+        statistics = statistics.copy(instructionCount = statistics.instructionCount + 1)
         return state
     }
 
