@@ -4,7 +4,7 @@ program: (section)+ EOF;
 
 section
     : '.code' startAt=numericLiteral EOL+ (statement EOL+)+ #codeSection
-    | '.vars' startAt=numericLiteral EOL+ (variableStatement EOL+)+ #variableSection
+    | '.vars' startAt=numericLiteral? EOL+ (variableStatement EOL+)+ #variableSection
     | '.data' EOL+ (dataStatement EOL+)+ #dataSection
     ;
 
@@ -25,11 +25,11 @@ listOfNumbers
 
 fieldDeclaration
     : SYMBOL '[' size=numericExpression ']' #fieldWithSize
-    | SYMBOL #simpleField
+//    | SYMBOL #simpleField
     ;
 
 statement
-    : label instruction #labelledInstruction
+    : label EOL* instruction #labelledInstruction
     | instruction       #normalInstruction
     ;
 
@@ -45,11 +45,15 @@ instruction
     ;
 
 binaryAluInstruction: operation=binaryAluOp source=binaryAluOpSrc;
-binaryAluOp: 'and' | 'ior' | 'xor' | 'swap' | 'add' | 'addc' | 'sub' | 'subc' | 'isub' | 'isubc';
-binaryAluOpSrc: register | literalValue | addressingExpression;
+binaryAluOp: 'and' | 'ior' | 'xor' | 'add' | 'addc' | 'sub' | 'subc' | 'isub' | 'isubc';
+binaryAluOpSrc
+    : register8 #binaryAluOpRegisterSource
+    | literalValue #binaryAluOpLiteralSource
+    | addressingExpression # binaryAluOpAddressingSource
+    ;
 
-unaryAluInstruction: operation=unaryAluOp register;
-unaryAluOp: 'not' | 'shl' | 'rcl' | 'rl' | 'ushr' | 'ashr' | 'rrc' | 'rr' | 'inc' | 'incc' | 'dec' | 'decc' | 'comp' | 'compc';
+unaryAluInstruction: operation=unaryAluOp register8;
+unaryAluOp: 'not' | 'shl' | 'rcl' | 'rl' | 'ushr' | 'ashr' | 'rrc' | 'rr' | 'inc' | 'incc' | 'dec' | 'decc' | 'comp' | 'compc' | 'swap';
 
 moveInstruction
     : 'mov' to=register from=register   #movCopy
@@ -57,7 +61,10 @@ moveInstruction
     | 'mov' to=moveTarget from=register #movStore
     ;
 moveTarget: addressingExpression;
-moveSource: literalValue | addressingExpression;
+moveSource
+    : literalValue #literalMoveSource
+    | addressingExpression #addressedMoveSource
+    ;
 
 stackInstruction: operation=('push' | 'pop' | 'peek') register;
 branchInstruction: operation=('bcc' | 'bcs' | 'bz' | 'bnz' | 'blz' | 'bgz' | 'blez' | 'bgez' | 'goto' | 'call') branchTarget;
