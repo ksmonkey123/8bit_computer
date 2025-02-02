@@ -392,7 +392,17 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step0 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_REG_CD),
         step1 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER),
     ),
-    // 0x89:8b [3] available
+    // 0x89 [1] available
+    Operation(
+        0x8a, "SALLOC i8", 1,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(addressSource = ADR_INCREMENTER_OFFSET_NEGATIVE, action = WRITE_STACK_POINTER),
+    ),
+    Operation(
+        0x8b, "SFREE i8", 1,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(addressSource = ADR_INCREMENTER_OFFSET_POSITIVE, action = WRITE_STACK_POINTER),
+    ),
     Operation(
         0x8c, "PEEK AB", 0,
         step0 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_STACK_POINTER),

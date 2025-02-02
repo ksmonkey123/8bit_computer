@@ -30,6 +30,8 @@ enum class AddressSource(val port: Int) {
     ADR_INCREMENTER(2),
     ADR_INCREMENTER_DECREMENT(3),
     ADR_STACK_POINTER(4),
+    ADR_INCREMENTER_OFFSET_POSITIVE(5),
+    ADR_INCREMENTER_OFFSET_NEGATIVE(6),
 }
 
 sealed interface Action {

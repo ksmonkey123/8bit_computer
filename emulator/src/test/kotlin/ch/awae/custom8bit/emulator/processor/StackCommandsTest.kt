@@ -267,4 +267,24 @@ class StackCommandsTest {
         assertEquals(0xfeda, output.stackPointer)
     }
 
+    @Test
+    fun salloc() {
+        val output = execute(
+            ProcessorState(stackPointer = 0xfeda),
+            0x8a, 0x10
+        )
+
+        assertEquals(0xfeca, output.stackPointer)
+    }
+
+    @Test
+    fun sfree() {
+        val output = execute(
+            ProcessorState(stackPointer = 0xfeca),
+            0x8b, 0x10
+        )
+
+        assertEquals(0xfeda, output.stackPointer)
+    }
+
 }

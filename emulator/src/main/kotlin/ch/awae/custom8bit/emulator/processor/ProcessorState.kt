@@ -22,6 +22,8 @@ data class ProcessorState(
         AddressSource.ADR_INCREMENTER -> (incrementRegister + 1) and 0xffff
         AddressSource.ADR_INCREMENTER_DECREMENT -> (incrementRegister - 1) and 0xffff
         AddressSource.ADR_STACK_POINTER -> stackPointer and 0xffff
+        AddressSource.ADR_INCREMENTER_OFFSET_POSITIVE -> (incrementRegister + (literal1 and 0x00ff)) and 0xffff
+        AddressSource.ADR_INCREMENTER_OFFSET_NEGATIVE -> (incrementRegister - (literal1 and 0x00ff)) and 0xffff
     }
 }
 
