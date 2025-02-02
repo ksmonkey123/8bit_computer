@@ -478,4 +478,31 @@ class DataTransferCommandsTest {
         assertEquals(0x96, ram.read(0xffac))
     }
 
+    @Test
+    fun `mov ab cd`() {
+        val output = execute(
+            ProcessorState(registerA = 0x69, registerB = 0x96, registerC = 0xab, registerD = 0xba),
+            0x8e
+        )
+
+        assertEquals(0xab, output.registerA)
+        assertEquals(0xba, output.registerB)
+        assertEquals(0xab, output.registerC)
+        assertEquals(0xba, output.registerD)
+    }
+
+    @Test
+    fun `mov cd ab`() {
+        val output = execute(
+            ProcessorState(registerA = 0x69, registerB = 0x96, registerC = 0xab, registerD = 0xba),
+            0x8f
+        )
+
+        assertEquals(0x69, output.registerA)
+        assertEquals(0x96, output.registerB)
+        assertEquals(0x69, output.registerC)
+        assertEquals(0x96, output.registerD)
+    }
+
+
 }

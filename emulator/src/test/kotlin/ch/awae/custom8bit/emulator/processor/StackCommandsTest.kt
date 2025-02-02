@@ -180,5 +180,91 @@ class StackCommandsTest {
         assertEquals(0xfedb, output.stackPointer)
     }
 
+    @Test
+    fun `push ab`() {
+        ram.clear()
+        val output = execute(
+            ProcessorState(registerA = 0x69, registerB = 0x96, stackPointer = 0xfedc),
+            0x9c
+        )
+
+        assertEquals(0xfeda, output.stackPointer)
+        assertEquals(0x69, ram.read(0xfeda))
+        assertEquals(0x96, ram.read(0xfedb))
+    }
+
+    @Test
+    fun `push cd`() {
+        ram.clear()
+        val output = execute(
+            ProcessorState(registerC = 0x69, registerD = 0x96, stackPointer = 0xfedc),
+            0x9d
+        )
+
+        assertEquals(0xfeda, output.stackPointer)
+        assertEquals(0x69, ram.read(0xfeda))
+        assertEquals(0x96, ram.read(0xfedb))
+    }
+
+    @Test
+    fun `pop ab`() {
+        ram.clear()
+        ram.write(0xfeda, 0x69)
+        ram.write(0xfedb, 0x96)
+        val output = execute(
+            ProcessorState(stackPointer = 0xfeda),
+            0x9e
+        )
+
+        assertEquals(0x69, output.registerA)
+        assertEquals(0x96, output.registerB)
+        assertEquals(0xfedc, output.stackPointer)
+    }
+
+    @Test
+    fun `pop cd`() {
+        ram.clear()
+        ram.write(0xfeda, 0x69)
+        ram.write(0xfedb, 0x96)
+        val output = execute(
+            ProcessorState(stackPointer = 0xfeda),
+            0x9f
+        )
+
+        assertEquals(0x69, output.registerC)
+        assertEquals(0x96, output.registerD)
+        assertEquals(0xfedc, output.stackPointer)
+    }
+
+
+    @Test
+    fun `peek ab`() {
+        ram.clear()
+        ram.write(0xfeda, 0x69)
+        ram.write(0xfedb, 0x96)
+        val output = execute(
+            ProcessorState(stackPointer = 0xfeda),
+            0x8c
+        )
+
+        assertEquals(0x69, output.registerA)
+        assertEquals(0x96, output.registerB)
+        assertEquals(0xfeda, output.stackPointer)
+    }
+
+    @Test
+    fun `peek cd`() {
+        ram.clear()
+        ram.write(0xfeda, 0x69)
+        ram.write(0xfedb, 0x96)
+        val output = execute(
+            ProcessorState(stackPointer = 0xfeda),
+            0x8d
+        )
+
+        assertEquals(0x69, output.registerC)
+        assertEquals(0x96, output.registerD)
+        assertEquals(0xfeda, output.stackPointer)
+    }
 
 }

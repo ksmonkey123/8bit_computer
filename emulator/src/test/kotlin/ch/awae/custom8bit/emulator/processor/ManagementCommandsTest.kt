@@ -28,6 +28,49 @@ class ManagementCommandsTest {
 
     private fun execute(inputState: ProcessorState, vararg programBytes: Int) = execute(programBytes, inputState)
 
+    @Test
+    fun `carry clear`() {
+        val output = execute(
+            ProcessorState(
+                registerA = 12,
+                registerB = 24,
+                registerC = 36,
+                registerD = 48,
+                flags = Flags(carry = true, zero = true, negative = false)
+            ),
+            0xfc
+        )
+
+        assertEquals(12, output.registerA)
+        assertEquals(24, output.registerB)
+        assertEquals(36, output.registerC)
+        assertEquals(48, output.registerD)
+        assertEquals(false, output.flags.carry)
+        assertEquals(true, output.flags.zero)
+        assertEquals(false, output.flags.negative)
+    }
+
+    @Test
+    fun `carry set`() {
+        val output = execute(
+            ProcessorState(
+                registerA = 12,
+                registerB = 24,
+                registerC = 36,
+                registerD = 48,
+                flags = Flags(carry = false, zero = true, negative = false)
+            ),
+            0xfd
+        )
+
+        assertEquals(12, output.registerA)
+        assertEquals(24, output.registerB)
+        assertEquals(36, output.registerC)
+        assertEquals(48, output.registerD)
+        assertEquals(true, output.flags.carry)
+        assertEquals(true, output.flags.zero)
+        assertEquals(false, output.flags.negative)
+    }
 
     @Test
     fun `nop`() {
