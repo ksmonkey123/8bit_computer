@@ -14,10 +14,13 @@ fun main() {
             mov *output A
             mov D #11
         loop:
+            cclr
             add B
             mov *output A
             swap B
-            decbnz D loop
+            cclr
+            dec D
+            bnz loop
             halt
     """.trimIndent()
 

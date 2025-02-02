@@ -19,7 +19,7 @@ data class BinaryAluInstruction(
 
 
 enum class BinaryAluOperation {
-    AND, IOR, XOR, ADD, ADDC, SUB, SUBC, ISUB, ISUBC
+    AND, IOR, XOR, ADD, SUB
 }
 
 sealed interface BinaryAluOpSource
@@ -82,7 +82,7 @@ data class UnaryAluInstruction(
 }
 
 enum class UnaryAluOperation {
-    NOT, SHL, RCL, RL, USHR, ASHR, RRC, RR, INC, INCC, DEC, DECC, COMP, COMPC, SWAP
+    NOT, SHL, RCL, RL, USHR, ASHR, RRC, RR, INC, DEC, COMP, SWAP
 }
 
 fun AssemblerParser.UnaryAluInstructionContext.toInstruction(): UnaryAluInstruction {
@@ -174,10 +174,6 @@ data class DecrementAndBranchInstruction(val register: Register8, val target: St
     override val size = 3
 }
 
-fun AssemblerParser.DecrementAndBranchInstructionContext.toInstruction(): DecrementAndBranchInstruction {
-    return DecrementAndBranchInstruction(this.register8().toRegister(), this.branchTarget().SYMBOL().text)
-}
-
 data object ReturnInstruction : Instruction {
     override val size = 1
 }
@@ -190,11 +186,17 @@ data object NopInstruction : Instruction {
     override val size = 1
 }
 
+data class CarryUpdateInstruction(val value: Boolean) : Instruction {
+    override val size = 1
+}
+
 fun AssemblerParser.SimpleInstructionContext.toInstruction(): Instruction {
     return when (this.operation.text) {
         "return" -> ReturnInstruction
         "nop" -> NopInstruction
         "halt" -> HaltInstruction
+        "cclr" -> CarryUpdateInstruction(false)
+        "cset" -> CarryUpdateInstruction(true)
         else -> TODO("unsupported operation $this")
     }
 }
@@ -205,7 +207,6 @@ fun AssemblerParser.InstructionContext.toInstruction(): Instruction {
     this.moveInstruction()?.let { return it.toInstruction() }
     this.stackInstruction()?.let { return it.toInstruction() }
     this.branchInstruction()?.let { return it.toInstruction() }
-    this.decrementAndBranchInstruction()?.let { return it.toInstruction() }
     this.simpleInstruction()?.let { return it.toInstruction() }
     TODO("unsupported instruction $this")
 }

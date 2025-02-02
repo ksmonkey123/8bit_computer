@@ -40,12 +40,11 @@ instruction
     | moveInstruction
     | stackInstruction
     | branchInstruction
-    | decrementAndBranchInstruction
     | simpleInstruction
     ;
 
 binaryAluInstruction: operation=binaryAluOp source=binaryAluOpSrc;
-binaryAluOp: 'and' | 'ior' | 'xor' | 'add' | 'addc' | 'sub' | 'subc' | 'isub' | 'isubc';
+binaryAluOp: 'and' | 'ior' | 'xor' | 'add' | 'sub';
 binaryAluOpSrc
     : register8 #binaryAluOpRegisterSource
     | literalValue #binaryAluOpLiteralSource
@@ -53,7 +52,7 @@ binaryAluOpSrc
     ;
 
 unaryAluInstruction: operation=unaryAluOp register8;
-unaryAluOp: 'not' | 'shl' | 'rcl' | 'rl' | 'ushr' | 'ashr' | 'rrc' | 'rr' | 'inc' | 'incc' | 'dec' | 'decc' | 'comp' | 'compc' | 'swap';
+unaryAluOp: 'not' | 'shl' | 'rcl' | 'rl' | 'ushr' | 'ashr' | 'rrc' | 'rr' | 'inc' | 'dec' | 'comp' | 'swap';
 
 moveInstruction
     : 'mov' to=register from=register   #movCopy
@@ -68,8 +67,7 @@ moveSource
 
 stackInstruction: operation=('push' | 'pop' | 'peek') register;
 branchInstruction: operation=('bcc' | 'bcs' | 'bz' | 'bnz' | 'blz' | 'bgz' | 'blez' | 'bgez' | 'goto' | 'call') branchTarget;
-simpleInstruction: operation=('return' | 'nop' | 'halt');
-decrementAndBranchInstruction: operation='decbnz' reg=register8 branchTarget;
+simpleInstruction: operation=('return' | 'nop' | 'halt' | 'cclr' | 'cset' );
 
 branchTarget: SYMBOL;
 register: REGISTER_A | REGISTER_B | REGISTER_C | REGISTER_D | REGISTER_AB | REGISTER_CD;
