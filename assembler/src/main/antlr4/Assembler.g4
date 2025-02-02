@@ -38,9 +38,9 @@ instruction
     : binaryAluInstruction
     | unaryAluInstruction
     | moveInstruction
-    | stackInstruction
     | branchInstruction
     | simpleInstruction
+    | stackManipulationInstruction
     ;
 
 binaryAluInstruction: operation=binaryAluOp source=binaryAluOpSrc;
@@ -54,8 +54,11 @@ binaryAluOpSrc
 unaryAluInstruction: operation=unaryAluOp register8;
 unaryAluOp: 'not' | 'shl' | 'rcl' | 'rl' | 'ushr' | 'ashr' | 'rrc' | 'rr' | 'inc' | 'dec' | 'comp' | 'swap';
 
+stackManipulationInstruction : op=('salloc'|'sfree') size=numericExpression;
+
 moveInstruction
-    : 'mov' to=register from=register   #movCopy
+    : 'mov' to=register8 from=register8 #movCopy8
+    | 'mov' to=register16 from=register16 #movCopy16
     | 'mov' to=register from=moveSource #movLoad
     | 'mov' to=moveTarget from=register #movStore
     ;
@@ -65,18 +68,26 @@ moveSource
     | addressingExpression #addressedMoveSource
     ;
 
-stackInstruction: operation=('push' | 'pop' | 'peek') register;
 branchInstruction: operation=('bcc' | 'bcs' | 'bz' | 'bnz' | 'blz' | 'bgz' | 'blez' | 'bgez' | 'goto' | 'call') branchTarget;
 simpleInstruction: operation=('return' | 'nop' | 'halt' | 'cclr' | 'cset' );
 
 branchTarget: SYMBOL;
 register: REGISTER_A | REGISTER_B | REGISTER_C | REGISTER_D | REGISTER_AB | REGISTER_CD;
 register8: REGISTER_A | REGISTER_B | REGISTER_C | REGISTER_D;
+register16: REGISTER_AB | REGISTER_CD;
 literalValue: '#' numericExpression;
 addressingExpression
     : '*' numericExpression #literalAdrExpr
     | '*' SYMBOL #symbolAdr
+    | '*SP' # stackAdrExpr
     | '*CD' #dynamicAdrExpr
+    | '*(' complexAddressingExpression ')' #complexAddressing
+    ;
+
+complexAddressingExpression
+    : 'CD' '+' numericExpression #registerOffsetAddressing
+    | 'SP' '+' numericExpression #stackOffsetAddressing
+    | SYMBOL '+' numericExpression #symbolOffsetAddressing
     ;
 
 numericExpression: numericLiteral;
