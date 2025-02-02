@@ -504,5 +504,101 @@ class DataTransferCommandsTest {
         assertEquals(0x96, output.registerD)
     }
 
+    @Test
+    fun `LOAD A (SP + l)`() {
+        ram.clear()
+        ram.write(0xfdac, 0x69)
+        val output = execute(
+            ProcessorState(stackPointer = 0xfda0),
+            0x50, 0x0c
+        )
+
+        assertEquals(0x69, output.registerA)
+    }
+
+    @Test
+    fun `LOAD B (SP + l)`() {
+        ram.clear()
+        ram.write(0xfdac, 0x69)
+        val output = execute(
+            ProcessorState(stackPointer = 0xfda0),
+            0x51, 0x0c
+        )
+
+        assertEquals(0x69, output.registerB)
+    }
+
+    @Test
+    fun `LOAD C (SP + l)`() {
+        ram.clear()
+        ram.write(0xfdac, 0x69)
+        val output = execute(
+            ProcessorState(stackPointer = 0xfda0),
+            0x52, 0x0c
+        )
+
+        assertEquals(0x69, output.registerC)
+    }
+
+    @Test
+    fun `LOAD D (SP + l)`() {
+        ram.clear()
+        ram.write(0xfdac, 0x69)
+        val output = execute(
+            ProcessorState(stackPointer = 0xfda0),
+            0x53, 0x0c
+        )
+
+        assertEquals(0x69, output.registerD)
+    }
+
+    @Test
+    fun `STORE A (SP + l)`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerA = 0x69, stackPointer = 0xfda0),
+            0x54, 0x0a
+        )
+
+        assertEquals(0x69, ram.read(0xfdaa))
+    }
+
+    @Test
+    fun `STORE B (SP + l)`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerB = 0x69, stackPointer = 0xfda0),
+            0x55, 0x0a
+        )
+
+        assertEquals(0x69, ram.read(0xfdaa))
+    }
+
+    @Test
+    fun `STORE C (SP + l)`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerC = 0x69, stackPointer = 0xfda0),
+            0x56, 0x0a
+        )
+
+        assertEquals(0x69, ram.read(0xfdaa))
+    }
+
+    @Test
+    fun `STORE D (SP + l)`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerD = 0x69, stackPointer = 0xfda0),
+            0x57, 0x0a
+        )
+
+        assertEquals(0x69, ram.read(0xfdaa))
+    }
+
+    @Test
+    fun `LOAD A (CD + i8)`() {
+
+    }
 
 }
