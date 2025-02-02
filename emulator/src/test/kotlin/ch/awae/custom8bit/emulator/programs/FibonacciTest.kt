@@ -42,12 +42,16 @@ class FibonacciTest {
             // LOAD D 10
             0x7f, 0x0a,
             // start of loop, address is 0x0006
+            // carry clear
+            0xfc,
             // ADD B
             0x20,
             // SWAP B
             0x1d,
+            // carry clear
+            0xfc,
             // DEC D
-            0x43,
+            0x33,
             // continue loop if D > 0
             // BNZ 0x0006
             0xb3, 0x00, 0x06,
@@ -71,42 +75,19 @@ class FibonacciTest {
             // LOAD D 10
             0x7f, 0x0a,
             // start of loop, address is 0x0005
+            // cclr
+            0xfc,
             // ADD B
             0x20,
             // SWAP B
             0x1d,
+            // cclr
+            0xfc,
             // DEC D
-            0x43,
+            0x33,
             // continue loop if D > 0
             // BNZ 0x0005
             0xb3, 0x00, 0x05,
-            // we are done, the result lies in B. move to A
-            // MOV A B
-            0x61,
-            // HALT
-            0xff,
-        )
-
-        val output = executeProgram(programm)
-
-        assertEquals(144, output.registerA)
-    }
-
-    @Test
-    fun testFibonacci_optimized() {
-        val programm = intArrayOf(
-            // LOAD AB 0x0101
-            0x7a, 0x01, 0x01,
-            // LOAD D 10
-            0x7f, 0x0a,
-            // start of loop, address is 0x0005
-            // ADD B
-            0x20,
-            // SWAP B
-            0x1d,
-            // continue loop if (--D) > 0
-            // DECBNZ D 0x0005
-            0xa3, 0x00, 0x05,
             // we are done, the result lies in B. move to A
             // MOV A B
             0x61,
@@ -133,6 +114,8 @@ class FibonacciTest {
             // LOAD D 11
             0x7f, 0x0b,
             // start of loop, address is 0x000b
+            // cclr
+            0xfc,
             // ADD B
             0x20,
             // STORE A 0x2000 (send next number)
@@ -140,8 +123,12 @@ class FibonacciTest {
             // SWAP B
             0x1d,
             // continue loop if (--D) > 0
-            // DECBNZ D 0x000b
-            0xa3, 0x00, 0x0b,
+            // cclr
+            0xfc,
+            // dec d
+            0x33,
+            // bnz 0x000b
+            0xb3, 0x00, 0x0b,
             // HALT
             0xff,
         )
