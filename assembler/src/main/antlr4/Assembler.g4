@@ -18,10 +18,7 @@ dataStatement
     | fieldDeclaration '=' '[' value=listOfNumbers ']' #arrayConstant
     ;
 
-listOfNumbers
-    : numericExpression ',' listOfNumbers #listWithContinuation
-    | numericExpression #finalElementOfList
-    ;
+listOfNumbers: numericExpression (',' listOfNumbers)?;
 
 fieldDeclaration
     : SYMBOL '[' size=numericExpression ']' #fieldWithSize

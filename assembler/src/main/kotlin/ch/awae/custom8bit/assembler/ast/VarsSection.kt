@@ -38,7 +38,7 @@ fun AssemblerParser.VariableSectionContext.toVarsSection(): VarsSection {
                 fixedPlace.add(statement.pos.toInt() to statement.fieldDeclaration().toFieldDeclaration())
             }
 
-            else -> TODO("unsupported type ${statement.javaClass}")
+            else -> throw ParsingException(this)
         }
     }
 
@@ -87,7 +87,7 @@ fun AssemblerParser.FieldDeclarationContext.toFieldDeclaration(): FieldDeclarati
     when (this) {
         //is AssemblerParser.SimpleFieldContext -> FieldDeclaration(this.SYMBOL().text, 1)
         is AssemblerParser.FieldWithSizeContext -> FieldDeclaration(this.SYMBOL().text, this.size.toInt())
-        else -> TODO("unsupported type: ${this.javaClass}")
+        else -> throw ParsingException(this)
     }
 
 

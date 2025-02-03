@@ -5,6 +5,9 @@ import ch.awae.custom8bit.assembler.parser.*
 fun main() {
 
     val simplestProgram = """
+        .data
+            limit[1] = 11
+        
         .vars
         0x2000: output[1]
         
