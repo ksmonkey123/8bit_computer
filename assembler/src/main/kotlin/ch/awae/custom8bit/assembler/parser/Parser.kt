@@ -71,7 +71,11 @@ fun AssemblerParser.ShiftInstructionContext.toInstruction(): Instruction {
 }
 
 fun AssemblerParser.SwapInstructionContext.toInstruction(): Instruction {
-    return SwapInstruction(this.register8NotA().toRegister())
+    return SwapInstruction(
+        this.register8NotA()?.toRegister()
+            ?: this.addressingExpression()?.toAddressingExpression()
+            ?: throw ParsingException(this)
+    )
 }
 
 

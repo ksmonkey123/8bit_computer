@@ -31,15 +31,17 @@ enum class Register16 : Register {
     AB, CD
 }
 
-enum class Register8 : Register, BinaryAluOpSource {
+enum class Register8 : Register, BinaryAluOpSource, SwapTarget {
     A, B, C, D
 }
+
+sealed interface SwapTarget
 
 sealed interface MoveSource
 
 data class LiteralSource(val value: Int) : BinaryAluOpSource, MoveSource
 
-sealed interface AddressingExpression : BinaryAluOpSource, MoveSource
+sealed interface AddressingExpression : BinaryAluOpSource, MoveSource, SwapTarget
 
 data class LiteralAddressing(val value: Int) : AddressingExpression
 data class SymbolicAddressing(val symbol: String, val offset: Int = 0) : AddressingExpression
@@ -65,8 +67,14 @@ enum class UnaryAluOperation {
     NOT, INC, DEC, COMP
 }
 
-data class SwapInstruction(val register: Register8) : Instruction {
-    override val size = 1
+data class SwapInstruction(val target: SwapTarget) : Instruction {
+    override val size = when(target) {
+        is Register -> 1
+        is LiteralAddressing -> 3
+        is RegisterCDAddressing -> 2
+        is StackAddressing -> 2
+        is SymbolicAddressing -> 3
+    }
 }
 
 data class RegisterCopyInstruction(val from: Register, val to: Register) : Instruction {
@@ -78,7 +86,7 @@ data class RegisterLoadInstruction(val from: MoveSource, val to: Register) : Ins
         is LiteralAddressing -> 3
         is RegisterCDAddressing -> 2
         is StackAddressing -> 2
-        is SymbolicAddressing -> 2
+        is SymbolicAddressing -> 3
         is LiteralSource -> if (to is Register16) 3 else 2
     }
 }

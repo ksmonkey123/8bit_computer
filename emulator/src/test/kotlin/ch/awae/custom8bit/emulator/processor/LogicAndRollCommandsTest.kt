@@ -10,6 +10,7 @@ import kotlin.test.*
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class LogicAndRollCommandsTest {
 
+    private val ram = RamChip8k(57344)
     private val microcode = Microcode(Compiler.compileInstructionSet(INSTRUCTION_SET))
 
     private fun execute(
@@ -17,7 +18,7 @@ class LogicAndRollCommandsTest {
         inputState: ProcessorState = ProcessorState()
     ): ProcessorState {
         val code = program.map { it.toByte() }.toByteArray()
-        val pu = ProcessingUnit(microcode, StandardMemoryBus(RomChip8k(0, code)))
+        val pu = ProcessingUnit(microcode, StandardMemoryBus(RomChip8k(0, code), ram))
         return pu.executeNextCommand(inputState)
     }
 
@@ -463,7 +464,7 @@ class LogicAndRollCommandsTest {
     fun `swp B`() {
         val output = execute(
             ProcessorState(registerA = 0b01101001, registerB = 0b00110011),
-            0x45
+            0x48
         )
 
         assertEquals(0b00110011, output.registerA)
@@ -474,7 +475,7 @@ class LogicAndRollCommandsTest {
     fun `swp C`() {
         val output = execute(
             ProcessorState(registerA = 0b01101001, registerC = 0b00110011),
-            0x46
+            0x49
         )
 
         assertEquals(0b00110011, output.registerA)
@@ -485,11 +486,51 @@ class LogicAndRollCommandsTest {
     fun `swp D`() {
         val output = execute(
             ProcessorState(registerA = 0b01101001, registerD = 0b00110011),
-            0x47
+            0x4a
         )
 
         assertEquals(0b00110011, output.registerA)
         assertEquals(0b01101001, output.registerD)
     }
+
+    @Test
+    fun `swp (L)`() {
+        ram.clear()
+        ram.write(0xffab, 0x33)
+        val output = execute(
+            ProcessorState(registerA = 0x69),
+            0x4b, 0xff, 0xab,
+        )
+
+        assertEquals(0x33, output.registerA)
+        assertEquals(0x69, ram.read(0xffab))
+    }
+
+    @Test
+    fun `swp (CD + L)`() {
+        ram.clear()
+        ram.write(0xffab, 0x33)
+        val output = execute(
+            ProcessorState(registerA = 0x69, registerC = 0xaa, registerD = 0xff),
+            0x4c, 0x01
+        )
+
+        assertEquals(0x33, output.registerA)
+        assertEquals(0x69, ram.read(0xffab))
+    }
+
+    @Test
+    fun `swp (SP + L)`() {
+        ram.clear()
+        ram.write(0xffab, 0x33)
+        val output = execute(
+            ProcessorState(registerA = 0x69, stackPointer = 0xffaa),
+            0x4d, 0x01
+        )
+
+        assertEquals(0x33, output.registerA)
+        assertEquals(0x69, ram.read(0xffab))
+    }
+
 
 }

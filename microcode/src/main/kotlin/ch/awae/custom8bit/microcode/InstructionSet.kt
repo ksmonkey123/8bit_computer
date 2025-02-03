@@ -344,7 +344,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
     Operation(
-        0x45, "SWAP B", 0,
+        0x48, "SWAP B", 0,
         // move B into ALU
         step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
         // copy A to B
@@ -355,7 +355,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x46, "SWAP C", 0,
+        0x49, "SWAP C", 0,
         // move C into ALU
         step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
         // copy A to C
@@ -366,7 +366,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x47, "SWAP D", 0,
+        0x4a, "SWAP D", 0,
         // move D into ALU
         step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
         // copy A to D
@@ -376,7 +376,39 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         // write !!D (=D) to A
         step3 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
-    // 0x44:4f [12] available
+    Operation(
+        0x4b, "SWAP (L)", 2,
+        // move MEM[L] into ALU
+        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
+        // copy A to MEM[L]
+        step1 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_LITERAL),
+        // write !D to ALU
+        step2 = MicroOp(READ_ALU, WRITE_ALU_INPUT, action = INVERT),
+        // write !!D (=D) to A
+        step3 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
+    ),
+    Operation(
+        0x4c, "SWAP (CD + L)", 1,
+        // move A to ALU
+        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT, ADR_REG_CD),
+        // move M to A
+        step1 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_OFFSET_POSITIVE),
+        // move !A to ALU
+        step2 = MicroOp(READ_ALU, WRITE_ALU_INPUT, ADR_REG_CD, action = INVERT),
+        // move !!A (=A) to M
+        step3 = MicroOp(READ_ALU, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE, action = INVERT)
+    ),
+    Operation(
+        0x4d, "SWAP (SP + L)", 1,
+        // move A to ALU
+        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT, ADR_STACK_POINTER),
+        // move M to A
+        step1 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_OFFSET_POSITIVE),
+        // move !A to ALU
+        step2 = MicroOp(READ_ALU, WRITE_ALU_INPUT, ADR_STACK_POINTER, action = INVERT),
+        // move !!A (=A) to M
+        step3 = MicroOp(READ_ALU, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE, action = INVERT)
+    ),
     Operation(
         0x50, "LOAD A (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
@@ -417,7 +449,6 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
-    // 0x5c:5f [4] available
     Operation(0x60, "MOV A A", 0, step0 = MicroOp(READ_REG_A, WRITE_REG_A)),
     Operation(0x61, "MOV A B", 0, step0 = MicroOp(READ_REG_B, WRITE_REG_A)),
     Operation(0x62, "MOV A C", 0, step0 = MicroOp(READ_REG_C, WRITE_REG_A)),
@@ -626,7 +657,6 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER),
     ),
-    // 0xa0:af [12] available
     Operation(
         0xb0, "BCC i", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_CLEAR),
@@ -663,7 +693,6 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         0xb8, "JMP i", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC)
     ),
-    // 0xb9 [1] available
     Operation(
         0xba, "JSR i", 2,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
@@ -677,11 +706,6 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_MEMORY, WRITE_PC_HIGH, ADR_INCREMENTER),
         step2 = MicroOp(addressSource = ADR_INCREMENTER, action = WRITE_STACK_POINTER),
     ),
-    // 0xbc:bf [4] available
-    // 0xc0:cf [16] available
-    // 0xd0:df [16] available
-    // 0xe0:ef [16] available
-    // 0xf0:fb [12] available
     Operation(0xfc, "CFC", 0, false),
     Operation(0xfd, "CFS", 0, true),
     Operation(0xfe, "NOP", 0),

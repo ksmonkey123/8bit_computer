@@ -47,7 +47,7 @@ class FibonacciTest {
             // adc B
             0x00,
             // swp B
-            0x45,
+            0x48,
             // carry clear
             0xfc,
             // dec D
@@ -80,7 +80,7 @@ class FibonacciTest {
             // adc B
             0x00,
             // swp B
-            0x45,
+            0x48,
             // carry clear
             0xfc,
             // dec D
@@ -121,7 +121,7 @@ class FibonacciTest {
             // mov *0x2000 A (send next number)
             0x80, 0x20, 0x00,
             // SWAP B
-            0x45,
+            0x48,
             // continue loop if (--D) > 0
             // cfc
             0xfc,

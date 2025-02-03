@@ -53,7 +53,7 @@ unaryAluOp: 'not' | 'inc' | 'dec' | 'neg';
 
 shiftInstruction: 'rlc' | 'rl' | 'rra' | 'rrc' | 'rr';
 
-swapInstruction: 'swp' register8NotA;
+swapInstruction: 'swp' (register8NotA | addressingExpression);
 
 stackManipulationInstruction : op=('spa'|'spf') size=numericExpression;
 
