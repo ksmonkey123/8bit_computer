@@ -14,14 +14,14 @@ fun main() {
             mov *output A
             mov D #11
         loop:
-            cclr
-            add B
+            cfc
+            adc B
             mov *output A
-            swap B
-            cclr
+            swp B
+            cfc
             dec D
             bnz loop
-            halt
+            hlt
     """.trimIndent()
 
     val ast = Parser().parseProgram(simplestProgram)

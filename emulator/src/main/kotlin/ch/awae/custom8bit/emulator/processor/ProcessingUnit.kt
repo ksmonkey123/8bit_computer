@@ -131,13 +131,17 @@ class ProcessingUnit(
         }
 
         val stateAfterFlagUpdate = stateAfterAddressSet.let { st ->
-            when (execute.dataTarget) {
-                DataTarget.WRITE_REG_A,
-                DataTarget.WRITE_REG_B,
-                DataTarget.WRITE_REG_C,
-                DataTarget.WRITE_REG_D -> st.copy(flags = Flags(aluState.carry, data == 0, data > 0x80))
-
-                else -> st.copy(flags = st.flags.copy(carry = aluState.carry))
+            if (execute.dataTarget in listOf(
+                    DataTarget.WRITE_REG_A,
+                    DataTarget.WRITE_REG_B,
+                    DataTarget.WRITE_REG_C,
+                    DataTarget.WRITE_REG_D
+                )
+                || execute.dataSource == DataSource.READ_ALU
+            ) {
+                st.copy(flags = Flags(aluState.carry, data == 0, data > 0x80))
+            } else {
+                st.copy(flags = st.flags.copy(carry = aluState.carry))
             }
         }
 

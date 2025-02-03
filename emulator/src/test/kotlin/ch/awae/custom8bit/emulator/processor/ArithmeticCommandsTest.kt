@@ -24,10 +24,10 @@ class ArithmeticCommandsTest {
     private fun execute(inputState: ProcessorState, vararg programBytes: Int) = execute(programBytes, inputState)
 
     @Test
-    fun `ADDC B, flag clear`() {
+    fun `ADC B, flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = false)),
-            0x20
+            0x00
         )
 
         assertEquals(44, output.registerA)
@@ -36,10 +36,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC B, flag set`() {
+    fun `ADC B, flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = true)),
-            0x20
+            0x00
         )
 
         assertEquals(45, output.registerA)
@@ -48,10 +48,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC C, flag clear`() {
+    fun `ADC C, flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, registerC = 200, flags = Flags(carry = false)),
-            0x21
+            0x01
         )
 
         assertEquals(44, output.registerA)
@@ -60,10 +60,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC C, flag set`() {
+    fun `ADC C, flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, registerC = 200, flags = Flags(carry = true)),
-            0x21
+            0x01
         )
 
         assertEquals(45, output.registerA)
@@ -72,10 +72,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC D, flag clear`() {
+    fun `ADC D, flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, registerD = 200, flags = Flags(carry = false)),
-            0x22
+            0x02
         )
 
         assertEquals(44, output.registerA)
@@ -84,10 +84,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC D, flag set`() {
+    fun `ADC D, flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, registerD = 200, flags = Flags(carry = true)),
-            0x22
+            0x02
         )
 
         assertEquals(45, output.registerA)
@@ -96,10 +96,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC i, flag clear`() {
+    fun `ADC i, flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = false)),
-            0x23, 200
+            0x03, 200
         )
 
         assertEquals(44, output.registerA)
@@ -107,10 +107,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC i, flag set`() {
+    fun `ADC i, flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = true)),
-            0x23, 200
+            0x03, 200
         )
 
         assertEquals(45, output.registerA)
@@ -118,10 +118,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC (L), flag clear`() {
+    fun `ADC (L), flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = false)),
-            0x24, 0x00, 0x04, 0xff, 200
+            0x04, 0x00, 0x04, 0xff, 200
         )
 
         assertEquals(44, output.registerA)
@@ -129,10 +129,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC (L), flag set`() {
+    fun `ADC (L), flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = true)),
-            0x24, 0x00, 0x04, 0xff, 200
+            0x04, 0x00, 0x04, 0xff, 200
         )
 
         assertEquals(45, output.registerA)
@@ -140,10 +140,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC (CD), flag clear`() {
+    fun `ADC (CD + l), flag clear`() {
         val output = execute(
-            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = false)),
-            0x25, 0xff, 0xff, 0xff, 200
+            ProcessorState(registerA = 100, registerC = 3, registerD = 0, flags = Flags(carry = false)),
+            0x05, 0x01, 0xff, 0xff, 200
         )
 
         assertEquals(44, output.registerA)
@@ -151,10 +151,31 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `ADDC (CD), flag set`() {
+    fun `ADC (CD + l), flag set`() {
         val output = execute(
-            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = true)),
-            0x25, 0xff, 0xff, 0xff, 200
+            ProcessorState(registerA = 100, registerC = 3, registerD = 0, flags = Flags(carry = true)),
+            0x05, 0x01, 0xff, 0xff, 200
+        )
+
+        assertEquals(45, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+    @Test
+    fun `ADC (SP + l), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, stackPointer = 0x0003, flags = Flags(carry = false)),
+            0x06, 0x01, 0xff, 0xff, 200
+        )
+
+        assertEquals(44, output.registerA)
+        assertTrue(output.flags.carry)
+    }
+
+    @Test
+    fun `ADC (SP + l), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, stackPointer = 0x0003, flags = Flags(carry = true)),
+            0x06, 0x01, 0xff, 0xff, 200
         )
 
         assertEquals(45, output.registerA)
@@ -162,10 +183,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC B, flag clear`() {
+    fun `SBC B, flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = true)),
-            0x28
+            0x08
         )
 
         assertEquals(156, output.registerA)
@@ -174,10 +195,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC B, flag set`() {
+    fun `SBC B, flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = false)),
-            0x28
+            0x08
         )
 
         assertEquals(155, output.registerA)
@@ -186,10 +207,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC C, flag clear`() {
+    fun `SBC C, flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, registerC = 200, flags = Flags(carry = true)),
-            0x29
+            0x09
         )
 
         assertEquals(156, output.registerA)
@@ -198,10 +219,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC C, flag set`() {
+    fun `SBC C, flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, registerC = 200, flags = Flags(carry = false)),
-            0x29
+            0x09
         )
 
         assertEquals(155, output.registerA)
@@ -210,10 +231,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC D, flag clear`() {
+    fun `SBC D, flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, registerD = 200, flags = Flags(carry = true)),
-            0x2a
+            0x0a
         )
 
         assertEquals(156, output.registerA)
@@ -222,10 +243,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC D, flag set`() {
+    fun `SBC D, flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, registerD = 200, flags = Flags(carry = false)),
-            0x2a
+            0x0a
         )
 
         assertEquals(155, output.registerA)
@@ -234,10 +255,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC i, flag clear`() {
+    fun `SBC i, flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = true)),
-            0x2b, 200
+            0x0b, 200
         )
 
         assertEquals(156, output.registerA)
@@ -245,10 +266,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC i, flag set`() {
+    fun `SBC i, flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = false)),
-            0x2b, 200
+            0x0b, 200
         )
 
         assertEquals(155, output.registerA)
@@ -256,10 +277,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC (L), flag clear`() {
+    fun `SBC (L), flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = true)),
-            0x2c, 0x00, 0x04, 0xff, 200
+            0x0c, 0x00, 0x04, 0xff, 200
         )
 
         assertEquals(156, output.registerA)
@@ -267,10 +288,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC (L), flag set`() {
+    fun `SBC (L), flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = false)),
-            0x2c, 0x00, 0x04, 0xff, 200
+            0x0c, 0x00, 0x04, 0xff, 200
         )
 
         assertEquals(155, output.registerA)
@@ -278,10 +299,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC (CD), flag clear`() {
+    fun `SBC (CD + l), flag clear`() {
         val output = execute(
-            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = true)),
-            0x2d, 0xff, 0xff, 0xff, 200
+            ProcessorState(registerA = 100, registerC = 3, registerD = 0, flags = Flags(carry = true)),
+            0x0d, 0x01, 0xff, 0xff, 200
         )
 
         assertEquals(156, output.registerA)
@@ -289,10 +310,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `SUBC (CD), flag set`() {
+    fun `SBC (CD + l), flag set`() {
         val output = execute(
-            ProcessorState(registerA = 100, registerC = 4, registerD = 0, flags = Flags(carry = false)),
-            0x2d, 0xff, 0xff, 0xff, 200
+            ProcessorState(registerA = 100, registerC = 3, registerD = 0, flags = Flags(carry = false)),
+            0x0d, 0x01, 0xff, 0xff, 200
         )
 
         assertEquals(155, output.registerA)
@@ -300,7 +321,29 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `DECC A carry set`() {
+    fun `SBC (SP + l), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, stackPointer = 0x0003, flags = Flags(carry = true)),
+            0x0e, 0x01, 0xff, 0xff, 200
+        )
+
+        assertEquals(156, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `SBC (SP + l), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, stackPointer = 0x0003, flags = Flags(carry = false)),
+            0x0e, 0x01, 0xff, 0xff, 200
+        )
+
+        assertEquals(155, output.registerA)
+        assertFalse(output.flags.carry)
+    }
+
+    @Test
+    fun `DEC A carry set`() {
         val output = execute(
             ProcessorState(registerA = 12, flags = Flags(carry = true)),
             0x30
@@ -311,7 +354,7 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `DECC A carry clear`() {
+    fun `DEC A carry clear`() {
         val output = execute(
             ProcessorState(registerA = 12, flags = Flags(carry = false)),
             0x30
@@ -322,7 +365,7 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `DECC B carry set`() {
+    fun `DEC B carry set`() {
         val output = execute(
             ProcessorState(registerB = 12, flags = Flags(carry = true)),
             0x31
@@ -333,7 +376,7 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `DECC B carry clear`() {
+    fun `DEC B carry clear`() {
         val output = execute(
             ProcessorState(registerB = 12, flags = Flags(carry = false)),
             0x31
@@ -344,7 +387,7 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `DECC C carry set`() {
+    fun `DEC C carry set`() {
         val output = execute(
             ProcessorState(registerC = 12, flags = Flags(carry = true)),
             0x32
@@ -355,7 +398,7 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `DECC C carry clear`() {
+    fun `DEC C carry clear`() {
         val output = execute(
             ProcessorState(registerC = 12, flags = Flags(carry = false)),
             0x32
@@ -366,7 +409,7 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `DECC D carry set`() {
+    fun `DEC D carry set`() {
         val output = execute(
             ProcessorState(registerD = 12, flags = Flags(carry = true)),
             0x33
@@ -377,7 +420,7 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `DECC D carry clear`() {
+    fun `DEC D carry clear`() {
         val output = execute(
             ProcessorState(registerD = 12, flags = Flags(carry = false)),
             0x33
@@ -388,10 +431,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `INCC A carry clear`() {
+    fun `INC A carry clear`() {
         val output = execute(
             ProcessorState(registerA = 12, flags = Flags(carry = false)),
-            0x38
+            0x34
         )
 
         assertEquals(12, output.registerA)
@@ -399,10 +442,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `INCC A carry set`() {
+    fun `INC A carry set`() {
         val output = execute(
             ProcessorState(registerA = 12, flags = Flags(carry = true)),
-            0x38
+            0x34
         )
 
         assertEquals(13, output.registerA)
@@ -410,10 +453,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `INCC B carry clear`() {
+    fun `INC B carry clear`() {
         val output = execute(
             ProcessorState(registerB = 12, flags = Flags(carry = false)),
-            0x39
+            0x35
         )
 
         assertEquals(12, output.registerB)
@@ -421,10 +464,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `INCC B carry set`() {
+    fun `INC B carry set`() {
         val output = execute(
             ProcessorState(registerB = 12, flags = Flags(carry = true)),
-            0x39
+            0x35
         )
 
         assertEquals(13, output.registerB)
@@ -432,10 +475,10 @@ class ArithmeticCommandsTest {
     }
     
     @Test
-    fun `INCC C carry clear`() {
+    fun `INC C carry clear`() {
         val output = execute(
             ProcessorState(registerC = 12, flags = Flags(carry = false)),
-            0x3a
+            0x36
         )
 
         assertEquals(12, output.registerC)
@@ -443,10 +486,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `INCC C carry set`() {
+    fun `INC C carry set`() {
         val output = execute(
             ProcessorState(registerC = 12, flags = Flags(carry = true)),
-            0x3a
+            0x36
         )
 
         assertEquals(13, output.registerC)
@@ -454,10 +497,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `INCC D carry clear`() {
+    fun `INC D carry clear`() {
         val output = execute(
             ProcessorState(registerD = 12, flags = Flags(carry = false)),
-            0x3b
+            0x37
         )
 
         assertEquals(12, output.registerD)
@@ -465,10 +508,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `INCC D carry set`() {
+    fun `INC D carry set`() {
         val output = execute(
             ProcessorState(registerD = 12, flags = Flags(carry = true)),
-            0x3b
+            0x37
         )
 
         assertEquals(13, output.registerD)
@@ -476,10 +519,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `COMPC A, carry set`() {
+    fun `NEG A, carry set`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = true)),
-            0x40
+            0x38
         )
 
         assertEquals(156, output.registerA)
@@ -487,10 +530,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `COMPC A, carry clear`() {
+    fun `NEG A, carry clear`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = false)),
-            0x40
+            0x38
         )
 
         assertEquals(155, output.registerA)
@@ -498,10 +541,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `COMPC B, carry set`() {
+    fun `NEG B, carry set`() {
         val output = execute(
             ProcessorState(registerB = 100, flags = Flags(carry = true)),
-            0x41
+            0x39
         )
 
         assertEquals(156, output.registerB)
@@ -509,10 +552,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `COMPC B, carry clear`() {
+    fun `NEG B, carry clear`() {
         val output = execute(
             ProcessorState(registerB = 100, flags = Flags(carry = false)),
-            0x41
+            0x39
         )
 
         assertEquals(155, output.registerB)
@@ -520,10 +563,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `COMPC C, carry set`() {
+    fun `NEG C, carry set`() {
         val output = execute(
             ProcessorState(registerC = 100, flags = Flags(carry = true)),
-            0x42
+            0x3a
         )
 
         assertEquals(156, output.registerC)
@@ -531,10 +574,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `COMPC C, carry clear`() {
+    fun `NEG C, carry clear`() {
         val output = execute(
             ProcessorState(registerC = 100, flags = Flags(carry = false)),
-            0x42
+            0x3a
         )
 
         assertEquals(155, output.registerC)
@@ -542,10 +585,10 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `COMPC D, carry set`() {
+    fun `NEG D, carry set`() {
         val output = execute(
             ProcessorState(registerD = 100, flags = Flags(carry = true)),
-            0x43
+            0x3b
         )
 
         assertEquals(156, output.registerD)
@@ -553,14 +596,203 @@ class ArithmeticCommandsTest {
     }
 
     @Test
-    fun `COMPC D, carry clear`() {
+    fun `NEG D, carry clear`() {
         val output = execute(
             ProcessorState(registerD = 100, flags = Flags(carry = false)),
-            0x43
+            0x3b
         )
 
         assertEquals(155, output.registerD)
         assertFalse(output.flags.carry)
+    }
+
+
+    @Test
+    fun `CMP B, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = true)),
+            0x28
+        )
+
+        assertEquals(100, output.registerA)
+        assertEquals(200, output.registerB)
+        assertFalse(output.flags.carry)
+        assertTrue(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP B, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerB = 200, flags = Flags(carry = false)),
+            0x28
+        )
+
+        assertEquals(100, output.registerA)
+        assertEquals(200, output.registerB)
+        assertFalse(output.flags.carry)
+        assertTrue(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP C, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 100, flags = Flags(carry = true)),
+            0x29
+        )
+
+        assertEquals(100, output.registerA)
+        assertEquals(100, output.registerC)
+        assertTrue(output.flags.carry)
+        assertFalse(output.flags.negative)
+        assertTrue(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP C, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 100, flags = Flags(carry = false)),
+            0x29
+        )
+
+        assertEquals(100, output.registerA)
+        assertEquals(100, output.registerC)
+        assertTrue(output.flags.carry)
+        assertFalse(output.flags.negative)
+        assertTrue(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP D, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerD = 90, flags = Flags(carry = true)),
+            0x2a
+        )
+
+        assertEquals(100, output.registerA)
+        assertEquals(90, output.registerD)
+        assertTrue(output.flags.carry)
+        assertFalse(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP D, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerD = 90, flags = Flags(carry = false)),
+            0x2a
+        )
+
+        assertEquals(100, output.registerA)
+        assertEquals(90, output.registerD)
+        assertTrue(output.flags.carry)
+        assertFalse(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP i, flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 255, flags = Flags(carry = true)),
+            0x2b, 254
+        )
+
+        assertEquals(255, output.registerA)
+        assertTrue(output.flags.carry)
+        assertFalse(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP i, flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 255, flags = Flags(carry = false)),
+            0x2b, 254
+        )
+
+        assertEquals(255, output.registerA)
+        assertTrue(output.flags.carry)
+        assertFalse(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP (L), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 255, flags = Flags(carry = true)),
+            0x2c, 0x00, 0x04, 0xff, 1
+        )
+
+        assertEquals(255, output.registerA)
+        assertTrue(output.flags.carry)
+        assertTrue(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP (L), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 255, flags = Flags(carry = false)),
+            0x2c, 0x00, 0x04, 0xff, 1
+        )
+
+        assertEquals(255, output.registerA)
+        assertTrue(output.flags.carry)
+        assertTrue(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP (CD + l), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 3, registerD = 0, flags = Flags(carry = true)),
+            0x2d, 0x01, 0xff, 0xff, 200
+        )
+
+        assertEquals(100, output.registerA)
+        assertFalse(output.flags.carry)
+        assertTrue(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP (CD + l), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, registerC = 3, registerD = 0, flags = Flags(carry = false)),
+            0x2d, 0x01, 0xff, 0xff, 200
+        )
+
+        assertEquals(100, output.registerA)
+        assertFalse(output.flags.carry)
+        assertTrue(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP (SP + l), flag clear`() {
+        val output = execute(
+            ProcessorState(registerA = 100, stackPointer = 0x0003, flags = Flags(carry = true)),
+            0x2e, 0x01, 0xff, 0xff, 200
+        )
+
+        assertEquals(100, output.registerA)
+        assertFalse(output.flags.carry)
+        assertTrue(output.flags.negative)
+        assertFalse(output.flags.zero)
+    }
+
+    @Test
+    fun `CMP (SP + l), flag set`() {
+        val output = execute(
+            ProcessorState(registerA = 100, stackPointer = 0x0003, flags = Flags(carry = false)),
+            0x2e, 0x01, 0xff, 0xff, 200
+        )
+
+        assertEquals(100, output.registerA)
+        assertFalse(output.flags.carry)
+        assertTrue(output.flags.negative)
+        assertFalse(output.flags.zero)
     }
     
 }

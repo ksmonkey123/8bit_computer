@@ -25,7 +25,6 @@ listOfNumbers
 
 fieldDeclaration
     : SYMBOL '[' size=numericExpression ']' #fieldWithSize
-//    | SYMBOL #simpleField
     ;
 
 statement
@@ -37,6 +36,8 @@ label: SYMBOL ':';
 instruction
     : binaryAluInstruction
     | unaryAluInstruction
+    | swapInstruction
+    | shiftInstruction
     | moveInstruction
     | branchInstruction
     | simpleInstruction
@@ -44,17 +45,20 @@ instruction
     ;
 
 binaryAluInstruction: operation=binaryAluOp source=binaryAluOpSrc;
-binaryAluOp: 'and' | 'ior' | 'xor' | 'add' | 'sub';
+binaryAluOp: 'and' | 'ior' | 'xor' | 'adc' | 'sbc' | 'cmp';
 binaryAluOpSrc
     : register8 #binaryAluOpRegisterSource
     | literalValue #binaryAluOpLiteralSource
     | addressingExpression # binaryAluOpAddressingSource
     ;
-
 unaryAluInstruction: operation=unaryAluOp register8;
-unaryAluOp: 'not' | 'shl' | 'rcl' | 'rl' | 'ushr' | 'ashr' | 'rrc' | 'rr' | 'inc' | 'dec' | 'comp' | 'swap';
+unaryAluOp: 'not' | 'inc' | 'dec' | 'neg';
 
-stackManipulationInstruction : op=('salloc'|'sfree') size=numericExpression;
+shiftInstruction: 'rlc' | 'rl' | 'rra' | 'rrc' | 'rr';
+
+swapInstruction: 'swp' register8NotA;
+
+stackManipulationInstruction : op=('spa'|'spf') size=numericExpression;
 
 moveInstruction
     : 'mov' to=register8 from=register8 #movCopy8
@@ -68,10 +72,11 @@ moveSource
     | addressingExpression #addressedMoveSource
     ;
 
-branchInstruction: operation=('bcc' | 'bcs' | 'bz' | 'bnz' | 'blz' | 'bgz' | 'blez' | 'bgez' | 'goto' | 'call') branchTarget;
-simpleInstruction: operation=('return' | 'nop' | 'halt' | 'cclr' | 'cset' );
+branchInstruction: operation=('bcc' | 'bcs' | 'bz' | 'bnz' | 'blz' | 'bgz' | 'bnp' | 'bnn' | 'jmp' | 'jsr') branchTarget;
+simpleInstruction: operation=('ret' | 'nop' | 'hlt' | 'cfc' | 'cfs' );
 
 branchTarget: SYMBOL;
+register8NotA: REGISTER_B | REGISTER_C | REGISTER_D;
 register: REGISTER_A | REGISTER_B | REGISTER_C | REGISTER_D | REGISTER_AB | REGISTER_CD;
 register8: REGISTER_A | REGISTER_B | REGISTER_C | REGISTER_D;
 register16: REGISTER_AB | REGISTER_CD;

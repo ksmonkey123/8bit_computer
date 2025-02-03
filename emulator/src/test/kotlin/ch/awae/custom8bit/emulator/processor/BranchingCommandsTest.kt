@@ -46,7 +46,7 @@ class BranchingCommandsTest {
     }
 
     @Test
-    fun `CALL i`() {
+    fun `jsr i`() {
         ram.clear()
         val output = execute(
             ProcessorState(stackPointer = 0xffbb),
@@ -60,7 +60,7 @@ class BranchingCommandsTest {
     }
 
     @Test
-    fun `RETURN from subroutine`() {
+    fun `ret from subroutine`() {
         ram.clear()
         ram.write(0xffb9, 0x69)
         ram.write(0xffba, 0x96)

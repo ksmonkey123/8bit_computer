@@ -35,30 +35,30 @@ class FibonacciTest {
     @Test
     fun testFibonacci() {
         val programm = intArrayOf(
-            // LOAD A 1
+            // mov A #1
             0x7c, 0x01,
-            // LOAD B 1
+            // mov B #1
             0x7d, 0x01,
-            // LOAD D 10
+            // mov D #10
             0x7f, 0x0a,
             // start of loop, address is 0x0006
+            // cfc
+            0xfc,
+            // adc B
+            0x00,
+            // swp B
+            0x45,
             // carry clear
             0xfc,
-            // ADD B
-            0x20,
-            // SWAP B
-            0x1d,
-            // carry clear
-            0xfc,
-            // DEC D
+            // dec D
             0x33,
             // continue loop if D > 0
-            // BNZ 0x0006
+            // bnz 0x0006
             0xb3, 0x00, 0x06,
             // we are done, the result lies in B. move to A
-            // MOV A B
+            // mov A B
             0x61,
-            // HALT
+            // hlt
             0xff,
         )
 
@@ -70,28 +70,28 @@ class FibonacciTest {
     @Test
     fun testFibonacci_16bit_load() {
         val programm = intArrayOf(
-            // LOAD AB 0x0101
-            0x7a, 0x01, 0x01,
-            // LOAD D 10
+            // mov AB #0x0101
+            0x9a, 0x01, 0x01,
+            // mov D #10
             0x7f, 0x0a,
             // start of loop, address is 0x0005
-            // cclr
+            // cfc
             0xfc,
-            // ADD B
-            0x20,
-            // SWAP B
-            0x1d,
-            // cclr
+            // adc B
+            0x00,
+            // swp B
+            0x45,
+            // carry clear
             0xfc,
-            // DEC D
+            // dec D
             0x33,
             // continue loop if D > 0
-            // BNZ 0x0005
+            // bnz 0x0005
             0xb3, 0x00, 0x05,
             // we are done, the result lies in B. move to A
-            // MOV A B
+            // mov A B
             0x61,
-            // HALT
+            // hlt
             0xff,
         )
 
@@ -105,25 +105,25 @@ class FibonacciTest {
         out.clear()
 
         val programm = intArrayOf(
-            // LOAD AB 0x0101
-            0x7a, 0x01, 0x01,
-            // STORE A 0x2000 (send 1)
+            // mov AB #0x0101
+            0x9a, 0x01, 0x01,
+            // mov *0x2000 A (send 1)
             0x80, 0x20, 0x00,
-            // STORE B 0x2000 (send 1)
+            // mov *0x2000 A (send 1)
             0x81, 0x20, 0x00,
             // LOAD D 11
             0x7f, 0x0b,
             // start of loop, address is 0x000b
-            // cclr
+            // cfc
             0xfc,
-            // ADD B
-            0x20,
-            // STORE A 0x2000 (send next number)
+            // adc B
+            0x00,
+            // mov *0x2000 A (send next number)
             0x80, 0x20, 0x00,
             // SWAP B
-            0x1d,
+            0x45,
             // continue loop if (--D) > 0
-            // cclr
+            // cfc
             0xfc,
             // dec d
             0x33,

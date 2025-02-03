@@ -1,5 +1,8 @@
 package ch.awae.custom8bit.assembler.ast
 
+import AssemblerParser
+import org.antlr.v4.runtime.*
+
 sealed interface Instruction {
     val size: Int
 }
@@ -20,7 +23,7 @@ data class BinaryAluInstruction(
 
 
 enum class BinaryAluOperation {
-    AND, IOR, XOR, ADD, SUB
+    AND, IOR, XOR, ADC, SBC
 }
 
 sealed interface BinaryAluOpSource
@@ -52,7 +55,7 @@ fun AssemblerParser.BinaryAluInstructionContext.toInstruction(): BinaryAluInstru
         is AssemblerParser.BinaryAluOpRegisterSourceContext -> src.register8().toRegister()
         is AssemblerParser.BinaryAluOpLiteralSourceContext -> LiteralSource(src.literalValue().toInt())
         is AssemblerParser.BinaryAluOpAddressingSourceContext -> src.addressingExpression().toAddressingExpression()
-        else -> TODO("unsupported source $this")
+        else -> throw ParsingException(this)
     }
     return BinaryAluInstruction(op, source)
 }
@@ -67,6 +70,10 @@ fun AssemblerParser.Register8Context.toRegister(): Register8 {
     return Register8.valueOf(this.text.uppercase())
 }
 
+fun AssemblerParser.Register8NotAContext.toRegister(): Register8 {
+    return Register8.valueOf(this.text.uppercase())
+}
+
 fun AssemblerParser.Register16Context.toRegister(): Register16 {
     return Register16.valueOf(this.text.uppercase())
 }
@@ -77,7 +84,7 @@ fun AssemblerParser.AddressingExpressionContext.toAddressingExpression(): Addres
         is AssemblerParser.SymbolAdrContext -> SymbolicAddressing(this.SYMBOL().text, 0)
         is AssemblerParser.DynamicAdrExprContext -> RegisterCDAddressing(0)
         is AssemblerParser.ComplexAddressingContext -> this.complexAddressingExpression().toAddressingExpression()
-        else -> TODO("unsupported addressing type : $this")
+        else -> throw ParsingException(this)
     }
 }
 
@@ -90,7 +97,7 @@ fun AssemblerParser.ComplexAddressingExpressionContext.toAddressingExpression():
             this.numericExpression().toInt()
         )
 
-        else -> TODO("unsupported addressing expression: $this")
+        else -> throw ParsingException(this)
     }
 }
 
@@ -101,8 +108,20 @@ data class UnaryAluInstruction(
     override val size = 1
 }
 
+enum class ShiftOperation {
+    RLC, RL, RRC, RR, RRA
+}
+
+data class ShiftInstruction(val operation: ShiftOperation) : Instruction {
+    override val size = 1
+}
+
 enum class UnaryAluOperation {
-    NOT, SHL, RCL, RL, USHR, ASHR, RRC, RR, INC, DEC, COMP, SWAP
+    NOT, INC, DEC, COMP
+}
+
+data class SwapInstruction(val register: Register8) : Instruction {
+    override val size = 1
 }
 
 fun AssemblerParser.UnaryAluInstructionContext.toInstruction(): UnaryAluInstruction {
@@ -143,7 +162,7 @@ fun AssemblerParser.MoveInstructionContext.toInstruction(): Instruction {
             when (val src = this.from) {
                 is AssemblerParser.LiteralMoveSourceContext -> LiteralSource(src.literalValue().toInt())
                 is AssemblerParser.AddressedMoveSourceContext -> src.addressingExpression().toAddressingExpression()
-                else -> TODO("unsupported source $src")
+                else -> throw ParsingException(this)
             },
             this.to.toRegister()
         )
@@ -153,7 +172,7 @@ fun AssemblerParser.MoveInstructionContext.toInstruction(): Instruction {
             this.to.addressingExpression().toAddressingExpression()
         )
 
-        else -> TODO("unsupported move instruction $this")
+        else -> throw ParsingException(this)
     }
 }
 
@@ -190,12 +209,12 @@ data class CarryUpdateInstruction(val value: Boolean) : Instruction {
 
 fun AssemblerParser.SimpleInstructionContext.toInstruction(): Instruction {
     return when (this.operation.text) {
-        "return" -> ReturnInstruction
+        "ret" -> ReturnInstruction
         "nop" -> NopInstruction
-        "halt" -> HaltInstruction
-        "cclr" -> CarryUpdateInstruction(false)
-        "cset" -> CarryUpdateInstruction(true)
-        else -> TODO("unsupported operation $this")
+        "hlt" -> HaltInstruction
+        "cfc" -> CarryUpdateInstruction(false)
+        "cfs" -> CarryUpdateInstruction(true)
+        else -> throw ParsingException(this)
     }
 }
 
@@ -209,10 +228,18 @@ data class StackFreeInstruction(val amount: Int) : Instruction {
 
 fun AssemblerParser.StackManipulationInstructionContext.toInstruction(): Instruction {
     return when (this.op.text) {
-        "salloc" -> StackAllocationInstruction(this.size.toInt())
-        "sfree" -> StackFreeInstruction(this.size.toInt())
-        else -> TODO("unsupported operation $this")
+        "spa" -> StackAllocationInstruction(this.size.toInt())
+        "spf" -> StackFreeInstruction(this.size.toInt())
+        else -> throw ParsingException(this)
     }
+}
+
+fun AssemblerParser.ShiftInstructionContext.toInstruction(): Instruction {
+    return ShiftInstruction(ShiftOperation.valueOf(this.text))
+}
+
+fun AssemblerParser.SwapInstructionContext.toInstruction(): Instruction {
+    return SwapInstruction(this.register8NotA().toRegister())
 }
 
 fun AssemblerParser.InstructionContext.toInstruction(): Instruction {
@@ -221,7 +248,10 @@ fun AssemblerParser.InstructionContext.toInstruction(): Instruction {
     this.moveInstruction()?.let { return it.toInstruction() }
     this.branchInstruction()?.let { return it.toInstruction() }
     this.simpleInstruction()?.let { return it.toInstruction() }
-    TODO("unsupported instruction $this")
+    this.shiftInstruction()?.let { return it.toInstruction() }
+    this.swapInstruction()?.let { return it.toInstruction() }
+    this.stackManipulationInstruction()?.let { return it.toInstruction() }
+    throw ParsingException(this)
 }
 
 data class LabelledInstruction(val label: String, val instruction: Instruction) : Instruction {
@@ -236,6 +266,10 @@ fun AssemblerParser.StatementContext.toInstruction(): Instruction {
         )
 
         is AssemblerParser.NormalInstructionContext -> this.instruction().toInstruction()
-        else -> TODO("unsupported statement $this")
+        else -> throw ParsingException(this)
     }
 }
+
+class ParsingException(rule: ParserRuleContext) : RuntimeException(
+    "parse error at ${rule.start.line}:${rule.start.charPositionInLine}: ${rule.text}"
+)

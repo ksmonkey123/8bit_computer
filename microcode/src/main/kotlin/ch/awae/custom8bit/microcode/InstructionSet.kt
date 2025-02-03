@@ -8,128 +8,315 @@ import ch.awae.custom8bit.microcode.DataTarget.*
 
 val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
-        0x00, "AND B", 0,
+        0x00, "ADC B", 0,
+        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
+    ),
+    Operation(
+        0x01, "ADC C", 0,
+        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
+    ),
+    Operation(
+        0x02, "ADC D", 0,
+        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
+    ),
+    Operation(
+        0x03, "ADC i", 1,
+        step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
+    ),
+    Operation(
+        0x04, "ADC (L)", 2,
+        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
+    ),
+    Operation(
+        0x05, "ADC (CD + l)", 1,
+        step0 = MicroOp(addressSource = ADR_REG_CD),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
+    ),
+    Operation(
+        0x06, "ADC (SP + l)", 1,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
+    ),
+    Operation(
+        0x08, "SBC B", 0,
+        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
+    ),
+    Operation(
+        0x09, "SBC C", 0,
+        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
+    ),
+    Operation(
+        0x0a, "SBC D", 0,
+        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
+    ),
+    Operation(
+        0x0b, "SBC i", 1,
+        step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
+    ),
+    Operation(
+        0x0c, "SBC (L)", 2,
+        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
+    ),
+    Operation(
+        0x0d, "SBC (CD + l)", 1,
+        step0 = MicroOp(addressSource = ADR_REG_CD),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
+    ),
+    Operation(
+        0x0e, "SBC (SP + l)", 1,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
+    ),
+    Operation(
+        0x10, "AND B", 0,
         step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x01, "AND C", 0,
+        0x11, "AND C", 0,
         step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x02, "AND D", 0,
+        0x12, "AND D", 0,
         step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x03, "AND i", 1,
+        0x13, "AND i", 1,
         step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x04, "AND (L)", 2,
+        0x14, "AND (L)", 2,
         step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x05, "AND (CD)", 0,
-        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_REG_CD),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
+        0x15, "AND (CD + l)", 1,
+        step0 = MicroOp(addressSource = ADR_REG_CD),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x06,
+        0x16, "AND (SP + l)", 1,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
+    ),
+    Operation(
+        0x18,
         "IOR B", 0,
         step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x07, "IOR C", 0,
+        0x19, "IOR C", 0,
         step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x08, "IOR D", 0,
+        0x1a, "IOR D", 0,
         step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x09, "IOR i", 1,
+        0x1b, "IOR i", 1,
         step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x0a, "IOR (L)", 2,
+        0x1c, "IOR (L)", 2,
         step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x0b, "IOR (CD)", 0,
-        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_REG_CD),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
+        0x1d, "IOR (CD + l)", 1,
+        step0 = MicroOp(addressSource = ADR_REG_CD),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x0c, "NOT A", 0,
+        0x1e, "IOR (SP + l)", 1,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
+    ),
+    Operation(
+        0x20, "XOR B", 0,
+        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
+    ),
+    Operation(
+        0x21, "XOR C", 0,
+        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
+    ),
+    Operation(
+        0x22, "XOR D", 0,
+        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
+    ),
+    Operation(
+        0x23, "XOR i", 1,
+        step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
+    ),
+    Operation(
+        0x24, "XOR (L)", 2,
+        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
+    ),
+    Operation(
+        0x25, "XOR (CD + l)", 1,
+        step0 = MicroOp(addressSource = ADR_REG_CD),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
+    ),
+    Operation(
+        0x26, "XOR (SP + l)", 1,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
+    ),
+    Operation(
+        0x28, "CMP B", 0, true,
+        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+    ),
+    Operation(
+        0x29, "CMP C", 0, true,
+        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+    ),
+    Operation(
+        0x2a, "CMP D", 0, true,
+        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+    ),
+    Operation(
+        0x2b, "CMP i", 1, true,
+        step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+    ),
+    Operation(
+        0x2c, "CMP (L)", 2, true,
+        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
+        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+    ),
+    Operation(
+        0x2d, "CMP (CD + l)", 1, true,
+        step0 = MicroOp(addressSource = ADR_REG_CD),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, action = SUBTRACTION),
+    ),
+    Operation(
+        0x2e, "CMP (SP + l)", 1, true,
+        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
+        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step2 = MicroOp(READ_ALU, action = SUBTRACTION),
+    ),
+    Operation(
+        0x30, "DEC A", 0,
+        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = DECREMENT),
+    ),
+    Operation(
+        0x31, "DEC B", 0,
+        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_B, action = DECREMENT),
+    ),
+    Operation(
+        0x32, "DEC C", 0,
+        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_C, action = DECREMENT),
+    ),
+    Operation(
+        0x33, "DEC D", 0,
+        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_D, action = DECREMENT),
+    ),
+    Operation(
+        0x34, "INC A", 0,
+        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = INCREMENT),
+    ),
+    Operation(
+        0x35, "INC B", 0,
+        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_B, action = INCREMENT),
+    ),
+    Operation(
+        0x36, "INC C", 0,
+        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_C, action = INCREMENT),
+    ),
+    Operation(
+        0x37, "INC D", 0,
+        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_D, action = INCREMENT),
+    ),
+    Operation(
+        0x38, "NEG A", 0,
+        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = COMPLEMENT),
+    ),
+    Operation(
+        0x39, "NEG B", 0,
+        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_B, action = COMPLEMENT),
+    ),
+    Operation(
+        0x3a, "NEG C", 0,
+        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_C, action = COMPLEMENT),
+    ),
+    Operation(
+        0x3b, "NEG D", 0,
+        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_D, action = COMPLEMENT),
+    ),
+    Operation(
+        0x3c, "NOT A", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x0d, "NOT B", 0,
+        0x3d, "NOT B", 0,
         step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_B, action = INVERT),
     ),
     Operation(
-        0x0e, "NOT C", 0,
+        0x3e, "NOT C", 0,
         step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_C, action = INVERT),
     ),
     Operation(
-        0x0f, "NOT D", 0,
+        0x3f, "NOT D", 0,
         step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_D, action = INVERT),
     ),
     Operation(
-        0x10, "XOR B", 0,
-        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
-    ),
-    Operation(
-        0x11, "XOR C", 0,
-        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
-    ),
-    Operation(
-        0x12, "XOR D", 0,
-        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
-    ),
-    Operation(
-        0x13, "XOR i", 1,
-        step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
-    ),
-    Operation(
-        0x14, "XOR (L)", 2,
-        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
-    ),
-    Operation(
-        0x15, "XOR (CD)", 0,
-        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_REG_CD),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
-    ),
-    Operation(
-        0x16, "SHL", 0, false,
+        0x40, "RLC", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
     ),
     Operation(
-        0x17, "RLC", 0,
-        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
-    ),
-    Operation(
-        0x18, "RL", 0,
+        0x41, "RL", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         // shift once to get top bit into carry (write to A necessary to not rewrite alu input)
         step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_LEFT),
@@ -137,12 +324,19 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
     ),
     Operation(
-        0x19, "USHR", 0, false,
+        0x42, "RRC", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
     Operation(
-        0x1a, "ASHR", 0, false,
+        0x43, "RR", 0,
+        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        // shift once to get bottom bit into carry (write to A necessary to not rewrite alu input)
+        step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_RIGHT),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
+    ),
+    Operation(
+        0x44, "RRA", 0, false,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         // shift once to get top bit into carry (write to A necessary to not rewrite alu input)
         step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_LEFT),
@@ -150,19 +344,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
     Operation(
-        0x1b, "RRC", 0,
-        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
-    ),
-    Operation(
-        0x1c, "RR", 0,
-        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
-        // shift once to get bottom bit into carry (write to A necessary to not rewrite alu input)
-        step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_RIGHT),
-        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
-    ),
-    Operation(
-        0x1d, "SWAP B", 0,
+        0x45, "SWAP B", 0,
         // move B into ALU
         step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
         // copy A to B
@@ -173,7 +355,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x1e, "SWAP C", 0,
+        0x46, "SWAP C", 0,
         // move C into ALU
         step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
         // copy A to C
@@ -184,7 +366,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x1f, "SWAP D", 0,
+        0x47, "SWAP D", 0,
         // move D into ALU
         step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
         // copy A to D
@@ -193,126 +375,6 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step2 = MicroOp(READ_ALU, WRITE_ALU_INPUT, action = INVERT),
         // write !!D (=D) to A
         step3 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
-    ),
-    Operation(
-        0x20, "ADDC B", 0,
-        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
-    ),
-    Operation(
-        0x21, "ADDC C", 0,
-        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
-    ),
-    Operation(
-        0x22, "ADDC D", 0,
-        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
-    ),
-    Operation(
-        0x23, "ADDC i", 1,
-        step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
-    ),
-    Operation(
-        0x24, "ADDC (L)", 2,
-        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
-    ),
-    Operation(
-        0x25, "ADDC (CD)", 0,
-        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_REG_CD),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
-    ),
-    Operation(
-        0x28, "SUBC B", 0,
-        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
-    ),
-    Operation(
-        0x29, "SUBC C", 0,
-        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
-    ),
-    Operation(
-        0x2a, "SUBC D", 0,
-        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
-    ),
-    Operation(
-        0x2b, "SUBC i", 1,
-        step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
-    ),
-    Operation(
-        0x2c, "SUBC (L)", 2,
-        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
-    ),
-    Operation(
-        0x2d, "SUBC (CD)", 0,
-        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_REG_CD),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
-    ),
-    Operation(
-        0x30, "DECC A", 0,
-        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = DECREMENT),
-    ),
-    Operation(
-        0x31, "DECC B", 0,
-        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_B, action = DECREMENT),
-    ),
-    Operation(
-        0x32, "DECC C", 0,
-        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_C, action = DECREMENT),
-    ),
-    Operation(
-        0x33, "DECC D", 0,
-        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_D, action = DECREMENT),
-    ),
-    Operation(
-        0x38, "INCC A", 0,
-        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = INCREMENT),
-    ),
-    Operation(
-        0x39, "INCC B", 0,
-        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_B, action = INCREMENT),
-    ),
-    Operation(
-        0x3a, "INCC C", 0,
-        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_C, action = INCREMENT),
-    ),
-    Operation(
-        0x3b, "INCC D", 0,
-        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_D, action = INCREMENT),
-    ),
-    Operation(
-        0x40, "COMPC A", 0,
-        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = COMPLEMENT),
-    ),
-    Operation(
-        0x41, "COMPC B", 0,
-        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_B, action = COMPLEMENT),
-    ),
-    Operation(
-        0x42, "COMPC C", 0,
-        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_C, action = COMPLEMENT),
-    ),
-    Operation(
-        0x43, "COMPC D", 0,
-        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, WRITE_REG_D, action = COMPLEMENT),
     ),
     // 0x44:4f [12] available
     Operation(
@@ -590,27 +652,27 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.POSITIVE),
     ),
     Operation(
-        0xb6, "BLEZ i", 2,
+        0xb6, "BNP i", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_POSITIVE),
     ),
     Operation(
-        0xb7, "BGEZ i", 2,
+        0xb7, "BNN i", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_NEGATIVE),
     ),
     Operation(
-        0xb8, "GOTO i", 2,
+        0xb8, "JMP i", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC)
     ),
     // 0xb9 [1] available
     Operation(
-        0xba, "CALL i", 2,
+        0xba, "JSR i", 2,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_PC_HIGH, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT),
         step2 = MicroOp(READ_PC_LOW, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT, WRITE_STACK_POINTER),
         step3 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC),
     ),
     Operation(
-        0xbb, "RETURN", 0,
+        0xbb, "RET", 0,
         step0 = MicroOp(READ_MEMORY, WRITE_PC_LOW, ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_PC_HIGH, ADR_INCREMENTER),
         step2 = MicroOp(addressSource = ADR_INCREMENTER, action = WRITE_STACK_POINTER),
@@ -620,8 +682,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     // 0xd0:df [16] available
     // 0xe0:ef [16] available
     // 0xf0:fb [12] available
-    Operation(0xfc, "CCLR", 0, false),
-    Operation(0xfd, "CSET", 0, true),
+    Operation(0xfc, "CFC", 0, false),
+    Operation(0xfd, "CFS", 0, true),
     Operation(0xfe, "NOP", 0),
-    Operation(0xff, "HALT", 0, halt = true),
+    Operation(0xff, "HLT", 0, halt = true),
 )

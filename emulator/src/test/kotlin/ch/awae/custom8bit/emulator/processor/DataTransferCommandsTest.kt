@@ -201,7 +201,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD A (L)`() {
+    fun `mov A (L)`() {
         val output = execute(
             ProcessorState(),
             0x70, 0x00, 0x04, 0xff, 0x69
@@ -211,7 +211,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD B (L)`() {
+    fun `mov B (L)`() {
         val output = execute(
             ProcessorState(),
             0x71, 0x00, 0x04, 0xff, 0x69
@@ -221,7 +221,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD C (L)`() {
+    fun `mov C (L)`() {
         val output = execute(
             ProcessorState(),
             0x72, 0x00, 0x04, 0xff, 0x69
@@ -231,7 +231,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD D (L)`() {
+    fun `mov D (L)`() {
         val output = execute(
             ProcessorState(),
             0x73, 0x00, 0x04, 0xff, 0x69
@@ -241,10 +241,10 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD A (CD)`() {
+    fun `mov A (CD + l)`() {
         val output = execute(
             ProcessorState(registerC = 0x04, registerD = 0x00),
-            0x74, 0xff, 0xff, 0xff, 0x69
+            0x74, 0x00, 0xff, 0xff, 0x69
         )
 
         assertEquals(0x69, output.registerA)
@@ -254,23 +254,48 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD B (CD)`() {
+    fun `mov B (CD + l)`() {
         val output = execute(
-            ProcessorState(registerC = 0x04, registerD = 0x00),
-            0x75, 0xff, 0xff, 0xff, 0x69
+            ProcessorState(registerC = 0x03, registerD = 0x00),
+            0x75, 0x01, 0xff, 0xff, 0x69
         )
 
         assertEquals(0x00, output.registerA)
         assertEquals(0x69, output.registerB)
-        assertEquals(0x04, output.registerC)
+        assertEquals(0x03, output.registerC)
+        assertEquals(0x00, output.registerD)
+    }
+    @Test
+    fun `mov C (CD + l)`() {
+        val output = execute(
+            ProcessorState(registerC = 0x04, registerD = 0x00),
+            0x76, 0x00, 0xff, 0xff, 0x69
+        )
+
+        assertEquals(0x00, output.registerA)
+        assertEquals(0x00, output.registerB)
+        assertEquals(0x69, output.registerC)
         assertEquals(0x00, output.registerD)
     }
 
     @Test
-    fun `LOAD AB (L)`() {
+    fun `mov D (CD + l)`() {
+        val output = execute(
+            ProcessorState(registerC = 0x03, registerD = 0x00),
+            0x77, 0x01, 0xff, 0xff, 0x69
+        )
+
+        assertEquals(0x00, output.registerA)
+        assertEquals(0x00, output.registerB)
+        assertEquals(0x03, output.registerC)
+        assertEquals(0x69, output.registerD)
+    }
+
+    @Test
+    fun `mov AB (L)`() {
         val output = execute(
             ProcessorState(),
-            0x76, 0x00, 0x04, 0xff, 0x69, 0x96
+            0x94, 0x00, 0x04, 0xff, 0x69, 0x96
         )
 
         assertEquals(0x69, output.registerA)
@@ -278,10 +303,10 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD CD (L)`() {
+    fun `mov CD (L)`() {
         val output = execute(
             ProcessorState(),
-            0x77, 0x00, 0x04, 0xff, 0x69, 0x96
+            0x95, 0x00, 0x04, 0xff, 0x69, 0x96
         )
 
         assertEquals(0x69, output.registerC)
@@ -289,10 +314,10 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD AB (CD)`() {
+    fun `mov AB (CD + l)`() {
         val output = execute(
             ProcessorState(registerC = 0x04, registerD = 0x00),
-            0x78, 0x00, 0x04, 0xff, 0x69, 0x96
+            0x96, 0x00, 0x04, 0xff, 0x69, 0x96
         )
 
         assertEquals(0x69, output.registerA)
@@ -302,10 +327,10 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD CD (CD)`() {
+    fun `mov CD (CD + l)`() {
         val output = execute(
             ProcessorState(registerC = 0x04, registerD = 0x00),
-            0x79, 0x00, 0x04, 0xff, 0x69, 0x96
+            0x97, 0x00, 0x04, 0xff, 0x69, 0x96
         )
 
         assertEquals(0x00, output.registerA)
@@ -315,10 +340,36 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD AB i`() {
+    fun `mov CD (SP + l)`() {
+        val output = execute(
+            ProcessorState(stackPointer = 0x0003),
+            0x99, 0x01, 0x04, 0xff, 0x69, 0x96
+        )
+
+        assertEquals(0x00, output.registerA)
+        assertEquals(0x00, output.registerB)
+        assertEquals(0x69, output.registerC)
+        assertEquals(0x96, output.registerD)
+    }
+
+    @Test
+    fun `mov AB (SP + l)`() {
+        val output = execute(
+            ProcessorState(stackPointer = 0x0002),
+            0x98, 0x02, 0x04, 0xff, 0x69, 0x96
+        )
+
+        assertEquals(0x69, output.registerA)
+        assertEquals(0x96, output.registerB)
+        assertEquals(0x00, output.registerC)
+        assertEquals(0x00, output.registerD)
+    }
+
+    @Test
+    fun `mov AB i`() {
         val output = execute(
             ProcessorState(),
-            0x7a, 0x96, 0x69
+            0x9a, 0x96, 0x69
         )
 
         assertEquals(0x69, output.registerA)
@@ -326,10 +377,10 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD CD i`() {
+    fun `mov CD i`() {
         val output = execute(
             ProcessorState(),
-            0x7b, 0x96, 0x69
+            0x9b, 0x96, 0x69
         )
 
         assertEquals(0x69, output.registerC)
@@ -337,7 +388,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD A i`() {
+    fun `mov A i`() {
         val output = execute(
             ProcessorState(),
             0x7c, 0x69
@@ -347,7 +398,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD B i`() {
+    fun `mov B i`() {
         val output = execute(
             ProcessorState(),
             0x7d, 0x69
@@ -357,7 +408,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD C i`() {
+    fun `mov C i`() {
         val output = execute(
             ProcessorState(),
             0x7e, 0x69
@@ -367,7 +418,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD D i`() {
+    fun `mov D i`() {
         val output = execute(
             ProcessorState(),
             0x7f, 0x69
@@ -377,7 +428,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE A (L)`() {
+    fun `mov (L) A`() {
         ram.clear()
         execute(
             ProcessorState(registerA = 0x69),
@@ -388,7 +439,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE B (L)`() {
+    fun `mov (L) B`() {
         ram.clear()
         execute(
             ProcessorState(registerB = 0x69),
@@ -399,7 +450,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE C (L)`() {
+    fun `mov (L) C`() {
         ram.clear()
         execute(
             ProcessorState(registerC = 0x69),
@@ -410,7 +461,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE D (L)`() {
+    fun `mov (L) D`() {
         ram.clear()
         execute(
             ProcessorState(registerD = 0x69),
@@ -421,33 +472,55 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE A (CD)`() {
+    fun `mov (CD + l) A`() {
         ram.clear()
         execute(
-            ProcessorState(registerA = 0x69, registerC = 0xab, registerD = 0xff),
-            0x84
+            ProcessorState(registerA = 0x69, registerC = 0xaa, registerD = 0xff),
+            0x84, 0x01
         )
 
         assertEquals(0x69, ram.read(0xffab))
     }
 
     @Test
-    fun `STORE B (CD)`() {
+    fun `mov (CD + l) B`() {
         ram.clear()
         execute(
-            ProcessorState(registerB = 0x69, registerC = 0xab, registerD = 0xff),
-            0x85
+            ProcessorState(registerB = 0x69, registerC = 0xaa, registerD = 0xff),
+            0x85, 0x01
         )
 
         assertEquals(0x69, ram.read(0xffab))
     }
 
     @Test
-    fun `STORE AB (L)`() {
+    fun `mov (CD + l) C`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerC = 0xaa, registerD = 0xff),
+            0x86, 0x01
+        )
+
+        assertEquals(0xaa, ram.read(0xffab))
+    }
+
+    @Test
+    fun `mov (CD + l) D`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerA = 0x69, registerC = 0xaa, registerD = 0xff),
+            0x87, 0x01
+        )
+
+        assertEquals(0xff, ram.read(0xffab))
+    }
+
+    @Test
+    fun `mov (L) AB`() {
         ram.clear()
         execute(
             ProcessorState(registerA = 0x69, registerB = 0x96),
-            0x86, 0xff, 0xab
+            0x8c, 0xff, 0xab
         )
 
         assertEquals(0x69, ram.read(0xffab))
@@ -455,11 +528,11 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE CD (L)`() {
+    fun `mov (L) CD`() {
         ram.clear()
         execute(
             ProcessorState(registerC = 0x69, registerD = 0x96),
-            0x87, 0xff, 0xab
+            0x8d, 0xff, 0xab
         )
 
         assertEquals(0x69, ram.read(0xffab))
@@ -467,11 +540,11 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE AB (CD)`() {
+    fun `mov (CD + l) AB`() {
         ram.clear()
         execute(
             ProcessorState(registerA = 0x69, registerB = 0x96, registerC = 0xab, registerD = 0xff),
-            0x88
+            0x9c, 0x00
         )
 
         assertEquals(0x69, ram.read(0xffab))
@@ -479,10 +552,22 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `mov ab cd`() {
+    fun `mov (CD + l) CD`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerA = 0x69, registerB = 0x96, registerC = 0xab, registerD = 0xff),
+            0x9c, 0x02
+        )
+
+        assertEquals(0x69, ram.read(0xffad))
+        assertEquals(0x96, ram.read(0xffae))
+    }
+
+    @Test
+    fun `mov AB CD`() {
         val output = execute(
             ProcessorState(registerA = 0x69, registerB = 0x96, registerC = 0xab, registerD = 0xba),
-            0x8e
+            0x91
         )
 
         assertEquals(0xab, output.registerA)
@@ -492,10 +577,37 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `mov cd ab`() {
+    fun `mov CD CD`() {
         val output = execute(
             ProcessorState(registerA = 0x69, registerB = 0x96, registerC = 0xab, registerD = 0xba),
-            0x8f
+            0x93
+        )
+
+        assertEquals(0x69, output.registerA)
+        assertEquals(0x96, output.registerB)
+        assertEquals(0xab, output.registerC)
+        assertEquals(0xba, output.registerD)
+    }
+
+
+    @Test
+    fun `mov AB AB`() {
+        val output = execute(
+            ProcessorState(registerA = 0x69, registerB = 0x96, registerC = 0xab, registerD = 0xba),
+            0x90
+        )
+
+        assertEquals(0x69, output.registerA)
+        assertEquals(0x96, output.registerB)
+        assertEquals(0xab, output.registerC)
+        assertEquals(0xba, output.registerD)
+    }
+
+    @Test
+    fun `mov CD AB`() {
+        val output = execute(
+            ProcessorState(registerA = 0x69, registerB = 0x96, registerC = 0xab, registerD = 0xba),
+            0x92
         )
 
         assertEquals(0x69, output.registerA)
@@ -505,7 +617,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD A (SP + l)`() {
+    fun `mov A (SP + l)`() {
         ram.clear()
         ram.write(0xfdac, 0x69)
         val output = execute(
@@ -517,7 +629,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD B (SP + l)`() {
+    fun `mov B (SP + l)`() {
         ram.clear()
         ram.write(0xfdac, 0x69)
         val output = execute(
@@ -529,7 +641,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD C (SP + l)`() {
+    fun `mov C (SP + l)`() {
         ram.clear()
         ram.write(0xfdac, 0x69)
         val output = execute(
@@ -541,7 +653,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD D (SP + l)`() {
+    fun `mov D (SP + l)`() {
         ram.clear()
         ram.write(0xfdac, 0x69)
         val output = execute(
@@ -553,7 +665,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE A (SP + l)`() {
+    fun `mov (SP + l) A`() {
         ram.clear()
         execute(
             ProcessorState(registerA = 0x69, stackPointer = 0xfda0),
@@ -564,7 +676,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE B (SP + l)`() {
+    fun `mov (SP + l) B`() {
         ram.clear()
         execute(
             ProcessorState(registerB = 0x69, stackPointer = 0xfda0),
@@ -575,7 +687,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE C (SP + l)`() {
+    fun `mov (SP + l) C`() {
         ram.clear()
         execute(
             ProcessorState(registerC = 0x69, stackPointer = 0xfda0),
@@ -586,7 +698,7 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `STORE D (SP + l)`() {
+    fun `mov (SP + l) D`() {
         ram.clear()
         execute(
             ProcessorState(registerD = 0x69, stackPointer = 0xfda0),
@@ -597,8 +709,29 @@ class DataTransferCommandsTest {
     }
 
     @Test
-    fun `LOAD A (CD + i8)`() {
+    fun `mov (SP + l) AB`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerA = 0x69, registerB = 0x96, stackPointer = 0xfda0),
+            0x9e, 0x0a
+        )
 
+        assertEquals(0x69, ram.read(0xfdaa))
+        assertEquals(0x96, ram.read(0xfdab))
     }
+
+    @Test
+    fun `mov (SP + l) CD`() {
+        ram.clear()
+        execute(
+            ProcessorState(registerC = 0x69, registerD = 0x96, stackPointer = 0xfda0),
+            0x9f, 0x0a
+        )
+
+        assertEquals(0x69, ram.read(0xfdaa))
+        assertEquals(0x96, ram.read(0xfdab))
+    }
+
+
 
 }
