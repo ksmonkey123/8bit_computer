@@ -1,11 +1,15 @@
 package ch.awae.custom8bit.assembler.ast
 
+import ch.awae.custom8bit.assembler.*
+
 data class CodeSection(
     val startAt: Int,
     val instructions: List<Instruction>,
 ) {
 
     val size = instructions.sumOf { it.size }
+
+    val range = startAt until (startAt + size)
 
     val symbols: Map<String, Int> = run {
         val map = mutableMapOf<String, Int>()
@@ -20,7 +24,7 @@ data class CodeSection(
     }
 
     infix fun collidesWith(other: CodeSection): Boolean {
-        return this.startAt < (other.startAt + other.size) && other.startAt < (this.startAt + this.size)
+        return this.range overlaps other.range
     }
 
 }
