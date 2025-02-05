@@ -2,16 +2,23 @@ package ch.awae.custom8bit.assembler.parser
 
 import AssemblerLexer
 import AssemblerParser
+import ch.awae.custom8bit.assembler.*
 import ch.awae.custom8bit.assembler.ast.*
 import org.antlr.v4.runtime.*
+import org.springframework.stereotype.Component
 
+@Component
 class Parser {
+
+    private val logger = createLogger()
 
     fun parseProgram(input: String): Program {
         if (!input.endsWith('\n')) {
+            logger.warn("program does not end with a line break")
             return parseProgram(input + '\n')
         }
 
+        logger.info("parsing program (${input.length} chars)")
         val inputCharStream = CharStreams.fromString(input)
         val tokenStream = CommonTokenStream(AssemblerLexer(inputCharStream))
         val parser = AssemblerParser(tokenStream)
@@ -20,10 +27,25 @@ class Parser {
         val program = parser.program()
 
         if (listener.hasError) {
-            throw IllegalStateException("parser had an error")
+            logger.error("error parsing program")
+            throw RuntimeException("parser had an error")
         }
 
-        return program.toProgram()
+        logger.info("generating AST")
+        return program.toProgram().also {
+            logger.info("found ${it.codeSections.size} code sections")
+            it.codeSections.forEach{ c ->
+                logger.info("  ${c.startAt.toHex(2)}: ${c.instructions.size} instructions")
+            }
+            logger.info("found ${it.variables.size} variables")
+            it.variables.forEach { v ->
+                logger.info("  ${v.position.toHex(2)}: ${v.symbol}")
+            }
+            logger.info("found ${it.constants.size} constants")
+            it.constants.forEach { c ->
+                logger.info("  ${c.symbol}: ${c.size} byte(s)")
+            }
+        }
     }
 
 }

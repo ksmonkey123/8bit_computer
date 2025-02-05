@@ -8,9 +8,6 @@ fun main() {
     val simplestProgram = """
         .vars
             0x2000: output[1]
-
-        .data
-          input[1] = 0x1235
             
         .code 0x0000
             mov AB #0x0101
@@ -30,6 +27,6 @@ fun main() {
 
     val ast = Parser().parseProgram(simplestProgram)
 
-    val code = compileToByteCode(ast)
+    val code = BytecodeGenerator().compileToByteCode(ast)
 
 }
