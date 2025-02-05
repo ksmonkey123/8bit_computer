@@ -32,6 +32,13 @@
         </dependency>
 
         <dependency>
+            <groupId>ch.awae</groupId>
+            <artifactId>custom8bit-emulator</artifactId>
+            <version>1.0.x-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>4.13.0</version>

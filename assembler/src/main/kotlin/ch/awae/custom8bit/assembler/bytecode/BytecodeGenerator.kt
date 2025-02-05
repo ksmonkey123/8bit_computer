@@ -92,6 +92,7 @@ class BytecodeGenerator {
             fragment.data.copyInto(buffer, destinationOffset = fragment.startAt)
         }
 
+        logger.info("assembly done")
         return buffer
     }
 
