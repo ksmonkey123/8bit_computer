@@ -261,7 +261,7 @@ enum class BranchOperation(val opcode: Int) {
     BNP(0xb6),
     BNN(0xb7),
     JMP(0xb8),
-    JSR(0xb8),
+    JSR(0xba),
 }
 
 data class BranchInstruction(val operation: BranchOperation, val target: String) : Instruction, CompilingInstruction {
