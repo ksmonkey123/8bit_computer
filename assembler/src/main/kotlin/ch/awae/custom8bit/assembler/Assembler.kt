@@ -2,7 +2,7 @@ package ch.awae.custom8bit.assembler
 
 import ch.awae.custom8bit.assembler.bytecode.*
 import ch.awae.custom8bit.assembler.parser.*
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.*
 
 @Component
 class Assembler(
