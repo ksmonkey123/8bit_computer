@@ -1,5 +1,6 @@
 package ch.awae.custom8bit.emulator.programs
 
+import ch.awae.custom8bit.assembler.*
 import ch.awae.custom8bit.emulator.memory.*
 import ch.awae.custom8bit.emulator.memory.devices.*
 import ch.awae.custom8bit.emulator.processor.*
@@ -16,10 +17,16 @@ class FibonacciTest {
         program: IntArray,
         inputState: ProcessorState = ProcessorState(),
     ): ProcessorState {
-        val code = program.map { it.toByte() }.toByteArray()
+        return executeProgram(program.map { it.toByte() }.toByteArray(), inputState)
+    }
+
+    fun executeProgram(
+        program: ByteArray,
+        inputState: ProcessorState = ProcessorState(),
+    ): ProcessorState {
         val pu = ProcessingUnit(
             microcode,
-            StandardMemoryBus(RomChip8k(0, code), ram, out)
+            StandardMemoryBus(RomChip8k(0, program), ram, out)
         )
 
         var state = inputState
@@ -134,6 +141,84 @@ class FibonacciTest {
         )
 
         executeProgram(programm)
+
+        assertEquals(
+            listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233),
+            out.list
+        )
+
+    }
+
+
+    @Test
+    fun `fibonacci with subroutine`() {
+        out.clear()
+
+        val source = """
+            .vars
+            	0x2000: output[1]
+            
+            .code 0x0000
+            	mov AB #0x0101
+            	mov *output A
+            	mov *output B
+            	mov D #11
+            loop:
+            	jsr next
+            	; new next fibonacci number is in A
+            	mov *output A
+            	; decrement D and repeat if not done
+            	cfc
+            	dec D
+            	bnz loop
+            	hlt
+            
+            ; calculate next number and publish it
+            next:
+            	swp B
+            	cfc
+            	adc B
+            	ret
+        """.trimIndent()
+
+        val program = Assembler().assemble(source)
+
+        executeProgram(program)
+
+        assertEquals(
+            listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233),
+            out.list
+        )
+
+    }
+
+    @Test
+    fun `fibonacci from source`() {
+        out.clear()
+
+        val source = """
+            .vars
+            	0x2000: output[1]
+            
+            .code 0x0000
+            	mov AB #0x0101
+            	mov *output A
+            	mov *output B
+            	mov D #11
+            loop:
+                cfc
+                adc B
+            	mov *output A
+                swp B
+            	cfc
+            	dec D
+            	bnz loop
+            	hlt
+        """.trimIndent()
+
+        val program = Assembler().assemble(source)
+
+        executeProgram(program)
 
         assertEquals(
             listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233),

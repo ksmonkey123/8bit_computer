@@ -7,7 +7,6 @@ import ch.awae.custom8bit.assembler.ast.*
 import org.antlr.v4.runtime.*
 import org.springframework.stereotype.Component
 
-@Component
 class Parser {
 
     private val logger = createLogger()

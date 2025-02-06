@@ -8,7 +8,6 @@ class BytecodeGenerationException(message: String, cause: Throwable? = null) : R
 
 typealias SymbolMap = Map<String, Int>
 
-@Component
 class BytecodeGenerator {
 
     private val logger = createLogger()

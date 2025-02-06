@@ -5,10 +5,9 @@ import org.springframework.stereotype.*
 import java.nio.file.*
 
 @Component
-class AssemblerRunner(
-    private val assembler: Assembler,
-) : CommandLineRunner {
+class AssemblerRunner : CommandLineRunner {
 
+    private val assembler = Assembler()
     private val logger = createLogger()
 
     override fun run(vararg args: String?) {
