@@ -11,6 +11,8 @@ enum class DataSource(val port: Int) {
     READ_LITERAL_2(9),
     READ_PC_HIGH(10),
     READ_PC_LOW(11),
+    READ_STACK_POINTER_LOW(12),
+    READ_STACK_POINTER_HIGH(13),
     ;
 
     companion object {
@@ -31,8 +33,8 @@ enum class DataTarget(val port: Int) {
     WRITE_REG_C(3),
     WRITE_REG_D(4),
     WRITE_MEMORY(5),
-    WRITE_PC_LOW(6),
-    WRITE_PC_HIGH(7),
+    WRITE_LITERAL_1(6),
+    WRITE_LITERAL_2(7),
     ;
 
     companion object {
@@ -89,7 +91,6 @@ enum class AluOperation(override val command: Int) : Action {
 
 enum class AddressTarget(override val command: Int) : Action {
     WRITE_PC(16),
-    WRITE_REG_CD(17),
     WRITE_STACK_POINTER(18),
 }
 

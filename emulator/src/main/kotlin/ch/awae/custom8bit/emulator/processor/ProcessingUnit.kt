@@ -103,6 +103,8 @@ class ProcessingUnit(
             DataSource.READ_LITERAL_2 -> state.literal2
             DataSource.READ_PC_HIGH -> (state.programCounter ushr 8) and 0x00ff
             DataSource.READ_PC_LOW -> state.programCounter and 0x00ff
+            DataSource.READ_STACK_POINTER_LOW -> (state.stackPointer ushr 8) and 0x00ff
+            DataSource.READ_STACK_POINTER_HIGH -> state.stackPointer and 0x00ff
         }
 
         val stateAfterDataTarget = when (execute.dataTarget) {
@@ -112,19 +114,14 @@ class ProcessingUnit(
             DataTarget.WRITE_REG_C -> state.copy(registerC = data)
             DataTarget.WRITE_REG_D -> state.copy(registerD = data)
             DataTarget.WRITE_MEMORY -> state.also { memoryBus.write(address, data) }
-            DataTarget.WRITE_PC_LOW -> state.copy(programCounter = (state.programCounter and 0xff00) + data)
-            DataTarget.WRITE_PC_HIGH -> state.copy(programCounter = (state.programCounter and 0x00ff) + (data shl 8))
+            DataTarget.WRITE_LITERAL_1 -> state.copy(literal1 = data)
+            DataTarget.WRITE_LITERAL_2 -> state.copy(literal2 = data)
             null -> state
         }
 
         val stateAfterAddressSet = stateAfterDataTarget.let { st ->
             when (execute.action as? AddressTarget) {
                 AddressTarget.WRITE_PC -> st.copy(programCounter = address)
-                AddressTarget.WRITE_REG_CD -> st.copy(
-                    registerC = address and 0x00ff,
-                    registerD = (address and 0xff00) ushr 8,
-                )
-
                 AddressTarget.WRITE_STACK_POINTER -> st.copy(stackPointer = address)
                 null -> st
             }

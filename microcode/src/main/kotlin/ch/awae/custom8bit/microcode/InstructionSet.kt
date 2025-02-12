@@ -702,9 +702,10 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0xbb, "RET", 0,
-        step0 = MicroOp(READ_MEMORY, WRITE_PC_LOW, ADR_STACK_POINTER),
-        step1 = MicroOp(READ_MEMORY, WRITE_PC_HIGH, ADR_INCREMENTER),
+        step0 = MicroOp(READ_MEMORY, WRITE_LITERAL_1, ADR_STACK_POINTER),
+        step1 = MicroOp(READ_MEMORY, WRITE_LITERAL_2, ADR_INCREMENTER),
         step2 = MicroOp(addressSource = ADR_INCREMENTER, action = WRITE_STACK_POINTER),
+        step3 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC),
     ),
     Operation(0xfc, "CFC", 0, false),
     Operation(0xfd, "CFS", 0, true),
