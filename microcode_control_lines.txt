@@ -1,0 +1,26 @@
+INPUT SIGNALS:
+ * bits 0-7: instruction register
+ * bit 8: zero flag
+ * bit 9: negative flag
+ * bit 10: carry flag
+ * bit 11: <unused, must be low>
+ * bit 12: cycle (0 during fetch, 1 during execute)
+
+FETCH CYCLE:
+ * bits 0-1: fetch size (0/1/3)
+ * bit 2: new carry flag value (relevant only if bit 3 is set)
+ * bit 3: update carry flag? (update carry if set)
+ * bits 4-7: ALU command (4 bits)
+
+EXECUTE CYCLE:
+ * bit 0: memory write
+ * bit 1: register write (register addressing from bits 0-1 from instruction register)
+ * bits 2-4: read control
+    > 0xx: read disabled (bus pulled low)
+    > 100: read memory
+    > 101: read registers (addressing from bits 2-3 from instruction register)
+    > 110: read literal
+    > 111: read ALU
+ * bit 5: feed address bus from register (if low, feed from literal; only relevant for execution cycle)
+ * bit 6: branch (set programm counter from address bus)
+ * bit 7: feed alu from literal register instead of B
