@@ -1,0 +1,13 @@
+#backups are built as zips
+*.zip
+
+# gerber files
+*.gbl
+*.gbs
+*.gm1
+*.gtl
+*.gts
+*.gto
+*.drl
+
+fp-info-cache
