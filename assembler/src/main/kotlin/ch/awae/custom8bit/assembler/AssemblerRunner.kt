@@ -7,7 +7,6 @@ import java.nio.file.*
 @Component
 class AssemblerRunner : CommandLineRunner {
 
-    private val assembler = Assembler()
     private val logger = createLogger()
 
     override fun run(vararg args: String?) {
@@ -17,7 +16,7 @@ class AssemblerRunner : CommandLineRunner {
     fun assembleFile(filename: String) {
         logger.info("assembling file {}", filename)
         val input = Files.readString(Paths.get(filename))
-        val output = assembler.assemble(input)
+        val output = Assembler.assemble(input)
         logger.info("saving output to {}.bin", filename)
         Files.write(Paths.get("$filename.bin"), output)
         logger.info("done")

@@ -34,7 +34,6 @@
             <groupId>ch.awae</groupId>
             <artifactId>custom8bit-microcode</artifactId>
             <version>1.0.x-SNAPSHOT</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

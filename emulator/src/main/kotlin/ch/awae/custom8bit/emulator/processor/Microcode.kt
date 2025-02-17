@@ -16,4 +16,8 @@ class Microcode(
         return ExecuteBlock((addressingRom[address].toInt() and 0xff) + ((actionRom[address].toInt() and 0xff) shl 8))
     }
 
+    companion object {
+        val INSTANCE = Microcode(ch.awae.custom8bit.microcode.Microcode.microcode)
+    }
+
 }

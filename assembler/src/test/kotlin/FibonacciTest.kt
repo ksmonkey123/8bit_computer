@@ -1,45 +1,24 @@
-import ch.awae.custom8bit.emulator.memory.devices.*
-import ch.awae.custom8bit.emulator.processor.*
+import ch.awae.custom8bit.assembler.*
+import ch.awae.custom8bit.emulator.*
 import kotlin.test.*
 
 class FibonacciTest {
-    private val microcode = Microcode(Compiler.compileInstructionSet(INSTRUCTION_SET))
-    private val out = SerialOutputCapture(0x2000)
-    private val ram = RamChip8k(57344)
 
-    fun executeProgram(
-        program: IntArray,
-        inputState: ProcessorState = ProcessorState(),
-    ): ProcessorState {
-        return executeProgram(program.map { it.toByte() }.toByteArray(), inputState)
-    }
-
-    fun executeProgram(
-        program: ByteArray,
-        inputState: ProcessorState = ProcessorState(),
-    ): ProcessorState {
-        val pu = ProcessingUnit(
-            microcode,
-            StandardMemoryBus(RomChip8k(0, program), ram, out)
-        )
-
-        var state = inputState
-
-        while (!state.halted) {
-            state = pu.executeNextCommand(state)
+    class OutputCapture : PeripheralDeviceBase() {
+        private val output = mutableListOf<Int>()
+        override fun write(address: Byte, data: Byte) {
+            output.add(data.toInt() and 0xff)
         }
 
-        println("finished program. ${pu.statistics}")
-        return state
+        val capturedData: List<Int>
+            get() = output.toList()
     }
 
     @Test
     fun `fibonacci with subroutine`() {
-        out.clear()
-
         val source = """
             .vars
-            	0x2000: output[1]
+            	0x4000: output[1]
             
             .code 0x0000
             	mov AB #0x0101
@@ -64,24 +43,22 @@ class FibonacciTest {
             	ret
         """.trimIndent()
 
-        val program = Assembler().assemble(source)
+        val program = Assembler.assemble(source)
+        val capture = OutputCapture()
 
-        executeProgram(program)
+        Emulator(program, 0 to capture).runToCompletion()
 
         assertEquals(
-            listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233),
-            out.list
+            listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233), capture.capturedData
         )
 
     }
 
     @Test
     fun `fibonacci from source`() {
-        out.clear()
-
         val source = """
             .vars
-            	0x2000: output[1]
+            	0x4000: output[1]
             
             .code 0x0000
             	mov AB #0x0101
@@ -99,13 +76,13 @@ class FibonacciTest {
             	hlt
         """.trimIndent()
 
-        val program = Assembler().assemble(source)
+        val program = Assembler.assemble(source)
+        val capture = OutputCapture()
 
-        executeProgram(program)
+        Emulator(program, 0 to capture).runToCompletion()
 
         assertEquals(
-            listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233),
-            out.list
+            listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233), capture.capturedData
         )
 
     }

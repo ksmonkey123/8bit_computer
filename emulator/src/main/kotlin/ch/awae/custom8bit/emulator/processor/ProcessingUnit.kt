@@ -7,6 +7,8 @@ class ProcessingUnit(
     private val memoryBus: MemoryBus,
 ) {
 
+    constructor(memoryBus: MemoryBus) : this(Microcode.INSTANCE, memoryBus)
+
     data class Statistics(val instructionCount: Int, val stepCount: Int)
 
     var statistics = Statistics(0, 0)
