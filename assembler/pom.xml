@@ -45,6 +45,12 @@
             <artifactId>kotlin-test-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>ch.awae</groupId>
+            <artifactId>custom8bit-emulator</artifactId>
+            <version>1.0.x-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
