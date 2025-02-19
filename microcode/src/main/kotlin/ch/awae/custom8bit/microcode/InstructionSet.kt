@@ -194,41 +194,67 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
-        0x28, "CMP B", 0, true,
-        step0 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+        0x28, "CMP B", 0,
+        // set ALU input to 0xff
+        step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
+        // shift left to get a '1' into the carry flag.
+        step1 = MicroOp(READ_ALU, action = SHIFT_LEFT),
+        step2 = MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x29, "CMP C", 0, true,
-        step0 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+        0x29, "CMP C", 0,
+        // set ALU input to 0xff
+        step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
+        // shift left to get a '1' into the carry flag.
+        step1 = MicroOp(READ_ALU, action = SHIFT_LEFT),
+        step2 = MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x2a, "CMP D", 0, true,
-        step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+        0x2a, "CMP D", 0,
+        // set ALU input to 0xff
+        step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
+        // shift left to get a '1' into the carry flag.
+        step1 = MicroOp(READ_ALU, action = SHIFT_LEFT),
+        step2 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x2b, "CMP i", 1, true,
-        step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
-        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+        0x2b, "CMP i", 1,
+        // set ALU input to 0xff
+        step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
+        // shift left to get a '1' into the carry flag.
+        step1 = MicroOp(READ_ALU, action = SHIFT_LEFT),
+        step2 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x2c, "CMP (L)", 2, true,
-        step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
-        step1 = MicroOp(READ_ALU, action = SUBTRACTION),
+        0x2c, "CMP (L)", 2,
+        // set ALU input to 0xff
+        step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
+        // shift left to get a '1' into the carry flag.
+        step1 = MicroOp(READ_ALU, action = SHIFT_LEFT),
+        step2 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
+        step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x2d, "CMP (CD + l)", 1, true,
-        step0 = MicroOp(addressSource = ADR_REG_CD),
-        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
-        step2 = MicroOp(READ_ALU, action = SUBTRACTION),
+        0x2d, "CMP (CD + l)", 1,
+        // set ALU input to 0xff
+        step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
+        // shift left to get a '1' into the carry flag. also move CD into incrementer
+        step1 = MicroOp(READ_ALU, addressSource = ADR_REG_CD, action = SHIFT_LEFT),
+        step2 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x2e, "CMP (SP + l)", 1, true,
-        step0 = MicroOp(addressSource = ADR_STACK_POINTER),
-        step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
-        step2 = MicroOp(READ_ALU, action = SUBTRACTION),
+        0x2e, "CMP (SP + l)", 1,
+        // set ALU input to 0xff
+        step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
+        // shift left to get a '1' into the carry flag. also move SP into incrementer
+        step1 = MicroOp(READ_ALU, addressSource = ADR_STACK_POINTER, action = SHIFT_LEFT),
+        step2 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
+        step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
         0x30, "DEC A", 0,
@@ -319,7 +345,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         0x41, "RL", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         // shift once to get top bit into carry (write to A necessary to not rewrite alu input)
-        step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_LEFT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
         // do real shift with carry to get it into the bottom bit
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
     ),
@@ -332,16 +358,18 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         0x43, "RR", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         // shift once to get bottom bit into carry (write to A necessary to not rewrite alu input)
-        step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_RIGHT),
+        step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
     Operation(
-        0x44, "RRA", 0, false,
-        step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        0x44, "RRA", 0,
+        // execute ALU logic command to clear carry flag.
+        step0 = MicroOp(READ_ALU, WRITE_ALU_INPUT, action = AND),
+        step1 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         // shift once to get top bit into carry (write to A necessary to not rewrite alu input)
-        step1 = MicroOp(dataTarget = WRITE_REG_A, action = SHIFT_LEFT),
+        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
         // real shift right with replicated top bit
-        step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
+        step3 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
     Operation(
         0x48, "SWAP B", 0,
@@ -707,8 +735,18 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step2 = MicroOp(addressSource = ADR_INCREMENTER, action = WRITE_STACK_POINTER),
         step3 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC),
     ),
-    Operation(0xfc, "CFC", 0, false),
-    Operation(0xfd, "CFS", 0, true),
+    Operation(
+        0xfc, "CFC", 0,
+        // read AND from ALU to get a '0' into the carry flag
+        step0 = MicroOp(READ_ALU, WRITE_LITERAL_2, action = AND),
+    ),
+    Operation(
+        0xfd, "CFS", 0,
+        // move 0xff into ALU
+        step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
+        // shift to get a '1' into the carry flag.
+        step1 = MicroOp(READ_ALU, WRITE_LITERAL_2, action = SHIFT_LEFT),
+    ),
     Operation(0xfe, "NOP", 0),
     Operation(0xff, "HLT", 0, halt = true),
 )

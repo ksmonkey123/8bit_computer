@@ -49,9 +49,6 @@ class ProcessingUnit(
                     incrementRegister = state.programCounter,
                     stepCounter = control.skipFetch * 2 + 1,
                     halted = control.halt,
-                    flags = state.flags.copy(
-                        carry = control.carryUpdate ?: state.flags.carry
-                    )
                 )
             }
 
@@ -91,16 +88,16 @@ class ProcessingUnit(
         val execute = microcode.execute(state.instructionRegister, state.stepCounter and 0x03, state.flags)
         val address = state.getAddress(execute.addressSource)
 
-        val aluState = ALU.calculate(state, execute.action as? AluOperation)
+        val aluState = (execute.action as? AluOperation)?.let { ALU.calculate(state, it) }
 
         val data = when (execute.dataSource) {
-            null -> 0x00
+            null -> 0xff
             DataSource.READ_REG_A -> state.registerA
             DataSource.READ_REG_B -> state.registerB
             DataSource.READ_REG_C -> state.registerC
             DataSource.READ_REG_D -> state.registerD
             DataSource.READ_MEMORY -> memoryBus.read(address)
-            DataSource.READ_ALU -> aluState.data
+            DataSource.READ_ALU -> aluState?.data ?: throw IllegalStateException("ALU read without ALU operation")
             DataSource.READ_LITERAL_1 -> state.literal1
             DataSource.READ_LITERAL_2 -> state.literal2
             DataSource.READ_PC_HIGH -> (state.programCounter ushr 8) and 0x00ff
@@ -119,6 +116,12 @@ class ProcessingUnit(
             DataTarget.WRITE_LITERAL_1 -> state.copy(literal1 = data)
             DataTarget.WRITE_LITERAL_2 -> state.copy(literal2 = data)
             null -> state
+        }.let {
+            if (execute.dataSource == DataSource.READ_ALU) {
+                it.copy(flags = it.flags.copy(carry = aluState!!.carry))
+            } else {
+                it
+            }
         }
 
         val stateAfterAddressSet = stateAfterDataTarget.let { st ->
@@ -136,11 +139,12 @@ class ProcessingUnit(
                     DataTarget.WRITE_REG_C,
                     DataTarget.WRITE_REG_D
                 )
-                || execute.dataSource == DataSource.READ_ALU
+                || ((execute.dataSource == DataSource.READ_ALU) &&
+                        (execute.dataTarget != DataTarget.WRITE_LITERAL_2))
             ) {
-                st.copy(flags = Flags(aluState.carry, data == 0, data > 0x80))
+                st.copy(flags = st.flags.copy(zero = data == 0, negative = data > 0x80))
             } else {
-                st.copy(flags = st.flags.copy(carry = aluState.carry))
+                st
             }
         }
 

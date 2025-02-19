@@ -5,6 +5,8 @@ import ch.awae.custom8bit.emulator.memory.devices.*
 import ch.awae.custom8bit.microcode.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.*
+import org.junit.jupiter.params.provider.*
 import kotlin.test.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -28,15 +30,19 @@ class ManagementCommandsTest {
 
     private fun execute(inputState: ProcessorState, vararg programBytes: Int) = execute(programBytes, inputState)
 
-    @Test
-    fun `carry clear`() {
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 2])
+    fun `carry clear`(combination: Int) {
+        val zer = (combination and 0b01) != 0
+        val neg = (combination and 0b10) != 0
+
         val output = execute(
             ProcessorState(
                 registerA = 12,
                 registerB = 24,
                 registerC = 36,
                 registerD = 48,
-                flags = Flags(carry = true, zero = true, negative = false)
+                flags = Flags(carry = true, zero = zer, negative = neg)
             ),
             0xfc
         )
@@ -46,19 +52,23 @@ class ManagementCommandsTest {
         assertEquals(36, output.registerC)
         assertEquals(48, output.registerD)
         assertEquals(false, output.flags.carry)
-        assertEquals(true, output.flags.zero)
-        assertEquals(false, output.flags.negative)
+        assertEquals(zer, output.flags.zero)
+        assertEquals(neg, output.flags.negative)
     }
 
-    @Test
-    fun `carry set`() {
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 2])
+    fun `carry set`(combination: Int) {
+        val zer = (combination and 0b01) != 0
+        val neg = (combination and 0b10) != 0
+
         val output = execute(
             ProcessorState(
                 registerA = 12,
                 registerB = 24,
                 registerC = 36,
                 registerD = 48,
-                flags = Flags(carry = false, zero = true, negative = false)
+                flags = Flags(carry = true, zero = zer, negative = neg)
             ),
             0xfd
         )
@@ -68,19 +78,23 @@ class ManagementCommandsTest {
         assertEquals(36, output.registerC)
         assertEquals(48, output.registerD)
         assertEquals(true, output.flags.carry)
-        assertEquals(true, output.flags.zero)
-        assertEquals(false, output.flags.negative)
+        assertEquals(zer, output.flags.zero)
+        assertEquals(neg, output.flags.negative)
     }
 
-    @Test
-    fun `nop`() {
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 2])
+    fun nop(combination: Int) {
+        val zer = (combination and 0b01) != 0
+        val neg = (combination and 0b10) != 0
+
         val output = execute(
             ProcessorState(
                 registerA = 12,
                 registerB = 24,
                 registerC = 36,
                 registerD = 48,
-                flags = Flags(carry = true, zero = true, negative = false)
+                flags = Flags(carry = true, zero = zer, negative = neg)
             ),
             0xfe
         )
@@ -90,12 +104,12 @@ class ManagementCommandsTest {
         assertEquals(36, output.registerC)
         assertEquals(48, output.registerD)
         assertEquals(true, output.flags.carry)
-        assertEquals(true, output.flags.zero)
-        assertEquals(false, output.flags.negative)
+        assertEquals(zer, output.flags.zero)
+        assertEquals(neg, output.flags.negative)
     }
 
     @Test
-    fun `halt`() {
+    fun halt() {
         val output = execute(ProcessorState(), 0xff)
 
         assertTrue(output.halted)

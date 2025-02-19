@@ -43,10 +43,6 @@ object Compiler {
             1 -> 2
             2 -> 1
             else -> throw IllegalArgumentException("invalid fetch size: ${operation.fetchSize}")
-        } + when (operation.updateCarry) {
-            true -> 0b1100
-            false -> 0b1000
-            null -> 0b0000
         } + when (operation.halt) {
             true -> 0x80
             false -> 0x00
