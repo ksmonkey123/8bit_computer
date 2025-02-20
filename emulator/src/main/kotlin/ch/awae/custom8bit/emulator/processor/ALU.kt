@@ -9,13 +9,12 @@ data class AluOutput(
 
 object ALU {
 
-    fun calculate(state: ProcessorState, operation: AluOperation?): AluOutput {
+    fun calculate(state: ProcessorState, operation: AluOperation): AluOutput {
         return when (operation) {
-            null -> AluOutput(state.registerA, state.flags.carry)
-            AluOperation.AND -> AluOutput(state.registerA and state.aluInput, state.flags.carry)
-            AluOperation.IOR -> AluOutput(state.registerA or state.aluInput, state.flags.carry)
-            AluOperation.XOR -> AluOutput(state.registerA xor state.aluInput, state.flags.carry)
-            AluOperation.INVERT -> AluOutput(state.aluInput.inv() and 0xff, state.flags.carry)
+            AluOperation.AND -> AluOutput(state.registerA and state.aluInput, false)
+            AluOperation.IOR -> AluOutput(state.registerA or state.aluInput, false)
+            AluOperation.XOR -> AluOutput(state.registerA xor state.aluInput, false)
+            AluOperation.INVERT -> AluOutput(state.aluInput.inv() and 0xff, false)
             AluOperation.DECREMENT -> (state.aluInput + 255 + state.flags.carry.toInt()).let {
                 AluOutput(
                     it and 0xff,

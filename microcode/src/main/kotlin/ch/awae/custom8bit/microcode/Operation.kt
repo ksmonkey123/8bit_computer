@@ -170,7 +170,6 @@ data class Operation(
     val code: Int,
     val mnemonic: String,
     val fetchSize: Int,
-    val updateCarry: Boolean? = null,
     val halt: Boolean = false,
     val step0: MicroOperation? = null,
     val step1: MicroOperation? = null,
