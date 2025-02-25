@@ -19,7 +19,7 @@ data class ProcessorState(
     fun getAddress(source: AddressSource): Int = when (source) {
         AddressSource.ADR_LITERAL -> ((literal2 shl 8) and 0xff00) + (literal1 and 0x00ff)
         AddressSource.ADR_REG_CD -> ((registerD shl 8) and 0xff00) + (registerC and 0x00ff)
-        AddressSource.ADR_INCREMENTER -> (incrementRegister + 1) and 0xffff
+        AddressSource.ADR_INCREMENTER_INCREMENT -> (incrementRegister + 1) and 0xffff
         AddressSource.ADR_INCREMENTER_DECREMENT -> (incrementRegister - 1) and 0xffff
         AddressSource.ADR_STACK_POINTER -> stackPointer and 0xffff
         AddressSource.ADR_INCREMENTER_OFFSET_POSITIVE -> (incrementRegister + (literal1 and 0x00ff)) and 0xffff

@@ -5,14 +5,14 @@ enum class DataSource(val port: Int) {
     READ_REG_B(2),
     READ_REG_C(3),
     READ_REG_D(4),
-    READ_MEMORY(5),
-    READ_ALU(6),
-    READ_LITERAL_1(8),
-    READ_LITERAL_2(9),
-    READ_PC_HIGH(10),
-    READ_PC_LOW(11),
-    READ_STACK_POINTER_LOW(12),
-    READ_STACK_POINTER_HIGH(13),
+    READ_LITERAL_1(5),
+    READ_LITERAL_2(6),
+    READ_PC_LOW(8),
+    READ_PC_HIGH(9),
+    READ_STACK_POINTER_LOW(10),
+    READ_STACK_POINTER_HIGH(11),
+    READ_ALU(14),
+    READ_MEMORY(15),
     ;
 
     companion object {
@@ -32,9 +32,9 @@ enum class DataTarget(val port: Int) {
     WRITE_REG_B(2),
     WRITE_REG_C(3),
     WRITE_REG_D(4),
-    WRITE_MEMORY(5),
-    WRITE_LITERAL_1(6),
-    WRITE_LITERAL_2(7),
+    WRITE_LITERAL_1(5),
+    WRITE_LITERAL_2(6),
+    WRITE_MEMORY(7),
     ;
 
     companion object {
@@ -60,11 +60,12 @@ sealed interface Action {
 enum class AddressSource(val port: Int) {
     ADR_LITERAL(0),
     ADR_REG_CD(1),
-    ADR_INCREMENTER(2),
-    ADR_INCREMENTER_DECREMENT(3),
-    ADR_STACK_POINTER(4),
-    ADR_INCREMENTER_OFFSET_POSITIVE(5),
-    ADR_INCREMENTER_OFFSET_NEGATIVE(6),
+    ADR_PC(2),
+    ADR_STACK_POINTER(3),
+    ADR_INCREMENTER_INCREMENT(4),
+    ADR_INCREMENTER_DECREMENT(5),
+    ADR_INCREMENTER_OFFSET_POSITIVE(6),
+    ADR_INCREMENTER_OFFSET_NEGATIVE(7),
     ;
 
     companion object {
@@ -76,22 +77,27 @@ enum class AddressSource(val port: Int) {
 }
 
 enum class AluOperation(override val command: Int) : Action {
+    // logic operations 0b00xx
     AND(0),
     IOR(1),
     XOR(2),
     INVERT(3),
-    DECREMENT(4),
-    INCREMENT(5),
-    ADDITION(6),
-    SUBTRACTION(7),
-    COMPLEMENT(8),
-    SHIFT_LEFT(9),
-    SHIFT_RIGHT(10),
+
+    // shifter operations 0b010x
+    SHIFT_RIGHT(4),
+    SHIFT_LEFT(5),
+
+    // low adder operations 0b10xx, 0b1100
+    DECREMENT(8),
+    INCREMENT(9),
+    ADDITION(10),
+    SUBTRACTION(11),
+    COMPLEMENT(12),
 }
 
 enum class AddressTarget(override val command: Int) : Action {
     WRITE_PC(16),
-    WRITE_STACK_POINTER(18),
+    WRITE_STACK_POINTER(17),
 }
 
 data class ExecuteBlock(
