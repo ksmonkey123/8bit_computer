@@ -49,6 +49,8 @@ class ProcessingUnit(
                     incrementRegister = state.programCounter,
                     stepCounter = control.skipFetch * 2 + 1,
                     halted = control.halt,
+                    // alu input written by default
+                    aluInput = instruction
                 )
             }
 
@@ -73,6 +75,8 @@ class ProcessingUnit(
                     programCounter = (state.incrementRegister + 1) and 0xffff,
                     incrementRegister = (state.incrementRegister + 1) and 0xffff,
                     stepCounter = state.stepCounter + 1,
+                    // alu input written by default
+                    aluInput = 0xff,
                 )
             }
 
