@@ -2274,7 +2274,7 @@
 		)
 		(uuid "4e141e33-8683-4a55-a4d1-3e60270db647")
 	)
-	(label "mem_write"
+	(label "~{mem_write}"
 		(at 262.89 45.72 180)
 		(effects
 			(font
