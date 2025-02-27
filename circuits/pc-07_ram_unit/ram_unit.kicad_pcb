@@ -5020,6 +5020,17 @@
 			)
 		)
 	)
+	(gr_text "74138 (3-8 DECODER)"
+		(at 113.665 94.615 0)
+		(layer "F.SilkS")
+		(uuid "b7760b6b-eacf-48eb-b986-6b5e048e02a8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
 	(gr_text "32K RAM MODULE PC-07 (REV. A)"
 		(at 90.17 118.11 0)
 		(layer "F.SilkS" knockout)

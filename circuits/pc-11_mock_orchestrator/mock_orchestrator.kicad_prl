@@ -1,10 +1,12 @@
 {
   "board": {
-    "active_layer": 5,
+    "active_layer": 0,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
-    "hidden_nets": [],
+    "hidden_nets": [
+      "/carryFlag"
+    ],
     "high_contrast_mode": 1,
     "net_color_mode": 1,
     "opacity": {
@@ -48,7 +50,7 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "00000000_00000000_00021039_800000a1",
+    "visible_layers": "00000000_00000000_00001031_80000025",
     "zone_display_mode": 0
   },
   "git": {
@@ -58,7 +60,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "orchestrator_interconnect.kicad_prl",
+    "filename": "mock_orchestrator.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {

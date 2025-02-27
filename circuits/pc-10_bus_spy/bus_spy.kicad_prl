@@ -1,10 +1,12 @@
 {
   "board": {
-    "active_layer": 5,
+    "active_layer": 0,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
-    "hidden_nets": [],
+    "hidden_nets": [
+      "/adr0"
+    ],
     "high_contrast_mode": 1,
     "net_color_mode": 1,
     "opacity": {
@@ -31,6 +33,7 @@
     "visible_items": [
       "vias",
       "footprint_text",
+      "footprint_anchors",
       "ratsnest",
       "grid",
       "footprints_front",
@@ -48,7 +51,7 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "00000000_00000000_00021039_800000a1",
+    "visible_layers": "00000000_00000000_00001031_00000025",
     "zone_display_mode": 0
   },
   "git": {
@@ -58,7 +61,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "orchestrator_interconnect.kicad_prl",
+    "filename": "bus_spy.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {

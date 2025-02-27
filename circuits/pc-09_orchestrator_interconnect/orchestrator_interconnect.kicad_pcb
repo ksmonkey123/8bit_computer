@@ -4983,6 +4983,17 @@
 		(layer "Edge.Cuts")
 		(uuid "f0de9ffb-bd00-419c-b05a-8bc566247fc7")
 	)
+	(gr_text "7474 (D-FF)"
+		(at 76.2 79.375 90)
+		(layer "F.SilkS")
+		(uuid "160b6e20-157b-4c19-9027-dfcbb89b9387")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
 	(gr_text "MAIN INTERLINK"
 		(at 65.405 50.8 90)
 		(layer "F.SilkS")
@@ -4993,6 +5004,50 @@
 				(thickness 0.1)
 			)
 			(justify left bottom)
+		)
+	)
+	(gr_text "4078 (BUS NOR)"
+		(at 72.39 104.14 0)
+		(layer "F.SilkS")
+		(uuid "48e268fc-d488-4d35-8933-9789b1f4c13f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(gr_text "74138 (3-8 DECODER)"
+		(at 76.2 48.895 90)
+		(layer "F.SilkS")
+		(uuid "656c37c5-5b9e-448e-aac1-047f234d4be1")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(gr_text "4081 (AND)"
+		(at 91.44 50.165 90)
+		(layer "F.SilkS")
+		(uuid "7b86b575-7cec-4d06-ad8d-ea4b41f815d2")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(gr_text "4011 (NAND)"
+		(at 106.68 50.165 90)
+		(layer "F.SilkS")
+		(uuid "84977caa-080d-4cfd-b237-c346f6878545")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
 		)
 	)
 	(gr_text "DATA\nINTERCONNECT"
@@ -5029,6 +5084,17 @@
 				(thickness 0.1)
 			)
 			(justify left bottom)
+		)
+	)
+	(gr_text "4081 (AND)"
+		(at 122.555 50.165 90)
+		(layer "F.SilkS")
+		(uuid "d3e121ac-9058-405a-8fdb-05cbb403b4ae")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
 		)
 	)
 	(gr_text "ORCHESTRATOR INTCON PC-09 (REV. A)"
@@ -8984,7 +9050,8 @@
 				(xy 55.258259 94.042512) (xy 55.241463 93.974692) (xy 55.263999 93.908556) (xy 55.309054 93.869515)
 				(xy 55.317816 93.865051) (xy 55.339789 93.849086) (xy 55.489786 93.740109) (xy 55.489788 93.740106)
 				(xy 55.489792 93.740104) (xy 55.640104 93.589792) (xy 55.733229 93.461614) (xy 55.788558 93.418949)
-				(xy 55.833547 93.4105) (xy 57.081007 93.4105) (xy 76.131007 93.4105) (xy 76.766007 93.4105) (xy 80.303481 93.4105)
+				(xy 55.833547 93.4105) (xy 57.081007 93.4105) (xy 76.131007 93.4105) (xy 76.766007 93.4105) (xy 76.903993 93.4105)
+				(xy 80.303481 93.4105)
 			)
 		)
 		(filled_polygon
