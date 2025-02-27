@@ -48,7 +48,7 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "00000000_00000000_00021031_800000a5",
+    "visible_layers": "00000000_00000000_00021039_800000a5",
     "zone_display_mode": 0
   },
   "git": {
@@ -58,7 +58,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "command_decoder.kicad_prl",
+    "filename": "orchestrator_interconnect.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {
