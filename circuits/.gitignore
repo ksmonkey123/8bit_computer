@@ -2,12 +2,7 @@
 *.zip
 
 # gerber files
-*.gbl
-*.gbs
-*.gm1
-*.gtl
-*.gts
-*.gto
+*.gbr
 *.drl
 
 fp-info-cache
