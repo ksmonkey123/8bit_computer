@@ -558,6 +558,167 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:C_Polarized"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "C"
+				(at 0.635 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "C_Polarized"
+				(at 0.635 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0.9652 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Polarized capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "cap capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "CP_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "C_Polarized_0_1"
+				(rectangle
+					(start -2.286 0.508)
+					(end 2.286 1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.778 2.286) (xy -0.762 2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 2.794) (xy -1.27 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 2.286 -0.508)
+					(end -2.286 -1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+			)
+			(symbol "C_Polarized_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:LED"
 			(pin_numbers
 				(hide yes)
@@ -5710,13 +5871,13 @@
 			)
 		)
 		(pin "3"
-			(uuid "299581db-f66e-462f-a824-393bd2564ffd")
+			(uuid "299581db-f66e-462f-a824-393bd2564ffe")
 		)
 		(pin "1"
-			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651de")
+			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651df")
 		)
 		(pin "2"
-			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa083")
+			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa084")
 		)
 		(instances
 			(project ""
@@ -6016,10 +6177,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e4")
+			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e5")
 		)
 		(pin "2"
-			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ec")
+			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ed")
 		)
 		(instances
 			(project ""
@@ -6805,13 +6966,13 @@
 			)
 		)
 		(pin "3"
-			(uuid "299581db-f66e-462f-a824-393bd2564ffd")
+			(uuid "299581db-f66e-462f-a824-393bd2564fff")
 		)
 		(pin "1"
-			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651de")
+			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651e0")
 		)
 		(pin "2"
-			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa083")
+			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa085")
 		)
 		(instances
 			(project ""
@@ -7408,13 +7569,13 @@
 			)
 		)
 		(pin "3"
-			(uuid "299581db-f66e-462f-a824-393bd2564ffd")
+			(uuid "299581db-f66e-462f-a824-393bd2565000")
 		)
 		(pin "1"
-			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651de")
+			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651e1")
 		)
 		(pin "2"
-			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa083")
+			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa086")
 		)
 		(instances
 			(project ""
@@ -7870,10 +8031,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77195")
+			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77196")
 		)
 		(pin "2"
-			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039682")
+			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039683")
 		)
 		(instances
 			(project ""
@@ -8026,13 +8187,13 @@
 			)
 		)
 		(pin "3"
-			(uuid "299581db-f66e-462f-a824-393bd2564ffd")
+			(uuid "299581db-f66e-462f-a824-393bd2565001")
 		)
 		(pin "1"
-			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651de")
+			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651e2")
 		)
 		(pin "2"
-			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa083")
+			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa087")
 		)
 		(instances
 			(project ""
@@ -9145,10 +9306,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e4")
+			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e6")
 		)
 		(pin "2"
-			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ec")
+			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ee")
 		)
 		(instances
 			(project ""
@@ -9495,13 +9656,13 @@
 			)
 		)
 		(pin "3"
-			(uuid "299581db-f66e-462f-a824-393bd2564ffd")
+			(uuid "299581db-f66e-462f-a824-393bd2565002")
 		)
 		(pin "1"
-			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651de")
+			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651e3")
 		)
 		(pin "2"
-			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa083")
+			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa088")
 		)
 		(instances
 			(project ""
@@ -9642,10 +9803,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77195")
+			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77197")
 		)
 		(pin "2"
-			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039682")
+			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039684")
 		)
 		(instances
 			(project ""
@@ -10054,13 +10215,13 @@
 			)
 		)
 		(pin "3"
-			(uuid "299581db-f66e-462f-a824-393bd2564ffd")
+			(uuid "299581db-f66e-462f-a824-393bd2565003")
 		)
 		(pin "1"
-			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651de")
+			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651e4")
 		)
 		(pin "2"
-			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa083")
+			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa089")
 		)
 		(instances
 			(project ""
@@ -10924,18 +11085,84 @@
 			)
 		)
 		(pin "3"
-			(uuid "299581db-f66e-462f-a824-393bd2564ffd")
+			(uuid "299581db-f66e-462f-a824-393bd2565004")
 		)
 		(pin "1"
-			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651de")
+			(uuid "aa8b5975-af95-4f95-9a4e-283b33f651e5")
 		)
 		(pin "2"
-			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa083")
+			(uuid "3ad7b90f-1d4a-4454-9f38-85687e0fa08a")
 		)
 		(instances
 			(project ""
 				(path "/41a1e4f1-e027-482a-b298-2d9f17a2c0a5"
 					(reference "Q1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VCC")
+		(at 157.48 151.13 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b498d3be-0314-4296-b90f-b6138c4d5ea3")
+		(property "Reference" "#PWR019"
+			(at 157.48 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VCC"
+			(at 157.48 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 157.48 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 157.48 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 157.48 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5b4eb8f0-20f2-4885-aa99-e2a6de06a6f7")
+		)
+		(instances
+			(project "bus_spy"
+				(path "/41a1e4f1-e027-482a-b298-2d9f17a2c0a5"
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -11165,10 +11392,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e4")
+			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e7")
 		)
 		(pin "2"
-			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ec")
+			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ef")
 		)
 		(instances
 			(project ""
@@ -11252,10 +11479,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e4")
+			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e8")
 		)
 		(pin "2"
-			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ec")
+			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2f0")
 		)
 		(instances
 			(project ""
@@ -11624,10 +11851,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77195")
+			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77198")
 		)
 		(pin "2"
-			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039682")
+			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039685")
 		)
 		(instances
 			(project ""
@@ -12068,10 +12295,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77195")
+			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77199")
 		)
 		(pin "2"
-			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039682")
+			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039686")
 		)
 		(instances
 			(project ""
@@ -12374,10 +12601,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77195")
+			(uuid "ab70d980-2f50-4554-910b-c3a5d6a7719a")
 		)
 		(pin "2"
-			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039682")
+			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039687")
 		)
 		(instances
 			(project ""
@@ -12813,10 +13040,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77195")
+			(uuid "ab70d980-2f50-4554-910b-c3a5d6a7719b")
 		)
 		(pin "2"
-			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039682")
+			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039688")
 		)
 		(instances
 			(project ""
@@ -12981,6 +13208,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 157.48 158.75 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d8b96c84-b1d1-4d70-a2ab-96fbd01dcad3")
+		(property "Reference" "#PWR018"
+			(at 157.48 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 157.48 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 157.48 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 157.48 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 157.48 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "94182771-0e60-40fb-a4c6-3548a2f54400")
+		)
+		(instances
+			(project "bus_spy"
+				(path "/41a1e4f1-e027-482a-b298-2d9f17a2c0a5"
+					(reference "#PWR018")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 166.37 27.94 0)
 		(unit 1)
@@ -13044,10 +13337,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "ab70d980-2f50-4554-910b-c3a5d6a77195")
+			(uuid "ab70d980-2f50-4554-910b-c3a5d6a7719c")
 		)
 		(pin "2"
-			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039682")
+			(uuid "eb5cb0b0-def1-40ab-bc0f-2ddbcb039689")
 		)
 		(instances
 			(project ""
@@ -13296,10 +13589,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e4")
+			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e9")
 		)
 		(pin "2"
-			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ec")
+			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2f1")
 		)
 		(instances
 			(project ""
@@ -13779,6 +14072,77 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C_Polarized")
+		(at 157.48 154.94 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ebc1c9a0-31eb-447d-b608-9590d0b97b3a")
+		(property "Reference" "C1"
+			(at 161.29 152.7809 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "C_Polarized"
+			(at 161.29 155.3209 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:CP_Elec_5x5.3"
+			(at 158.4452 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 157.48 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Polarized capacitor"
+			(at 157.48 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "a77eb9df-02c4-41ae-95f2-fa622b755485")
+		)
+		(pin "1"
+			(uuid "afbf2d10-f50c-4043-943e-0675735a4cc2")
+		)
+		(instances
+			(project "bus_spy"
+				(path "/41a1e4f1-e027-482a-b298-2d9f17a2c0a5"
+					(reference "C1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:LED")
 		(at 104.14 76.2 90)
 		(unit 1)
@@ -14022,10 +14386,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e4")
+			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9ea")
 		)
 		(pin "2"
-			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ec")
+			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2f2")
 		)
 		(instances
 			(project ""
@@ -14694,10 +15058,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9e4")
+			(uuid "1e07a08e-f2e9-4604-80da-92abc4f4a9eb")
 		)
 		(pin "2"
-			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2ec")
+			(uuid "0ed521c1-6882-4c48-ae3a-0dc92e72b2f3")
 		)
 		(instances
 			(project ""
