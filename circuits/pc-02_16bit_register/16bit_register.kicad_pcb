@@ -48,12 +48,12 @@
 		(allow_soldermask_bridges_in_footprints no)
 		(tenting front back)
 		(pcbplotparams
-			(layerselection 0x00000000_00000000_55555555_575555ff)
+			(layerselection 0x00000000_00000000_55555555_5755f5ff)
 			(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)
 			(disableapertmacros no)
-			(usegerberextensions yes)
+			(usegerberextensions no)
 			(usegerberattributes no)
-			(usegerberadvancedattributes yes)
+			(usegerberadvancedattributes no)
 			(creategerberjobfile no)
 			(dashed_line_dash_ratio 12.000000)
 			(dashed_line_gap_ratio 3.000000)
@@ -80,12 +80,12 @@
 			(hidednponfab no)
 			(sketchdnponfab yes)
 			(crossoutdnponfab yes)
-			(subtractmaskfromsilk no)
+			(subtractmaskfromsilk yes)
 			(outputformat 1)
 			(mirror no)
 			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "")
+			(outputdirectory "./CAM")
 		)
 	)
 	(net 0 "")
@@ -3268,7 +3268,7 @@
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C6"
-			(at 0 -1.43 0)
+			(at -2.68 0 0)
 			(layer "F.SilkS")
 			(uuid "563ed6d7-f993-4cc7-92a6-e3691faff88c")
 			(effects
@@ -4931,7 +4931,7 @@
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C7"
-			(at 0 -1.43 0)
+			(at -2.68 0 0)
 			(layer "F.SilkS")
 			(uuid "5337511a-1afd-4924-b7a5-ac2436b45209")
 			(effects
@@ -10194,7 +10194,7 @@
 			)
 		)
 	)
-	(gr_text "74244"
+	(gr_text "74244 (DRIVER)"
 		(at 90.17 77.47 90)
 		(layer "F.SilkS")
 		(uuid "2f6ca9ff-a230-4e8a-a709-439908cd12ce")
@@ -10205,7 +10205,7 @@
 			)
 		)
 	)
-	(gr_text "74244"
+	(gr_text "74244 (DRIVER)"
 		(at 90.17 48.26 90)
 		(layer "F.SilkS")
 		(uuid "40e77ef4-65fc-4439-893f-d010a8fdabab")
@@ -10252,7 +10252,7 @@
 			(justify bottom)
 		)
 	)
-	(gr_text "74273"
+	(gr_text "74273 (REGISTER)"
 		(at 105.41 77.47 90)
 		(layer "F.SilkS")
 		(uuid "7e10c0f5-ee12-488b-afc5-4c963144d5d5")
@@ -10263,7 +10263,7 @@
 			)
 		)
 	)
-	(gr_text "74273"
+	(gr_text "74273 (REGISTER)"
 		(at 105.41 48.26 90)
 		(layer "F.SilkS")
 		(uuid "8d0b80fd-bbc5-4f7f-a826-d97aec8bfcbf")
@@ -10274,7 +10274,7 @@
 			)
 		)
 	)
-	(gr_text "74244"
+	(gr_text "74244 (DRIVER)"
 		(at 74.93 48.26 90)
 		(layer "F.SilkS")
 		(uuid "baf86a6b-c93f-4d7a-b178-7db739f2ad3f")
@@ -10297,7 +10297,7 @@
 			(justify bottom)
 		)
 	)
-	(gr_text "74244"
+	(gr_text "74244 (DRIVER)"
 		(at 74.93 77.47 90)
 		(layer "F.SilkS")
 		(uuid "fc6fd11c-7d4d-4b38-9d84-033b952cf867")

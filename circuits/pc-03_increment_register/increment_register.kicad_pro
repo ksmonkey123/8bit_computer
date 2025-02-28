@@ -58,12 +58,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        [
-          "silk_overlap|115174170|119965958|7840fce8-bfe5-4798-8dcd-5b29a1f7a48b|feceb5da-10e2-4659-bada-30d9fa9436a9",
-          ""
-        ]
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -532,7 +527,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "./COM",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",
