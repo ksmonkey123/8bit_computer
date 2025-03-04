@@ -4,9 +4,7 @@
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
-    "hidden_nets": [
-      "/adr0"
-    ],
+    "hidden_nets": [],
     "high_contrast_mode": 1,
     "net_color_mode": 1,
     "opacity": {
@@ -50,7 +48,7 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "00000000_00000000_00001031_80000025",
+    "visible_layers": "00000000_00000000_000210b1_800000a5",
     "zone_display_mode": 0
   },
   "git": {
@@ -60,7 +58,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "increment_register.kicad_prl",
+    "filename": "command_decoder.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {

@@ -5,7 +5,7 @@
     "auto_track_width": true,
     "hidden_netclasses": [],
     "hidden_nets": [
-      "/adr0"
+      "/input0"
     ],
     "high_contrast_mode": 1,
     "net_color_mode": 1,
@@ -33,6 +33,7 @@
     "visible_items": [
       "vias",
       "footprint_text",
+      "footprint_anchors",
       "ratsnest",
       "grid",
       "footprints_front",
@@ -50,7 +51,7 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "00000000_00000000_00001031_80000025",
+    "visible_layers": "00000000_00000000_00001031_00000025",
     "zone_display_mode": 0
   },
   "git": {
@@ -60,7 +61,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "increment_register.kicad_prl",
+    "filename": "alu_adder.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {

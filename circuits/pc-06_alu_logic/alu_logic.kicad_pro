@@ -58,7 +58,12 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "silk_overlap|113030000|116310343|7840fce8-bfe5-4798-8dcd-5b29a1f7a48b|feceb5da-10e2-4659-bada-30d9fa9436a9",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -464,7 +469,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "16bit_register.kicad_pro",
+    "filename": "alu_logic.kicad_pro",
     "version": 3
   },
   "net_settings": {

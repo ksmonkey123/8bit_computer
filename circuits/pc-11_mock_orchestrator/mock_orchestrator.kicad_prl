@@ -1,11 +1,11 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 5,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
     "hidden_nets": [
-      "/adr0"
+      "/carryFlag"
     ],
     "high_contrast_mode": 1,
     "net_color_mode": 1,
@@ -60,7 +60,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "increment_register.kicad_prl",
+    "filename": "mock_orchestrator.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {

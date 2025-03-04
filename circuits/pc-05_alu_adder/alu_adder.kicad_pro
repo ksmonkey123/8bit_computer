@@ -58,7 +58,12 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "silk_overlap|115306509|120194722|7840fce8-bfe5-4798-8dcd-5b29a1f7a48b|feceb5da-10e2-4659-bada-30d9fa9436a9",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -464,7 +469,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "16bit_register.kicad_pro",
+    "filename": "alu_adder.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -667,6 +672,10 @@
     [
       "41a1e4f1-e027-482a-b298-2d9f17a2c0a5",
       "Root"
+    ],
+    [
+      "d9af0d4f-490c-4819-aa4e-d28735864fff",
+      "gates"
     ]
   ],
   "text_variables": {}

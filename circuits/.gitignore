@@ -1,13 +1,12 @@
 #backups are built as zips
 *.zip
 
+#lock files
+*.lck
+
 # gerber files
-*.gbl
-*.gbs
-*.gm1
-*.gtl
-*.gts
-*.gto
+*.gbr
 *.drl
 
 fp-info-cache
+!gerber_bundles/*.zip
