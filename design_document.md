@@ -10,17 +10,37 @@ The computer contains 4 general purpose 8-bit registers named `regA` through `re
 * `regA` and `regB` are connected to the ALU.
 * `regC` and `regD` can be used for indirect memory addressing.
 
-### Literal Argument Register
+### Literal Argument Registers
 
-The `regL` literal register can hold a one-byte literal opcode extension.
+The `regL1` and `regL2` literal registers can hold a one-byte literal opcode extension each.
 This register cannot be directly addressed and is only interacted with through microcode.
 
-## ALU Design
+### Programm Counter
+
+The `regPC` is a 16-bit register on the Address Bus. Both the high and low parts can be read on the data bus.
+These parts are referenced as `regPCL` and `regPCH`. Writes to `regPC` are always performed from the address bus.
+
+The programm counter is used to hold the memory address of the next instruction to be performed.
+
+### Stack Pointer
+
+The `regSP` is a 16-bit register on the Address Bus. Both the high and low parts can be read on the data bus.
+These parts are referenced as `regSPL` and `regSPH`. Write to `regSP` are always performed from the address bus.
+
+The stack pointer is used to provide rudimentary hardware support for a memory stack.
+
+### Incrementer
+
+The Incrementer is a special 16-bit register on the address bus.
+
+## ALU
 
 The ALU is split into 3 parts: The _arithmetic_, _logic_ and _roll_ units.
-All 3 units operate on regA and optionally regB.
+All 3 units operate on a dedicated input register and `regA`
 
-The calculation result can be stored in registers A through D
+### Input Register
+
+The ALU contains a dedicated input single-byte register
 
 ### Arithmetic Unit
 
