@@ -51,11 +51,11 @@ enum class AluOperation(override val command: Int) : Action {
     SHIFT_RIGHT(4),
     SHIFT_LEFT(5),
     // low adder operations 0b10xx, 0b1100
-    DECREMENT(8),
-    INCREMENT(9),
+    INCREMENT(8),
+    COMPLEMENT(9),
     ADDITION(10),
     SUBTRACTION(11),
-    COMPLEMENT(12),
+    DECREMENT(12),
 }
 
 enum class AddressTarget(override val command: Int) : Action {
