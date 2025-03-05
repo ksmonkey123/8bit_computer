@@ -18,7 +18,7 @@ class ProcessingUnit(
         if (state.halted) {
             throw IllegalStateException("halted state")
         }
-        return if (state.stepCounter < 8) {
+        return if (state.stepCounter < 4) {
             fetchStep(state)
         } else {
             executeStep(state)
@@ -47,30 +47,30 @@ class ProcessingUnit(
                 return state.copy(
                     instructionRegister = instruction,
                     incrementRegister = state.programCounter,
-                    stepCounter = control.skipFetch * 2 + 1,
+                    stepCounter = control.skipFetch + 1,
                     halted = control.halt,
                     // alu input written by default
                     aluInput = instruction
                 )
             }
 
-            4 -> {
+            1 -> {
                 return state.copy(
-                    literal2 = memoryBus.read(state.programCounter),
-                    incrementRegister = state.programCounter,
+                    literal2 = memoryBus.read((state.incrementRegister + 1) and 0xffff),
+                    incrementRegister = (state.incrementRegister + 1) and 0xffff,
                     stepCounter = state.stepCounter + 1,
                 )
             }
 
-            6 -> {
+            2 -> {
                 return state.copy(
-                    literal1 = memoryBus.read(state.programCounter),
-                    incrementRegister = state.programCounter,
+                    literal1 = memoryBus.read((state.incrementRegister + 1) and 0xffff),
+                    incrementRegister = (state.incrementRegister + 1) and 0xffff,
                     stepCounter = state.stepCounter + 1,
                 )
             }
 
-            3, 5, 7 -> {
+            3 -> {
                 return state.copy(
                     programCounter = (state.incrementRegister + 1) and 0xffff,
                     incrementRegister = (state.incrementRegister + 1) and 0xffff,
@@ -85,7 +85,7 @@ class ProcessingUnit(
     }
 
     private fun executeStep(state: ProcessorState): ProcessorState {
-        if (state.stepCounter !in 8..11) {
+        if (state.stepCounter !in 4..7) {
             throw IllegalStateException("invalid stepCounter: ${state.stepCounter}")
         }
 

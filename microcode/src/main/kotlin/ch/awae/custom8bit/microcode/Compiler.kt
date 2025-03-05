@@ -39,9 +39,9 @@ object Compiler {
 
     private fun compileControl(operation: Operation): Int {
         return when (operation.fetchSize) {
-            0 -> 3
-            1 -> 2
-            2 -> 1
+            0 -> 2
+            1 -> 1
+            2 -> 0
             else -> throw IllegalArgumentException("invalid fetch size: ${operation.fetchSize}")
         } + when (operation.halt) {
             true -> 0x80
