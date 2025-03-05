@@ -4,17 +4,17 @@
 		{"id":"7042ad59d82807f5","type":"file","file":"Data Bus.md","x":-640,"y":-120,"width":420,"height":1080},
 		{"id":"73b70c39fe2d42c7","type":"file","file":"Address Bus.md","x":840,"y":-120,"width":400,"height":1080},
 		{"id":"0720fef4d103a404","type":"file","file":"Literal Registers.md","x":-80,"y":-580,"width":760,"height":320},
-		{"id":"8f56defe0a37d7de","type":"file","file":"Increment Unit.md","x":-80,"y":-120,"width":760,"height":260},
-		{"id":"89de042013701c1a","type":"file","file":"Stack Pointer.md","x":-80,"y":680,"width":760,"height":280},
 		{"id":"990838069674ee17","type":"file","file":"Program Counter.md","x":-80,"y":280,"width":760,"height":280},
 		{"id":"cc69bd4e8c590e36","type":"file","file":"Memory Device.md","x":-80,"y":1100,"width":760,"height":340},
-		{"id":"314dfdd4684aefb1","type":"file","file":"Instruction Register.md","x":-1280,"y":220,"width":400,"height":400},
-		{"id":"e2ca446906c65da9","type":"file","file":"Step Sequencer.md","x":-1880,"y":220,"width":560,"height":400},
+		{"id":"314dfdd4684aefb1","type":"file","file":"Instruction Register.md","x":-1320,"y":220,"width":440,"height":400},
+		{"id":"e2ca446906c65da9","type":"file","file":"Step Sequencer.md","x":-1880,"y":220,"width":500,"height":400},
 		{"id":"ccc256fd375b3729","type":"file","file":"Microcode ROM.md","x":-1880,"y":-320,"width":1000,"height":400},
 		{"id":"cf4d739e6cb40d92","type":"file","file":"Instruction Decoder.md","x":-1880,"y":-760,"width":1000,"height":340},
 		{"id":"090af97ed6572b6b","type":"file","file":"General Purpose Registers.md","x":-80,"y":-1080,"width":760,"height":360},
 		{"id":"1ec53c7536f02a10","type":"file","file":"RAM.md","x":380,"y":1680,"width":600,"height":634,"color":"6"},
-		{"id":"19456dc8592904f0","type":"file","file":"Program ROM.md","x":-380,"y":1680,"width":600,"height":634,"color":"6"}
+		{"id":"19456dc8592904f0","type":"file","file":"Program ROM.md","x":-380,"y":1680,"width":600,"height":634,"color":"6"},
+		{"id":"8f56defe0a37d7de","type":"file","file":"Increment Unit.md","x":-80,"y":-50,"width":760,"height":260},
+		{"id":"89de042013701c1a","type":"file","file":"Stack Pointer.md","x":-80,"y":620,"width":760,"height":280}
 	],
 	"edges":[
 		{"id":"be5cc3527f725ca1","fromNode":"090af97ed6572b6b","fromSide":"top","toNode":"c0e94e36eddefba2","toSide":"bottom","label":"A"},

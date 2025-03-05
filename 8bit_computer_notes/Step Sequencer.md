@@ -12,11 +12,11 @@ The sequencer updates based on the following rules:
 4. If the current value is 11, reset.
 
 $$
-val' = \begin{cases}
-0 & val = 11\\
-0 & val \geq 8; lastStep = 1\\
-val + 1 & val \neq 0\\
-val + 1 + 2*skip & val = 0\\
+step' = \begin{cases}
+0 & step = 11\\
+0 & step \geq 8; lastStep = 1\\
+step + 1 & step \neq 0\\
+step + 1 + 2*skip & step = 0\\
 \end{cases}
 $$
 

@@ -2,6 +2,8 @@ The _Execution Microcode_ defines the exact behaviour of a single [[Execution St
 
 The execution microcode is accessed by passing the 3 [[Status Flag]] and the current step number (0 - 4) to the microcode ROM.
 
+For every [[Instruction]] and every one of 6 valid [[Status Flag]] combinations a microcode record must be provided. This allows for different microcode for different status flags enabling status dependant behaviour such as conditional branching.
+
 It is a 16-bit value stored in [[Microcode ROM]]
 
 |   Bit | Function                                                                   |
