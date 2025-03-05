@@ -6,25 +6,18 @@ During the fetch phase, a new instruction is loaded from memory. During the exec
 
 ## Steps
 
-The full execution cycle consists of 12 steps:
+The full execution cycle consists of 8 steps:
 
 | Step | Phase               | Phase Step |
 | ---: | ------------------- | ---------- |
 |    0 | [[Fetch Phase]]     | 0          |
-|    1 | Fetch Phase         | -          |
-|    2 | Fetch Phase         | -          |
+|    1 | Fetch Phase         | 1          |
+|    2 | Fetch Phase         | 2          |
 |    3 | Fetch Phase         | 3          |
-|    4 | Fetch Phase         | 4          |
-|    5 | Fetch Phase         | 5          |
-|    6 | Fetch Phase         | 6          |
-|    7 | Fetch Phase         | 7          |
 |    8 | [[Execution Phase]] | 0          |
 |    9 | Execution Phase     | 1          |
 |   10 | Execution Phase     | 2          |
 |   11 | Execution Phase     | 3          |
-
->[!todo]
->This should be reworked. [[Improved Fetch Cycle (Idea)]]
 
 ## Halt
 

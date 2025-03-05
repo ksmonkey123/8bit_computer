@@ -1,24 +1,19 @@
 The _Fetch Phase_ is the first part of executing an instruction. During this phase the next instruction is loaded.
 
-The fetch phase consists of 2 to 6 steps.
+The fetch phase consists of 2 to 4 steps.
 
-| Step | Action                                            |
-| ---- | ------------------------------------------------- |
-| 0    | $memory(PC) \rightarrow IR; PC \rightarrow IncR$  |
-| 1    | -                                                 |
-| 2    | -                                                 |
-| 3    | $IncR + 1 \rightarrow PC$                         |
-| 4    | $memory(PC) \rightarrow L_2; PC \rightarrow IncR$ |
-| 5    | $IncR + 1 \rightarrow PC$                         |
-| 6    | $memory(PC) \rightarrow L_1; PC \rightarrow IncR$ |
-| 7    | $IncR + 1 \rightarrow PC$                         |
+| Step | Action                                                        |
+| ---- | ------------------------------------------------------------- |
+| 0    | $memory(PC) \rightarrow IR; PC \rightarrow IncR$              |
+| 1    | $memory(Incr + 1) \rightarrow L_2; IncR + 1 \rightarrow IncR$ |
+| 2    | $memory(Incr + 1) \rightarrow L_1; IncR + 1 \rightarrow IncR$ |
+| 3    | $IncR + 1 \rightarrow PC$                                     |
 
->[!Todo]
->Rework this with an [[Improved Fetch Cycle (Idea)]]
-
-During the first step we next instruction into the [[Instruction Register]]. Then we update the PC with the next value.
+During the first step we next instruction into the [[Instruction Register]].
 
 If the instruction is an extended [[Instruction]], the additional values are loaded into $L_1$ and $L_2$.
+
+The last step finally updates the $PC$ to the location of the next instruction.
 
 This is controlled by [[Fetch Microcode]].
 
@@ -26,9 +21,9 @@ After the first step, we consult the fetch microcode to determine which step to 
 
 | # of bytes to fetch | go to step |
 | ------------------- | ---------- |
-| 0                   | 7          |
-| 1                   | 5          |
-| 2                   | 3          |
+| 0                   | 3          |
+| 1                   | 2          |
+| 2                   | 1          |
 This _jump_ is done by controlling the increment step of the [[Step Sequencer]] at the end of step 0.
 ## Halt Flag
 
