@@ -29,9 +29,4 @@ If a device is _selected_ and the _memory write trigger_ is active, the device i
 
 ## Address Space
 
-It is possible - or even required - to have multiple memory devices. Some types may be:
- - [[Program ROM]]
- - [[RAM]]
- - memory mapped I/O devices
-
 See [[Address Space]] for a complete map.

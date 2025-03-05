@@ -1,4 +1,4 @@
- status flag is a 1-bit value providing some limited information about the status of the system. This information can also influence the behaviour of some [[Instruction|Instructions]].
+A status flag is a 1-bit value providing some limited information about the status of the system. This information can also influence the behaviour of some [[Instruction|Instructions]].
 
 The computer contains 3 status flags:
 * $F_C$ [[Carry Flag]]

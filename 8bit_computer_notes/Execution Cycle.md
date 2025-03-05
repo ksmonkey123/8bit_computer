@@ -22,6 +22,7 @@ The full execution cycle consists of 12 steps:
 |    9 | Execution Phase     | 1          |
 |   10 | Execution Phase     | 2          |
 |   11 | Execution Phase     | 3          |
+
 >[!todo]
 >This should be reworked. [[Improved Fetch Cycle (Idea)]]
 

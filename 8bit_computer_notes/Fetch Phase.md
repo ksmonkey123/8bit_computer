@@ -12,6 +12,7 @@ The fetch phase consists of 2 to 6 steps.
 | 5    | $IncR + 1 \rightarrow PC$                         |
 | 6    | $memory(PC) \rightarrow L_1; PC \rightarrow IncR$ |
 | 7    | $IncR + 1 \rightarrow PC$                         |
+
 >[!Todo]
 >Rework this with an [[Improved Fetch Cycle (Idea)]]
 
