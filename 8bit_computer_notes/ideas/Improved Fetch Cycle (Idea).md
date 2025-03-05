@@ -1,3 +1,5 @@
+#idea
+
 In the current concept the [[Fetch Phase]] takes 2 to 6 [[Execution Step|Execution Steps]]. These are:
 
 1. $memory(PC) \rightarrow IR; PC \rightarrow IncR$
@@ -17,5 +19,3 @@ By repeatedly accessing and thereby cycling the [[Increment Unit]], we could - i
 This way the [[Address Source]] logic would be simplified to use the increment unit for every step except for the first one, where the [[Program Counter]] is used.
 
 It would also condense the entire [[Execution Cycle]] to at most 8 steps, allowing for 3-bit step identification.
-
-#idea

@@ -1,12 +1,15 @@
 The _Arithmetic Logic Unit_ provides calculation abilities.
 
-The ALU contains a dedicated input register ($ALU_{IN}$). It is also connected to the internal value of [[General Purpose Registers|regA]].[[General Purpose Registers|]]
+The ALU contains a dedicated input register ($ALU_{IN}$). It is also connected to the internal value of $A$ ([[General Purpose Registers]]).
 
-The ALU also contains the 1-bit [[Carry Flag]] ($F_C$). The carry flag is updated every instruction. see the detailed documentation of the [[#Segments]].
+This internal input register is written to when $ALU_{IN}$ is selected as the current [[Data Target]].
 
-The ALU is controlled by a 4 bit control bus from the [[Operation Decoder]].
+The ALU output is presented to the [[Data Bus]] whenever the ALU is selected as the current [[Data Source]]. When referenced as a data source, the ALU output is called $ALU_{OUT}$.
 
-The ALU output is presented to the [[Data Bus]] whenever the ALU is selected as the current [[Data Target]]. The Carry flag is only updated when the ALU output is selected.
+The ALU also contains the 1-bit [[Carry Flag]] ($F_C$). The carry flag is updated every instruction. see the detailed documentation of the [[#Segments]]. The carry flag is only updated when the ALU output is selected.
+
+The ALU operation is selected by the lowest 4 bit of the [[Action Selector]].
+
 ## Instructions
 
 | Instruction | Mnemonic | Description              |
@@ -33,3 +36,4 @@ The ALU consists of 3 calculation segments:
 * [[ALU Logic Unit]]
 * [[ALU Roll Unit]]
 * [[ALU Math Unit]]
+

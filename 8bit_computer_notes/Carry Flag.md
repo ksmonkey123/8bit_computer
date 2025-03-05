@@ -7,12 +7,10 @@ The Carry Flag has 2 basic roles:
 >[!hint]
 >while the carry flag cannot be explicitly modified by any instructions, it is possible to manipulate it into a known state by performing ALU calculations on an idle [[Data Bus]].
 >
+>Performing any bitwise operation (e.g. `AND`) clears the carry flag.
+>
 >Setting $ALU_{IN}$ to 255 and performing a right-roll (`RRC`) will set the carry flag.
 >
->Performing any bitwise operation (e.g. `AND`) clears the carry flag.
-
-
-
 
 
 

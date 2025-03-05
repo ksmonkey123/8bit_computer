@@ -1,7 +1,8 @@
 There are 2 literal registers $L_1$ and $L_2$.
 
-These registers are primarily designed to hold [[Extended Instructions]].
-They are also usable as _temporary registers_ in [[Microcode]].
+These registers are primarily designed to hold parameter values of an extended [[Instruction]].
+
+They are also usable as _temporary registers_ in [[Execution Microcode]].
 
 Both registers are individually accessible via the [[Data Bus]].
 Both registers combined can also be accessed on the [[Address Bus]], where $L_1$ will be the low byte, $L_2$ the high byte. In this case, the combined 16-bit pseudo-register is called $L$.
