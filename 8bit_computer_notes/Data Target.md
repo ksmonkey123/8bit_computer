@@ -13,3 +13,5 @@ The target device may be the same as the [[Data Source]], though it is rarely se
 | 5    | [[Literal Registers\|regL1]]        |
 | 6    | [[Literal Registers\|regL2]]        |
 | 7    | [[Memory Device]]                   |
+>[!WARNING]
+Since all 8 options are associated with a valid target device, it is not possible to not write to a device. A sensible default is to simply write to the ALU input (Code 0).

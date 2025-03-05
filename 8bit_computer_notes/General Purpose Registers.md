@@ -1,10 +1,10 @@
-There are 4 general purpose 8-bit [[Register|registers]]. They are referenced as `regA`, `regB`, `regC` and `regD`.
+There are 4 general purpose 8-bit registers. They are called $A$, $B$, $C$ and $D$.
 
 All 4 registers are written to from the [[Data Bus]].
 
-Registers `regC` and `regD` can also be read to the [[Address Bus]]. In that case `regC` will be used as the lower byte, `regD` as the upper byte.
+Registers $C$ and $D$ can also be read to the [[Address Bus]]. In that case $C$ will be used as the lower byte, $D$ as the upper byte. The combined 16-bit pseudo-register is called $CD$.
 
-Register `regA` is also connected to the [[ALU]] for 2-input operations. This is done via an unbuffered [[Interlink Bus]].
+Register `regA` is also connected to the [[ALU]] for 2-input operations.
 
 | Register | [[Data Source]] | [[Data Target]] | [[Address Source]] |
 | -------- | --------------- | --------------- | ------------------ |
