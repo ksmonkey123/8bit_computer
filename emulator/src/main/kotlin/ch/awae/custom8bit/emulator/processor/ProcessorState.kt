@@ -17,6 +17,7 @@ data class ProcessorState(
     val registerD: Int = 0,
 ) {
     fun getAddress(source: AddressSource): Int = when (source) {
+        AddressSource.ADR_PC -> programCounter
         AddressSource.ADR_LITERAL -> ((literal2 shl 8) and 0xff00) + (literal1 and 0x00ff)
         AddressSource.ADR_REG_CD -> ((registerD shl 8) and 0xff00) + (registerC and 0x00ff)
         AddressSource.ADR_INCREMENTER_INCREMENT -> (incrementRegister + 1) and 0xffff
