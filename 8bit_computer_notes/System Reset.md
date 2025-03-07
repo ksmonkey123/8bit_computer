@@ -1,7 +1,7 @@
 A system reset should be triggerable by a push button.
 
 A system reset must reset some registers and flags to a known state.
-After a reset the computer shall resume operation on the [[Reset Vector]].
+After a reset the computer shall resume operation at the _reset vector_ `0x0000`.
 
 | Register / Flag                         | State after Reset |
 | --------------------------------------- | ----------------- |

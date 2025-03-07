@@ -7,5 +7,5 @@ Both 8-bit halves of the program counter can be read on the [[Data Bus]].
 In this case the lower half is referenced as $PC_L$. The upper half is called $PC_H$.
 
 >[!important]
->Upon [[System Reset]], the program counter **must** be reset to 0 ([[Reset Vector]])
+>Upon [[System Reset]], the program counter **must** be reset to 0
 
