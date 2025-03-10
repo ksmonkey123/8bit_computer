@@ -34,3 +34,4 @@ Since the step sequencer is the only component that really knows the current ste
 | 7    | $ROM_3$            | $ROM_3$         | $ROM_3$         | $ROM_3$             |
 
 
+

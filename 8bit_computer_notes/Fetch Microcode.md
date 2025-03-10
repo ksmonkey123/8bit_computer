@@ -7,11 +7,11 @@ It is important that the same microcode is programmed for
 
 The _Fetch Size_ indicates how many parameters should be fetched during the fetch size. For ease of implementation, we don't save the number of parameters we want to fetch, but rather, how much we want to skip.
 
-| Bytes to Fetch | Steps to Skip | Encoded Value |
-| -------------- | ------------- | ------------- |
-| 0              | 7             | 3             |
-| 1              | 5             | 2             |
-| 2              | 3             | 1             |
+| Bytes to Fetch | Steps to Skip |
+| -------------- | ------------- |
+| 0              | 2             |
+| 1              | 1             |
+| 2              | 0             |
 
 The _Fetch Size_ is stored as a 2-bit value in bits 0 and 1 of the microcode value.
 
