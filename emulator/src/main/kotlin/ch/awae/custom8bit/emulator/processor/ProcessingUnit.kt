@@ -18,11 +18,7 @@ class ProcessingUnit(
         if (state.halted) {
             throw IllegalStateException("halted state")
         }
-        return if (state.stepCounter < 4) {
-            fetchStep(state)
-        } else {
-            executeStep(state)
-        }
+        return executeStep(state)
     }
 
     fun executeNextCommand(inputState: ProcessorState): ProcessorState {
@@ -38,58 +34,12 @@ class ProcessingUnit(
         return state
     }
 
-    private fun fetchStep(state: ProcessorState): ProcessorState {
-        when (state.stepCounter) {
-            0 -> {
-                val instruction = memoryBus.read(state.programCounter)
-                val control = microcode.control(instruction)
-                // initial instruction fetch
-                return state.copy(
-                    instructionRegister = instruction,
-                    incrementRegister = state.programCounter,
-                    stepCounter = control.skipFetch + 1,
-                    halted = control.halt,
-                    // alu input written by default
-                    aluInput = instruction
-                )
-            }
-
-            1 -> {
-                return state.copy(
-                    literal2 = memoryBus.read((state.incrementRegister + 1) and 0xffff),
-                    incrementRegister = (state.incrementRegister + 1) and 0xffff,
-                    stepCounter = state.stepCounter + 1,
-                )
-            }
-
-            2 -> {
-                return state.copy(
-                    literal1 = memoryBus.read((state.incrementRegister + 1) and 0xffff),
-                    incrementRegister = (state.incrementRegister + 1) and 0xffff,
-                    stepCounter = state.stepCounter + 1,
-                )
-            }
-
-            3 -> {
-                return state.copy(
-                    programCounter = (state.incrementRegister + 1) and 0xffff,
-                    incrementRegister = (state.incrementRegister + 1) and 0xffff,
-                    stepCounter = state.stepCounter + 1,
-                    // alu input written by default
-                    aluInput = 0xff,
-                )
-            }
-
-            else -> throw IllegalStateException("invalid step: ${state.stepCounter}")
-        }
-    }
-
     private fun executeStep(state: ProcessorState): ProcessorState {
-        if (state.stepCounter !in 4..7) {
+        if (state.stepCounter !in 0..7) {
             throw IllegalStateException("invalid stepCounter: ${state.stepCounter}")
         }
 
-        val execute = microcode.execute(state.instructionRegister, state.stepCounter and 0x03, state.flags)
+        val execute = microcode.execute(state.instructionRegister, state.stepCounter and 0x07, state.flags)
         val address = state.getAddress(execute.addressSource)
 
         val aluState = (execute.action as? AluOperation)?.let { ALU.calculate(state, it) }
@@ -129,9 +79,11 @@ class ProcessingUnit(
         }
 
         val stateAfterAddressSet = stateAfterDataTarget.let { st ->
-            when (execute.action as? AddressTarget) {
+            when (execute.action) {
+                is AluOperation -> st
                 AddressTarget.WRITE_PC -> st.copy(programCounter = address)
                 AddressTarget.WRITE_STACK_POINTER -> st.copy(stackPointer = address)
+                SequencerCommand.HALT -> st.copy(halted = true)
                 null -> st
             }
         }
@@ -154,7 +106,8 @@ class ProcessingUnit(
 
         return stateAfterFlagUpdate.copy(
             incrementRegister = address,
-            stepCounter = if (execute.finalStep) 0 else state.stepCounter + 1,
+            stepCounter = if (execute.hasNextStep) state.stepCounter + 1 else 0,
+            instructionRegister = if (state.stepCounter == 0) data else state.instructionRegister,
         )
     }
 

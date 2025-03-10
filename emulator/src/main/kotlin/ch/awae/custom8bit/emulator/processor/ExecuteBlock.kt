@@ -52,9 +52,14 @@ sealed interface Action {
         fun forCommand(command: Int): Action {
             return AluOperation.entries.find { it.command == command }
                 ?: AddressTarget.entries.find { it.command == command }
+                ?: SequencerCommand.entries.find { it.command == command }
                 ?: throw IllegalArgumentException("unsupported action: $command")
         }
     }
+}
+
+enum class SequencerCommand(override val command: Int) : Action {
+    HALT(24),
 }
 
 enum class AddressSource(val port: Int) {
@@ -101,7 +106,7 @@ enum class AddressTarget(override val command: Int) : Action {
 }
 
 data class ExecuteBlock(
-    val finalStep: Boolean,
+    val hasNextStep: Boolean,
     val dataSource: DataSource?,
     val dataTarget: DataTarget?,
     val addressSource: AddressSource,

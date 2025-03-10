@@ -63,6 +63,10 @@ enum class AddressTarget(override val command: Int) : Action {
     WRITE_STACK_POINTER(17),
 }
 
+enum class SequencerCommand(override val command: Int) : Action {
+    HALT(24),
+}
+
 sealed interface MicroOperation {
     fun condition(condition: ConditionExpression): Conditional = Conditional(condition, this, null)
     fun operationFor(state: FlagState): MicroOp?
@@ -77,13 +81,13 @@ data class FlagState(
     fun toSignal(): Int {
         var result = 0
         if (carry) {
-            result += 0x0100
+            result += 1
         }
         if (zero) {
-            result += 0x0200
+            result += 2
         }
         if (negative) {
-            result += 0x0400
+            result += 4
         }
         return result
     }
@@ -174,7 +178,6 @@ data class Operation(
     val code: Int,
     val mnemonic: String,
     val fetchSize: Int,
-    val halt: Boolean = false,
     val step0: MicroOperation? = null,
     val step1: MicroOperation? = null,
     val step2: MicroOperation? = null,

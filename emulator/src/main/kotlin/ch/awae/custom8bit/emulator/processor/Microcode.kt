@@ -7,10 +7,6 @@ class Microcode(
 
     constructor(raw: Pair<ByteArray, ByteArray>) : this(raw.first, raw.second)
 
-    fun control(instruction: Int): ControlBlock {
-        return ControlBlock(addressingRom[0x0700 + instruction].toInt() and 0xff)
-    }
-
     fun execute(instruction: Int, step: Int, flags: Flags): ExecuteBlock {
         val address = (((step shl 3) + flags.encoded) shl 8) + instruction
         return ExecuteBlock((addressingRom[address].toInt() and 0xff) + ((actionRom[address].toInt() and 0xff) shl 8))

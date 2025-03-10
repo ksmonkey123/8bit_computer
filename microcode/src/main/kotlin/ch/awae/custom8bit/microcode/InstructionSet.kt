@@ -1,7 +1,8 @@
 package ch.awae.custom8bit.microcode
 
 import ch.awae.custom8bit.microcode.AddressSource.*
-import ch.awae.custom8bit.microcode.AddressTarget.*
+import ch.awae.custom8bit.microcode.AddressTarget.WRITE_PC
+import ch.awae.custom8bit.microcode.AddressTarget.WRITE_STACK_POINTER
 import ch.awae.custom8bit.microcode.AluOperation.*
 import ch.awae.custom8bit.microcode.DataSource.*
 import ch.awae.custom8bit.microcode.DataTarget.*
@@ -748,5 +749,6 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_ALU, WRITE_LITERAL_2, action = SHIFT_LEFT),
     ),
     Operation(0xfe, "NOP", 0),
-    Operation(0xff, "HLT", 0, halt = true),
+    Operation(0xff, "HLT", 0,
+        step0 = MicroOp(action= SequencerCommand.HALT)),
 )
