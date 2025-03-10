@@ -1,6 +1,7 @@
 package ch.awae.custom8bit.emulator.processor
 
 import ch.awae.custom8bit.emulator.*
+import ch.awae.custom8bit.microcode.AluOperation
 
 data class AluOutput(
     val data: Int,

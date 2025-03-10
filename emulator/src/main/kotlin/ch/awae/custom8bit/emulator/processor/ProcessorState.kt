@@ -1,5 +1,7 @@
 package ch.awae.custom8bit.emulator.processor
 
+import ch.awae.custom8bit.microcode.AddressSource
+
 data class ProcessorState(
     val halted: Boolean = false,
     val stepCounter: Int = 0,

@@ -2,6 +2,8 @@ package ch.awae.custom8bit.emulator.processor
 
 import ch.awae.custom8bit.emulator.memory.*
 
+import ch.awae.custom8bit.microcode.*
+
 class ProcessingUnit(
     private val microcode: Microcode,
     private val memoryBus: MemoryBus,
@@ -69,7 +71,6 @@ class ProcessingUnit(
             DataTarget.WRITE_MEMORY -> state.also { memoryBus.write(address, data) }
             DataTarget.WRITE_LITERAL_1 -> state.copy(literal1 = data)
             DataTarget.WRITE_LITERAL_2 -> state.copy(literal2 = data)
-            null -> state
         }.let {
             if (execute.dataSource == DataSource.READ_ALU) {
                 it.copy(flags = it.flags.copy(carry = aluState!!.carry))
@@ -84,7 +85,6 @@ class ProcessingUnit(
                 AddressTarget.WRITE_PC -> st.copy(programCounter = address)
                 AddressTarget.WRITE_STACK_POINTER -> st.copy(stackPointer = address)
                 SequencerCommand.HALT -> st.copy(halted = true)
-                null -> st
             }
         }
 

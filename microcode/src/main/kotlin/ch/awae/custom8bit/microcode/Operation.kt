@@ -39,6 +39,8 @@ enum class AddressSource(val port: Int) {
 
 sealed interface Action {
     val command: Int
+
+    companion object
 }
 
 enum class AluOperation(override val command: Int) : Action {
