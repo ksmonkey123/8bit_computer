@@ -67,7 +67,8 @@ object Compiler {
         }
 
         val highMap = ByteArray(16384) {
-            map[it]?.ushr(8)?.toByte() ?: 0
+            // HALT on unknown code
+            (map[it]?.ushr(8) ?: SequencerCommand.HALT.command).toByte()
         }
 
         return Pair(lowMap, highMap)
