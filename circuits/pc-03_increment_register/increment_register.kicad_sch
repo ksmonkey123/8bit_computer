@@ -6,8 +6,8 @@
 	(paper "A3")
 	(title_block
 		(title "PC-03 Increment Unit")
-		(date "2025-02-18")
-		(rev "A")
+		(date "2025-10-24")
+		(rev "B")
 	)
 	(lib_symbols
 		(symbol "74xx:74HC244"
