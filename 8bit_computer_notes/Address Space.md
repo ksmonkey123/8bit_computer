@@ -1,10 +1,12 @@
 Every [[Memory Device]] must be integrated into a single global 16-bit address space. It is not possible for multiple devices to share a common address. 
 
-The full 16-bit address space (64 KiB) split into 8 blocks of 8 KiB each.
+The full 16-bit address space (64 KiB) split into 8 blocks of 8 KiB each. Each block can (depending on the device) be split into 32 logical pages of 256 bytes each.
 
 We can separate the memory address into 2 sections:
-- Bits 0-12: Block-local address (13-bit)
-- Bits 13-15: Block selector
+- Bits 0-12: Block-local address (13 bit)
+	- Bits 0-7: Page-local address (8 bit)
+	- Bits 8-12: Block-local page address (5 bit)
+- Bits 13-15: Block selector (3 bit)
 
 The blocks are designated as follows:
 
