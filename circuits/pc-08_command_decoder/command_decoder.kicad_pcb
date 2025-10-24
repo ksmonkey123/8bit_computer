@@ -12054,7 +12054,7 @@
 			)
 		)
 	)
-	(gr_text "13 12  7"
+	(gr_text "12 13  7"
 		(at 107.95 69.215 0)
 		(layer "F.SilkS")
 		(uuid "89aa3d8d-da52-4efb-a752-612143b966ad")
@@ -12113,7 +12113,7 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "COMMAND DECODER PC-08 (REV. A)"
+	(gr_text "COMMAND DECODER PC-08 (REV. B)"
 		(at 90.17 118.11 0)
 		(layer "F.SilkS" knockout)
 		(uuid "feceb5da-10e2-4659-bada-30d9fa9436a9")
