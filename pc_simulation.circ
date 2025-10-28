@@ -49,6 +49,9 @@
       <a name="inputs" val="8"/>
       <a name="size" val="30"/>
     </tool>
+    <tool name="XNOR Gate">
+      <a name="facing" val="south"/>
+    </tool>
     <tool name="Controlled Buffer">
       <a name="control" val="left"/>
       <a name="width" val="8"/>
@@ -143,10 +146,6 @@
       <a name="facing" val="east"/>
       <a name="label" val="write_MEM"/>
     </comp>
-    <comp lib="0" loc="(1010,1660)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="label" val="clk"/>
-    </comp>
     <comp lib="0" loc="(1020,1550)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="label" val="read_MEM"/>
@@ -193,6 +192,7 @@
       <a name="facing" val="south"/>
       <a name="incoming" val="16"/>
     </comp>
+    <comp lib="0" loc="(1120,1620)" name="Constant"/>
     <comp lib="0" loc="(1150,2020)" name="Splitter">
       <a name="appear" val="right"/>
       <a name="bit1" val="0"/>
@@ -1164,9 +1164,6 @@
     <comp lib="1" loc="(1070,1610)" name="AND Gate">
       <a name="facing" val="south"/>
       <a name="size" val="30"/>
-    </comp>
-    <comp lib="1" loc="(1070,1660)" name="NOT Gate">
-      <a name="size" val="20"/>
     </comp>
     <comp lib="1" loc="(1160,1240)" name="OR Gate">
       <a name="inputs" val="5"/>
@@ -2310,7 +2307,6 @@ b 30*18 3 36*18 4*0 12*18 4*0 8*18
     <wire from="(1010,1570)" to="(1080,1570)"/>
     <wire from="(1010,1610)" to="(1020,1610)"/>
     <wire from="(1010,1630)" to="(1020,1630)"/>
-    <wire from="(1010,1660)" to="(1050,1660)"/>
     <wire from="(1010,1970)" to="(1010,2000)"/>
     <wire from="(1010,2000)" to="(1130,2000)"/>
     <wire from="(1020,1020)" to="(1020,1070)"/>
@@ -2320,7 +2316,7 @@ b 30*18 3 36*18 4*0 12*18 4*0 8*18
     <wire from="(1040,1290)" to="(1040,1310)"/>
     <wire from="(1040,1520)" to="(1070,1520)"/>
     <wire from="(1040,1880)" to="(1080,1880)"/>
-    <wire from="(1050,1620)" to="(1120,1620)"/>
+    <wire from="(1050,1620)" to="(1060,1620)"/>
     <wire from="(1050,1970)" to="(1050,1990)"/>
     <wire from="(1050,1990)" to="(1130,1990)"/>
     <wire from="(1060,1220)" to="(1110,1220)"/>
@@ -2328,18 +2324,17 @@ b 30*18 3 36*18 4*0 12*18 4*0 8*18
     <wire from="(1060,1240)" to="(1110,1240)"/>
     <wire from="(1060,1250)" to="(1110,1250)"/>
     <wire from="(1060,1550)" to="(1060,1580)"/>
+    <wire from="(1060,1620)" to="(1060,1640)"/>
+    <wire from="(1060,1640)" to="(1120,1640)"/>
     <wire from="(1070,1520)" to="(1070,1530)"/>
     <wire from="(1070,1610)" to="(1070,1630)"/>
     <wire from="(1070,1630)" to="(1120,1630)"/>
-    <wire from="(1070,1660)" to="(1100,1660)"/>
     <wire from="(1080,1550)" to="(1080,1570)"/>
     <wire from="(1080,1570)" to="(1080,1580)"/>
     <wire from="(1090,1550)" to="(1090,1580)"/>
     <wire from="(1090,1580)" to="(1120,1580)"/>
     <wire from="(1090,1970)" to="(1090,1980)"/>
     <wire from="(1090,1980)" to="(1130,1980)"/>
-    <wire from="(1100,1640)" to="(1100,1660)"/>
-    <wire from="(1100,1640)" to="(1120,1640)"/>
     <wire from="(1150,2020)" to="(1180,2020)"/>
     <wire from="(1160,1190)" to="(1190,1190)"/>
     <wire from="(1160,1240)" to="(1170,1240)"/>
