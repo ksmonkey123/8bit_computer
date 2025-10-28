@@ -24,23 +24,23 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
     ),
     Operation(
-        0x03, "ADC i", 1,
+        0x03, "ADC i8", 1,
         step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
     ),
     Operation(
-        0x04, "ADC (L)", 2,
+        0x04, "ADC (i16)", 2,
         step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
     ),
     Operation(
-        0x05, "ADC (CD + l)", 1,
+        0x05, "ADC (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
     ),
     Operation(
-        0x06, "ADC (SP + l)", 1,
+        0x06, "ADC (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
@@ -61,23 +61,23 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
-        0x0b, "SBC i", 1,
+        0x0b, "SBC i8", 1,
         step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
-        0x0c, "SBC (L)", 2,
+        0x0c, "SBC (i16)", 2,
         step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
-        0x0d, "SBC (CD + l)", 1,
+        0x0d, "SBC (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
-        0x0e, "SBC (SP + l)", 1,
+        0x0e, "SBC (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
@@ -98,23 +98,23 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x13, "AND i", 1,
+        0x13, "AND i8", 1,
         step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x14, "AND (L)", 2,
+        0x14, "AND (i16)", 2,
         step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x15, "AND (CD + l)", 1,
+        0x15, "AND (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
-        0x16, "AND (SP + l)", 1,
+        0x16, "AND (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = AND),
@@ -136,23 +136,23 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x1b, "IOR i", 1,
+        0x1b, "IOR i8", 1,
         step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x1c, "IOR (L)", 2,
+        0x1c, "IOR (i16)", 2,
         step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x1d, "IOR (CD + l)", 1,
+        0x1d, "IOR (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
-        0x1e, "IOR (SP + l)", 1,
+        0x1e, "IOR (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
@@ -173,23 +173,23 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
-        0x23, "XOR i", 1,
+        0x23, "XOR i8", 1,
         step0 = MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
-        0x24, "XOR (L)", 2,
+        0x24, "XOR (i16)", 2,
         step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
-        0x25, "XOR (CD + l)", 1,
+        0x25, "XOR (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
-        0x26, "XOR (SP + l)", 1,
+        0x26, "XOR (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
@@ -222,7 +222,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x2b, "CMP i", 1,
+        0x2b, "CMP i8", 1,
         // set ALU input to 0xff
         step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
         // shift left to get a '1' into the carry flag.
@@ -231,7 +231,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x2c, "CMP (L)", 2,
+        0x2c, "CMP (i16)", 2,
         // set ALU input to 0xff
         step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
         // shift left to get a '1' into the carry flag.
@@ -240,7 +240,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x2d, "CMP (CD + l)", 1,
+        0x2d, "CMP (CD + i8)", 1,
         // set ALU input to 0xff
         step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
         // shift left to get a '1' into the carry flag. also move CD into incrementer
@@ -249,7 +249,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, action = SUBTRACTION),
     ),
     Operation(
-        0x2e, "CMP (SP + l)", 1,
+        0x2e, "CMP (SP + i8)", 1,
         // set ALU input to 0xff
         step0 = MicroOp(dataTarget = WRITE_ALU_INPUT),
         // shift left to get a '1' into the carry flag. also move SP into incrementer
@@ -406,7 +406,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x4b, "SWAP (L)", 2,
+        0x4b, "SWAP (i16)", 2,
         // move MEM[L] into ALU
         step0 = MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
         // copy A to MEM[L]
@@ -417,7 +417,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x4c, "SWAP (CD + L)", 1,
+        0x4c, "SWAP (CD + i8)", 1,
         // move A to ALU
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT, ADR_REG_CD),
         // move M to A
@@ -428,7 +428,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step3 = MicroOp(READ_ALU, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE, action = INVERT)
     ),
     Operation(
-        0x4d, "SWAP (SP + L)", 1,
+        0x4d, "SWAP (SP + i8)", 1,
         // move A to ALU
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT, ADR_STACK_POINTER),
         // move M to A
@@ -494,105 +494,105 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(0x6d, "MOV D B", 0, step0 = MicroOp(READ_REG_B, WRITE_REG_D)),
     Operation(0x6e, "MOV D C", 0, step0 = MicroOp(READ_REG_C, WRITE_REG_D)),
     Operation(0x6f, "MOV D D", 0, step0 = MicroOp(READ_REG_D, WRITE_REG_D)),
-    Operation(0x70, "MOV A (L)", 2, step0 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_LITERAL)),
-    Operation(0x71, "MOV B (L)", 2, step0 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_LITERAL)),
-    Operation(0x72, "MOV C (L)", 2, step0 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_LITERAL)),
-    Operation(0x73, "MOV D (L)", 2, step0 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_LITERAL)),
+    Operation(0x70, "MOV A (i16)", 2, step0 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_LITERAL)),
+    Operation(0x71, "MOV B (i16)", 2, step0 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_LITERAL)),
+    Operation(0x72, "MOV C (i16)", 2, step0 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_LITERAL)),
+    Operation(0x73, "MOV D (i16)", 2, step0 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_LITERAL)),
     Operation(
-        0x74, "MOV A (CD + l)", 1,
+        0x74, "MOV A (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x75, "MOV B (CD + l)", 1,
+        0x75, "MOV B (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x76, "MOV C (CD + l)", 1,
+        0x76, "MOV C (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x77, "MOV D (CD + l)", 1,
+        0x77, "MOV D (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x78, "MOV A (SP + l)", 1,
+        0x78, "MOV A (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x79, "MOV B (SP + l)", 1,
+        0x79, "MOV B (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x7a, "MOV C (SP + l)", 1,
+        0x7a, "MOV C (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x7b, "MOV D (SP + l)", 1,
+        0x7b, "MOV D (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
-    Operation(0x7c, "MOV A i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_A)),
-    Operation(0x7d, "MOV B i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_B)),
-    Operation(0x7e, "MOV C i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_C)),
-    Operation(0x7f, "MOV D i", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_D)),
-    Operation(0x80, "STORE A (L)", 2, step0 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_LITERAL)),
-    Operation(0x81, "STORE B (L)", 2, step0 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_LITERAL)),
-    Operation(0x82, "STORE C (L)", 2, step0 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_LITERAL)),
-    Operation(0x83, "STORE D (L)", 2, step0 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_LITERAL)),
+    Operation(0x7c, "MOV A i8", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_A)),
+    Operation(0x7d, "MOV B i8", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_B)),
+    Operation(0x7e, "MOV C i8", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_C)),
+    Operation(0x7f, "MOV D i8", 1, step0 = MicroOp(READ_LITERAL_1, WRITE_REG_D)),
+    Operation(0x80, "STORE A (i16)", 2, step0 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_LITERAL)),
+    Operation(0x81, "STORE B (i16)", 2, step0 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_LITERAL)),
+    Operation(0x82, "STORE C (i16)", 2, step0 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_LITERAL)),
+    Operation(0x83, "STORE D (i16)", 2, step0 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_LITERAL)),
     Operation(
-        0x84, "STORE A (CD + l)", 1,
+        0x84, "STORE A (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x85, "STORE B (CD + l)", 1,
+        0x85, "STORE B (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x86, "STORE C (CD + l)", 1,
+        0x86, "STORE C (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x87, "STORE D (CD + l)", 1,
+        0x87, "STORE D (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x88, "STORE A (SP + l)", 1,
+        0x88, "STORE A (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x89, "STORE B (SP + l)", 1,
+        0x89, "STORE B (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x8a, "STORE C (SP + l)", 1,
+        0x8a, "STORE C (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x8b, "STORE D (SP + l)", 1,
+        0x8b, "STORE D (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x8c, "MOV (L) AB", 2,
+        0x8c, "MOV (i16) AB", 2,
         step0 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_LITERAL),
         step1 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x8d, "MOV (L) CD", 2,
+        0x8d, "MOV (i16) CD", 2,
         step0 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_LITERAL),
         step1 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_INCREMENT),
     ),
@@ -619,35 +619,35 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(0x93, "MOV CD CD", 0),
     Operation(
-        0x94, "MOV AB (L)", 2,
+        0x94, "MOV AB (i16)", 2,
         step0 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_LITERAL),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x95, "MOV CD (L)", 2,
+        0x95, "MOV CD (i16)", 2,
         step0 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_LITERAL),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x96, "MOV AB (CD + L)", 1,
+        0x96, "MOV AB (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x97, "MOV CD (CD + L)", 1,
+        0x97, "MOV CD (CD + i8)", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x98, "MOV AB (SP + L)", 1,
+        0x98, "MOV AB (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x99, "MOV CD (SP + L)", 1,
+        0x99, "MOV CD (SP + i8)", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_MEMORY, WRITE_REG_C, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_INCREMENT),
@@ -663,67 +663,67 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_LITERAL_2, WRITE_REG_D),
     ),
     Operation(
-        0x9c, "MOV (CD + L) AB", 1,
+        0x9c, "MOV (CD + i8) AB", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x9d, "MOV (CD + L) CD", 1,
+        0x9d, "MOV (CD + i8) CD", 1,
         step0 = MicroOp(addressSource = ADR_REG_CD),
         step1 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x9e, "MOV (SP + L) AB", 1,
+        0x9e, "MOV (SP + i8) AB", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_REG_A, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x9f, "MOV (SP + L) CD", 1,
+        0x9f, "MOV (SP + i8) CD", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE),
         step2 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0xb0, "BCC i", 2,
+        0xb0, "BCC i16", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_CLEAR),
     ),
     Operation(
-        0xb1, "BCS i", 2,
+        0xb1, "BCS i16", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_SET),
     ),
     Operation(
-        0xb2, "BZ i", 2,
+        0xb2, "BZ i16", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.ZERO),
     ),
     Operation(
-        0xb3, "BNZ i", 2,
+        0xb3, "BNZ i16", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_ZERO),
     ),
     Operation(
-        0xb4, "BLZ i", 2,
+        0xb4, "BLZ i16", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NEGATIVE),
     ),
     Operation(
-        0xb5, "BGZ i", 2,
+        0xb5, "BGZ i16", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.POSITIVE),
     ),
     Operation(
-        0xb6, "BNP i", 2,
+        0xb6, "BNP i16", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_POSITIVE),
     ),
     Operation(
-        0xb7, "BNN i", 2,
+        0xb7, "BNN i16", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_NEGATIVE),
     ),
     Operation(
-        0xb8, "JMP i", 2,
+        0xb8, "JMP i16", 2,
         step0 = MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC)
     ),
     Operation(
-        0xba, "JSR i", 2,
+        0xba, "JSR i16", 2,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(READ_PC_HIGH, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT),
         step2 = MicroOp(READ_PC_LOW, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT, WRITE_STACK_POINTER),
