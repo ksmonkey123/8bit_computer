@@ -28,9 +28,10 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x03, "ADC i8",
-        MicroOp.FETCH_L1,
-        MicroOp.WRITE_PC,
-        MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        // direct load from memory to ALU
+        MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_INCREMENT),
+        // copy L1 to L2 to avoid unwanted write to ALU
+        MicroOp(READ_LITERAL_1, WRITE_LITERAL_2, ADR_INCREMENTER_INCREMENT, WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
     ),
     Operation(
@@ -77,9 +78,10 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x0b, "SBC i8",
-        MicroOp.FETCH_L1,
-        MicroOp.WRITE_PC,
-        MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        // direct load from memory to ALU
+        MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_INCREMENT),
+        // copy L1 to L2 to avoid unwanted write to ALU
+        MicroOp(READ_LITERAL_1, WRITE_LITERAL_2, ADR_INCREMENTER_INCREMENT, WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
@@ -126,9 +128,10 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x13, "AND i8",
-        MicroOp.FETCH_L1,
-        MicroOp.WRITE_PC,
-        MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        // direct load from memory to ALU
+        MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_INCREMENT),
+        // copy L1 to L2 to avoid unwanted write to ALU
+        MicroOp(READ_LITERAL_1, WRITE_LITERAL_2, ADR_INCREMENTER_INCREMENT, WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
@@ -176,9 +179,10 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x1b, "IOR i8",
-        MicroOp.FETCH_L1,
-        MicroOp.WRITE_PC,
-        MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        // direct load from memory to ALU
+        MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_INCREMENT),
+        // copy L1 to L2 to avoid unwanted write to ALU
+        MicroOp(READ_LITERAL_1, WRITE_LITERAL_2, ADR_INCREMENTER_INCREMENT, WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
@@ -225,9 +229,10 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x23, "XOR i8",
-        MicroOp.FETCH_L1,
-        MicroOp.WRITE_PC,
-        MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
+        // direct load from memory to ALU
+        MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_INCREMENT),
+        // copy L1 to L2 to avoid unwanted write to ALU
+        MicroOp(READ_LITERAL_1, WRITE_LITERAL_2, ADR_INCREMENTER_INCREMENT, WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
@@ -706,10 +711,10 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
-    Operation(0x7c, "MOV A i8", MicroOp.FETCH_L1, MicroOp.WRITE_PC, MicroOp(READ_LITERAL_1, WRITE_REG_A)),
-    Operation(0x7d, "MOV B i8", MicroOp.FETCH_L1, MicroOp.WRITE_PC, MicroOp(READ_LITERAL_1, WRITE_REG_B)),
-    Operation(0x7e, "MOV C i8", MicroOp.FETCH_L1, MicroOp.WRITE_PC, MicroOp(READ_LITERAL_1, WRITE_REG_C)),
-    Operation(0x7f, "MOV D i8", MicroOp.FETCH_L1, MicroOp.WRITE_PC, MicroOp(READ_LITERAL_1, WRITE_REG_D)),
+    Operation(0x7c, "MOV A i8", MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_INCREMENT), MicroOp.WRITE_PC),
+    Operation(0x7d, "MOV B i8", MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER_INCREMENT), MicroOp.WRITE_PC),
+    Operation(0x7e, "MOV C i8", MicroOp(READ_MEMORY, WRITE_REG_C, ADR_INCREMENTER_INCREMENT), MicroOp.WRITE_PC),
+    Operation(0x7f, "MOV D i8", MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_INCREMENT), MicroOp.WRITE_PC),
     Operation(
         0x80,
         "STORE A (i16)",
@@ -892,19 +897,15 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x9a, "MOV AB i16",
-        MicroOp.FETCH_L1,
-        MicroOp.FETCH_L2,
+        MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_INCREMENT),
+        MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER_INCREMENT),
         MicroOp.WRITE_PC,
-        MicroOp(READ_LITERAL_1, WRITE_REG_A),
-        MicroOp(READ_LITERAL_2, WRITE_REG_B),
     ),
     Operation(
         0x9b, "MOV CD i16",
-        MicroOp.FETCH_L1,
-        MicroOp.FETCH_L2,
+        MicroOp(READ_MEMORY, WRITE_REG_C, ADR_INCREMENTER_INCREMENT),
+        MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_INCREMENT),
         MicroOp.WRITE_PC,
-        MicroOp(READ_LITERAL_1, WRITE_REG_C),
-        MicroOp(READ_LITERAL_2, WRITE_REG_D),
     ),
     Operation(
         0x9c, "MOV (CD + i8) AB",
