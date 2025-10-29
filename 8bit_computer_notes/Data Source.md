@@ -1,4 +1,4 @@
-The _Data Source_ is a 4-bit [[Execution Microcode]] parameter.
+The _Data Source_ is a 4-bit [[Microcode]] parameter.
 
 It controls which potential data source publishes its data onto the [[Data Bus]].
 
@@ -11,13 +11,13 @@ It controls which potential data source publishes its data onto the [[Data Bus]]
 | 4    | $D$ [[General Purpose Registers]]                       |
 | 5    | $L_1$ [[Literal Registers]]                             |
 | 6    | $L_2$ [[Literal Registers]]                             |
-| 7    | _unused, reserved for later_                            |
+| 7    | _unused_                                                |
 | 8    | $PC_L$ [[Program Counter]] (low byte)                   |
 | 9    | $PC_H$ [[Program Counter]] (high byte)                  |
 | 10   | $SP_L$ [[Stack Pointer]] (low byte)                     |
 | 11   | $SP_H$ [[Stack Pointer]] (high byte)                    |
-| 12   | _unused, reserved for later_                            |
-| 13   | _unused, reserved for later_                            |
+| 12   | _unused_                                                |
+| 13   | _unused_                                                |
 | 14   | $ALU_{OUT}$ ([[ALU]] output)                            |
 | 15   | [[Memory Device]]                                       |
 

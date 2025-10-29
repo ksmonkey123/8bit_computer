@@ -1,4 +1,4 @@
-The [[Physical Bus]] primarily controlling the [[ALU]] operation.
+The physical bus primarily controlling the [[ALU]] operation.
 
 |  Pin | Function                   |
 | ---: | -------------------------- |

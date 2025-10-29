@@ -1,4 +1,4 @@
-The address bus is a 16-bit bus primarily used to provide a memory address to a [[Memory Device]] for instruction fetching ([[Fetch Phase]]) or for data access ([[Execution Phase]]).
+The address bus is a 16-bit bus primarily used to provide a memory address to a [[Memory Device]] for instruction fetching and for data access.
 
 The device publishing to the address bus is selected by the [[Address Source]].
 

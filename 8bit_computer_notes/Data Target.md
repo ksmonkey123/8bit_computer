@@ -1,4 +1,4 @@
-The _Data Target_ is a 3-bit [[Execution Microcode]] parameter.
+The _Data Target_ is a 3-bit [[Microcode]] parameter.
 
 It controls which potential data target the current value on the [[Data Bus]] is written to.
 The target device may be the same as the [[Data Source]], though it is rarely sensible.

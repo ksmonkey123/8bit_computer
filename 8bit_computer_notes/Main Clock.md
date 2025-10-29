@@ -1,4 +1,4 @@
-The _Main Clock_ synchronizes all operations in the computer.
+The _Main Clock_ synchronises all operations in the computer.
 
 A clock cycle starts with the clock signal low.
 

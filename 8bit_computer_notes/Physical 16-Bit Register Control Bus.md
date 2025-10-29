@@ -1,5 +1,4 @@
-The [[Physical Bus]] controlling the operation of the 16-bit registers.
-
+The physical bus controlling the operation of the 16-bit registers.
 
 |   Pin | Function                          |
 | ----: | --------------------------------- |

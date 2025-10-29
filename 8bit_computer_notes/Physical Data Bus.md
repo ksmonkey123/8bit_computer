@@ -1,5 +1,4 @@
-[[Physical Bus]] primarily tasked with holding the [[Data Bus]], power and some control signals.
-
+Physical Bus primarily tasked with holding the [[Data Bus]], power and some control signals.
 
 |   Pin | Function                              |
 | ----: | ------------------------------------- |

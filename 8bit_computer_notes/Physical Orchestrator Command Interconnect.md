@@ -1,4 +1,4 @@
-[[Physical Bus]] providing the [[Instruction Decoder]] with commands.
+Physical bus providing the [[Instruction Decoder]] with commands.
 
 | Pin | Function              |
 | --: | --------------------- |

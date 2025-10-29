@@ -1,4 +1,4 @@
-The [[Physical Bus]] controlling operation of the 1-byte registers.
+The physical bus controlling operation of the 1-byte registers.
 
 | Pin | Function           |
 | ---:| ------------------ |

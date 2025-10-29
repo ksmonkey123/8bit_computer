@@ -1,4 +1,4 @@
-[[Physical Bus]] providing the orchestrator with access to the [[Data Bus]] and the [[Status Flag]] status.
+Physical bus providing the orchestrator with access to the [[Data Bus]] and the [[Status Flag]] status.
 
 |   Pin | Function           |
 | ----: | ------------------ |

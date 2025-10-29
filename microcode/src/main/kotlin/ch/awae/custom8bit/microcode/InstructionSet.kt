@@ -337,11 +337,13 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step0 = MicroOp(READ_REG_D, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_D, action = INVERT),
     ),
+    // roll left through carry
     Operation(
         0x40, "RLC", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
     ),
+    // roll left without carry
     Operation(
         0x41, "RL", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
@@ -350,11 +352,13 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         // do real shift with carry to get it into the bottom bit
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
     ),
+    // roll right through carry
     Operation(
         0x42, "RRC", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
+    // roll right without carry
     Operation(
         0x43, "RR", 0,
         step0 = MicroOp(READ_REG_A, WRITE_ALU_INPUT),
@@ -362,6 +366,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
         step2 = MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
+    // roll right arithmetic. (retain top bit)
     Operation(
         0x44, "RRA", 0,
         // execute ALU logic command to clear carry flag.
@@ -597,12 +602,12 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         step1 = MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_INCREMENT),
     ),
     Operation(
-        0x8e, "SALLOC i8", 1,
+        0x8e, "SPA i8", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(addressSource = ADR_INCREMENTER_OFFSET_NEGATIVE, action = WRITE_STACK_POINTER),
     ),
     Operation(
-        0x8f, "SFREE i8", 1,
+        0x8f, "SPF i8", 1,
         step0 = MicroOp(addressSource = ADR_STACK_POINTER),
         step1 = MicroOp(addressSource = ADR_INCREMENTER_OFFSET_POSITIVE, action = WRITE_STACK_POINTER),
     ),

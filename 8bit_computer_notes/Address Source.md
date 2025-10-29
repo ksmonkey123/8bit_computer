@@ -1,4 +1,4 @@
-The _Address Source_ is a 3-bit [[Execution Microcode]] parameter.
+The _Address Source_ is a 3-bit [[Microcode]] parameter.
 
 It controls which potential data source publishes its data onto the [[Address Bus]]. 
 
@@ -12,4 +12,4 @@ It controls which potential data source publishes its data onto the [[Address Bu
 | 5    | [[General Purpose Registers]] $CD$        |
 | 6    | [[Program Counter]] $PC$                  |
 | 7    | [[Stack Pointer]] $SP$                    |
-Since all 8 possible values correspond to a valid data source, it is not possible for no value to be present on the address bus. The default value (0) corresponding to the increment mode of the [[Increment Unit]] also makes sense, as this is the primary mode used during the [[Fetch Phase]].
+Since all 8 possible values correspond to a valid data source, it is not possible for no value to be present on the address bus.
