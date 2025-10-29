@@ -121,7 +121,7 @@ class ArithmeticCommandsTest {
     fun `ADC (L), flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = false)),
-            0x04, 0x00, 0x04, 0xff, 200
+            0x04, 0x04, 0x00, 0xff, 200
         )
 
         assertEquals(44, output.registerA)
@@ -132,7 +132,7 @@ class ArithmeticCommandsTest {
     fun `ADC (L), flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = true)),
-            0x04, 0x00, 0x04, 0xff, 200
+            0x04, 0x04, 0x00, 0xff, 200
         )
 
         assertEquals(45, output.registerA)
@@ -280,7 +280,7 @@ class ArithmeticCommandsTest {
     fun `SBC (L), flag clear`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = true)),
-            0x0c, 0x00, 0x04, 0xff, 200
+            0x0c, 0x04, 0x00, 0xff, 200
         )
 
         assertEquals(156, output.registerA)
@@ -291,7 +291,7 @@ class ArithmeticCommandsTest {
     fun `SBC (L), flag set`() {
         val output = execute(
             ProcessorState(registerA = 100, flags = Flags(carry = false)),
-            0x0c, 0x00, 0x04, 0xff, 200
+            0x0c, 0x04, 0x00, 0xff, 200
         )
 
         assertEquals(155, output.registerA)
@@ -721,7 +721,7 @@ class ArithmeticCommandsTest {
     fun `CMP (L), flag clear`() {
         val output = execute(
             ProcessorState(registerA = 255, flags = Flags(carry = true)),
-            0x2c, 0x00, 0x04, 0xff, 1
+            0x2c, 0x04, 0x00, 0xff, 1
         )
 
         assertEquals(255, output.registerA)
@@ -734,7 +734,7 @@ class ArithmeticCommandsTest {
     fun `CMP (L), flag set`() {
         val output = execute(
             ProcessorState(registerA = 255, flags = Flags(carry = false)),
-            0x2c, 0x00, 0x04, 0xff, 1
+            0x2c, 0x04, 0x00, 0xff, 1
         )
 
         assertEquals(255, output.registerA)

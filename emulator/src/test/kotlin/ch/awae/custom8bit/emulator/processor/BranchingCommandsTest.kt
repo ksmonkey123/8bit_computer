@@ -35,7 +35,7 @@ class BranchingCommandsTest {
     fun `branch test`(command: Int, carry: Boolean, sign: Int, shouldBranch: Boolean) {
         val output = execute(
             ProcessorState(flags = Flags(carry = carry, zero = sign == 0, negative = sign < 0)),
-            command, 0xab, 0xcd
+            command, 0xcd, 0xab
         )
 
         if (shouldBranch) {
@@ -50,7 +50,7 @@ class BranchingCommandsTest {
         ram.clear()
         val output = execute(
             ProcessorState(stackPointer = 0xffbb),
-            0xba, 0x33, 0x44
+            0xba, 0x44, 0x33
         )
 
         assertEquals(0x3344, output.programCounter)

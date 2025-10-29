@@ -25,12 +25,12 @@ object Compiler {
         // fetch Instruction
         result.add(compileStep(MicroOp(DataSource.READ_MEMORY, null, AddressSource.ADR_PC), true, flagState))
         // optionally fetch L2
-        if (operation.fetchSize == 2) {
-            result.add(compileStep(MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_2, AddressSource.ADR_INCREMENTER_INCREMENT), true, flagState))
-        }
         // optionally fetch L1
         if (operation.fetchSize >= 1) {
             result.add(compileStep(MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_1, AddressSource.ADR_INCREMENTER_INCREMENT), true, flagState))
+        }
+        if (operation.fetchSize == 2) {
+            result.add(compileStep(MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_2, AddressSource.ADR_INCREMENTER_INCREMENT), true, flagState))
         }
         // update PC
         result.add(compileStep(MicroOp(addressSource = AddressSource.ADR_INCREMENTER_INCREMENT, action = AddressTarget.WRITE_PC), true, flagState))

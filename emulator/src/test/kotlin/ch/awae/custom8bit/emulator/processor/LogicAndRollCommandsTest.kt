@@ -71,7 +71,7 @@ class LogicAndRollCommandsTest {
     fun `AND $4`() {
         val output = execute(
             ProcessorState(registerA = 0b01101001),
-            0x14, 0x00, 0x04, 0xff, 0x33
+            0x14, 0x04, 0x00, 0xff, 0x33
         )
 
         assertEquals(0b00100001, output.registerA)
@@ -148,7 +148,7 @@ class LogicAndRollCommandsTest {
     fun `IOR $4`() {
         val output = execute(
             ProcessorState(registerA = 0b01101001),
-            0x1c, 0x00, 0x04, 0xff, 0x33
+            0x1c, 0x04, 0x00, 0xff, 0x33
         )
 
         assertEquals(0b01111011, output.registerA)
@@ -277,7 +277,7 @@ class LogicAndRollCommandsTest {
     fun `XOR $4`() {
         val output = execute(
             ProcessorState(registerA = 0b01101001),
-            0x24, 0x00, 0x04, 0xff, 0x33
+            0x24, 0x04, 0x00, 0xff, 0x33
         )
 
         assertEquals(0b01011010, output.registerA)
@@ -499,7 +499,7 @@ class LogicAndRollCommandsTest {
         ram.write(0xffab, 0x33)
         val output = execute(
             ProcessorState(registerA = 0x69),
-            0x4b, 0xff, 0xab,
+            0x4b, 0xab, 0xff,
         )
 
         assertEquals(0x33, output.registerA)

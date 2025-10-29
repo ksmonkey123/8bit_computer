@@ -72,12 +72,12 @@ sealed interface StaticAddressing {
 
 fun resolveSymbol(symbol: String, symbolMap: SymbolMap): Pair<Int, Int> {
     val raw = symbolMap[symbol] ?: throw IllegalArgumentException("unresolvable symbol: $symbol")
-    return Pair((raw ushr 8) and 0xff, raw and 0xff)
+    return Pair(raw and 0xff, (raw ushr 8) and 0xff)
 }
 
 data class LiteralAddressing(val value: Int) : AddressingExpression, StaticAddressing {
     override fun encode(symbolMap: SymbolMap): Pair<Int, Int> {
-        return Pair((value ushr 8) and 0xff, value and 0xff)
+        return Pair(value and 0xff, (value ushr 8) and 0xff)
     }
 }
 
@@ -205,7 +205,7 @@ data class RegisterLoadInstruction(val from: MoveSource, val to: Register) : Ins
                     is StaticAddressing -> intArrayOf(0x94 + offset, *from.encode(symbolMap).unwrap())
                     is RegisterCDAddressing -> intArrayOf(0x96 + offset, from.offset and 0xff)
                     is StackAddressing -> intArrayOf(0x98 + offset, from.offset and 0xff)
-                    is LiteralSource -> intArrayOf(0x9a + offset, (from.value ushr 8) and 0xff, from.value and 0xff)
+                    is LiteralSource -> intArrayOf(0x9a + offset, from.value and 0xff, (from.value ushr 8)  and 0xff)
                 }
             }
         }
