@@ -400,7 +400,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     // roll left without carry
     Operation(
-        0x41, "RL",
+        0x41, "RLD",
         MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         // shift once to get top bit into carry (write to A necessary to not rewrite alu input)
         MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
@@ -415,7 +415,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     // roll right without carry
     Operation(
-        0x43, "RR",
+        0x43, "RRD",
         MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         // shift once to get bottom bit into carry (write to A necessary to not rewrite alu input)
         MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
@@ -445,7 +445,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x49, "SWAP C",
+        0x49, "SWP C",
         // move C into ALU
         MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         // copy A to C
@@ -456,7 +456,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x4a, "SWAP D",
+        0x4a, "SWP D",
         // move D into ALU
         MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         // copy A to D
@@ -467,7 +467,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x4b, "SWAP (i16)",
+        0x4b, "SWP (i16)",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
         MicroOp.WRITE_PC,
@@ -481,7 +481,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
-        0x4c, "SWAP (CD + i8)",
+        0x4c, "SWP (CD + i8)",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         // move A to ALU
@@ -494,7 +494,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         MicroOp(READ_ALU, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE, action = INVERT)
     ),
     Operation(
-        0x4d, "SWAP (SP + i8)",
+        0x4d, "SWP (SP + i8)",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         // move A to ALU
@@ -507,56 +507,56 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         MicroOp(READ_ALU, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE, action = INVERT)
     ),
     Operation(
-        0x50, "LOAD A (SP + i8)",
+        0x50, "MOV A (SP + i8)",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x51, "LOAD B (SP + i8)",
+        0x51, "MOV B (SP + i8)",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x52, "LOAD C (SP + i8)",
+        0x52, "MOV C (SP + i8)",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_MEMORY, WRITE_REG_C, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x53, "LOAD D (SP + i8)",
+        0x53, "MOV D (SP + i8)",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x54, "STORE A (SP + i8)",
+        0x54, "MOV (SP + i8) A",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_REG_A, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x55, "STORE B (SP + i8)",
+        0x55, "MOV (SP + i8) B",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x56, "STORE C (SP + i8)",
+        0x56, "MOV (SP + i8) C",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x57, "STORE D (SP + i8)",
+        0x57, "MOV (SP + i8) D",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
@@ -672,7 +672,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(0x7f, "MOV D i8", MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_INCREMENT), MicroOp.WRITE_PC),
     Operation(
         0x80,
-        "STORE A (i16)",
+        "MOV (i16) A",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
         MicroOp.WRITE_PC,
@@ -680,7 +680,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x81,
-        "STORE B (i16)",
+        "MOV (i16) B",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
         MicroOp.WRITE_PC,
@@ -688,7 +688,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x82,
-        "STORE C (i16)",
+        "MOV (i16) C",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
         MicroOp.WRITE_PC,
@@ -696,63 +696,63 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x83,
-        "STORE D (i16)",
+        "MOV (i16) D",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
         MicroOp.WRITE_PC,
         MicroOp(READ_REG_D, WRITE_MEMORY, ADR_LITERAL)
     ),
     Operation(
-        0x84, "STORE A (CD + i8)",
+        0x84, "MOV (CD + i8) A",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_REG_CD),
         MicroOp(READ_REG_A, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x85, "STORE B (CD + i8)",
+        0x85, "MOV (CD + i8) B",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_REG_CD),
         MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x86, "STORE C (CD + i8)",
+        0x86, "MOV (CD + i8) C",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_REG_CD),
         MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x87, "STORE D (CD + i8)",
+        0x87, "MOV (CD + i8) D",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_REG_CD),
         MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x88, "STORE A (SP + i8)",
+        0x88, "MOV (SP + i8) A",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_REG_A, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x89, "STORE B (SP + i8)",
+        0x89, "MOV (SP + i8) B",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x8a, "STORE C (SP + i8)",
+        0x8a, "MOV (SP + i8) C",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
     Operation(
-        0x8b, "STORE D (SP + i8)",
+        0x8b, "MOV (SP + i8) D",
         MicroOp.FETCH_L1,
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
@@ -907,7 +907,7 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
             .otherwise(MicroOp.WRITE_PC),
     ),
     Operation(
-        0xb2, "BZ i16",
+        0xb2, "BEZ i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
         MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.ZERO)

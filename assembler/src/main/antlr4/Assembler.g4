@@ -51,7 +51,7 @@ binaryAluOpSrc
 unaryAluInstruction: operation=unaryAluOp register8;
 unaryAluOp: 'not' | 'inc' | 'dec' | 'neg';
 
-shiftInstruction: 'rlc' | 'rl' | 'rra' | 'rrc' | 'rr';
+shiftInstruction: 'rlc' | 'rld' | 'rra' | 'rrc' | 'rrd';
 
 swapInstruction: 'swp' (register8NotA | addressingExpression);
 
@@ -69,7 +69,7 @@ moveSource
     | addressingExpression #addressedMoveSource
     ;
 
-branchInstruction: operation=('bcc' | 'bcs' | 'bz' | 'bnz' | 'blz' | 'bgz' | 'bnp' | 'bnn' | 'jmp' | 'jsr') branchTarget;
+branchInstruction: operation=('bcc' | 'bcs' | 'bez' | 'bnz' | 'blz' | 'bgz' | 'bnp' | 'bnn' | 'jmp' | 'jsr') branchTarget;
 simpleInstruction: operation=('ret' | 'nop' | 'hlt' | 'cfc' | 'cfs' );
 
 branchTarget: SYMBOL;

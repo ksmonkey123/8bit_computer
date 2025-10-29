@@ -111,7 +111,7 @@ data class UnaryAluInstruction(
 }
 
 enum class ShiftOperation(val opcode: Int) {
-    RLC(0x40), RL(0x41), RRC(0x42), RR(0x43), RRA(0x44)
+    RLC(0x40), RLD(0x41), RRC(0x42), RRD(0x43), RRA(0x44)
 }
 
 data class ShiftInstruction(val operation: ShiftOperation) : Instruction {
@@ -254,7 +254,7 @@ data class RegisterStoreInstruction(val from: Register, val to: AddressingExpres
 enum class BranchOperation(val opcode: Int) {
     BCC(0xb0),
     BCS(0xb1),
-    BZ(0xb2),
+    BEZ(0xb2),
     BNZ(0xb3),
     BLZ(0xb4),
     BGZ(0xb5),
