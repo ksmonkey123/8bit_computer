@@ -87,5 +87,35 @@ class FibonacciTest {
 
     }
 
+    @Test
+    fun `fibonacci without vars`() {
+        val source = """
+            .code 0x0000
+            	mov AB #0x0101
+            	mov *0x4000 A
+            	mov *0x4000 B
+            	mov D #11
+            loop:
+                cfc
+                adc B
+            	mov *0x4000 A
+                swp B
+            	cfc
+            	dec D
+            	bnz loop
+            	hlt
+        """.trimIndent()
+
+        val program = Assembler.assemble(source)
+        val capture = OutputCapture()
+
+        Emulator(program, 0 to capture).runToCompletion()
+
+        assertEquals(
+            listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233), capture.capturedData
+        )
+
+    }
+
 }
 

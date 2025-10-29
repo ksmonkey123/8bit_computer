@@ -303,8 +303,8 @@ fun AssemblerParser.ProgramContext.toProgram(): Program = Program(
     variables = section()
         .filterIsInstance<AssemblerParser.VariableSectionContext>()
         .map { it.toVarsSection() }
-        .reduce { a, b -> a.join(b) }
-        .variables
+        .reduceOrNull { a, b -> a.join(b) }
+        ?.variables ?: emptyList()
 )
 
 
