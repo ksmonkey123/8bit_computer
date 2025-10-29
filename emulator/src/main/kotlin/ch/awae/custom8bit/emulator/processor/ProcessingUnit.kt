@@ -37,7 +37,7 @@ class ProcessingUnit(
     }
 
     private fun executeStep(state: ProcessorState): ProcessorState {
-        if (state.stepCounter !in 0..7) {
+        if (state.stepCounter !in 0..15) {
             throw IllegalStateException("invalid stepCounter: ${state.stepCounter}")
         }
 

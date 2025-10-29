@@ -62,11 +62,11 @@ object Compiler {
     fun compileInstructionSet(operations: Set<Operation>): Pair<ByteArray, ByteArray> {
         val map = operations.map { compileOperation(it) }.reduce { a, b -> a + b }
 
-        val lowMap = ByteArray(16384) {
+        val lowMap = ByteArray(32768) {
             map[it]?.toByte() ?: 0
         }
 
-        val highMap = ByteArray(16384) {
+        val highMap = ByteArray(32768) {
             // HALT on unknown code
             (map[it]?.ushr(8) ?: SequencerCommand.HALT.command).toByte()
         }
