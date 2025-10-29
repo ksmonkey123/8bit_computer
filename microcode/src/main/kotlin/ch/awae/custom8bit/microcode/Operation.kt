@@ -49,9 +49,11 @@ enum class AluOperation(override val command: Int) : Action {
     IOR(1),
     XOR(2),
     INVERT(3),
+
     // shifter operations 0b010x
     SHIFT_RIGHT(4),
     SHIFT_LEFT(5),
+
     // low adder operations 0b10xx, 0b1100
     INCREMENT(8),
     COMPLEMENT(9),
@@ -115,6 +117,14 @@ data class MicroOp(
     val action: Action? = null,
 ) : MicroOperation {
     override fun operationFor(state: FlagState) = this
+
+    companion object {
+        val FETCH_L1 =
+            MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_1, AddressSource.ADR_INCREMENTER_INCREMENT)
+        val FETCH_L2 =
+            MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_2, AddressSource.ADR_INCREMENTER_INCREMENT)
+        val WRITE_PC = MicroOp(addressSource = AddressSource.ADR_INCREMENTER_INCREMENT, action = AddressTarget.WRITE_PC)
+    }
 }
 
 sealed interface ConditionExpression {
@@ -179,9 +189,15 @@ data class Conditional(
 data class Operation(
     val code: Int,
     val mnemonic: String,
-    val fetchSize: Int,
-    val step0: MicroOperation? = null,
-    val step1: MicroOperation? = null,
-    val step2: MicroOperation? = null,
-    val step3: MicroOperation? = null,
-)
+    val steps: List<MicroOperation>,
+) {
+    constructor(code: Int, mnemonic: String, vararg steps: MicroOperation) : this(
+        code, mnemonic, steps.toList()
+    )
+
+    init {
+        require(steps.isNotEmpty()) { "instruction steps required" }
+        require(steps.size < 16) { "at most 15 instruction steps allowed" }
+    }
+
+}
