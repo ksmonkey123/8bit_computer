@@ -896,57 +896,57 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         0xb0, "BCC i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
-        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_CLEAR),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_CLEAR)
+            .otherwise(MicroOp.WRITE_PC),
     ),
     Operation(
         0xb1, "BCS i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
-        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_SET),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.CARRY_SET)
+            .otherwise(MicroOp.WRITE_PC),
     ),
     Operation(
         0xb2, "BZ i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
-        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.ZERO),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.ZERO)
+            .otherwise(MicroOp.WRITE_PC),
     ),
     Operation(
         0xb3, "BNZ i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
-        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_ZERO),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_ZERO)
+            .otherwise(MicroOp.WRITE_PC),
     ),
     Operation(
         0xb4, "BLZ i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
-        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NEGATIVE),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NEGATIVE)
+            .otherwise(MicroOp.WRITE_PC),
     ),
     Operation(
         0xb5, "BGZ i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
-        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.POSITIVE),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.POSITIVE)
+            .otherwise(MicroOp.WRITE_PC),
     ),
     Operation(
         0xb6, "BNP i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
-        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_POSITIVE),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_POSITIVE)
+            .otherwise(MicroOp.WRITE_PC),
     ),
     Operation(
         0xb7, "BNN i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
-        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_NEGATIVE),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC).condition(Condition.NOT_NEGATIVE)
+            .otherwise(MicroOp.WRITE_PC),
     ),
     Operation(
         0xb8, "JMP i16",
