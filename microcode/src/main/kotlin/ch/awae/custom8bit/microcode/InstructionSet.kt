@@ -10,20 +10,17 @@ import ch.awae.custom8bit.microcode.DataTarget.*
 val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
         0x00, "ADC B",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
     ),
     Operation(
         0x01, "ADC C",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
     ),
     Operation(
         0x02, "ADC D",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = ADDITION),
     ),
     Operation(
@@ -60,20 +57,17 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x08, "SBC B",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
         0x09, "SBC C",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
         0x0a, "SBC D",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = SUBTRACTION),
     ),
     Operation(
@@ -110,20 +104,17 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x10, "AND B",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
         0x11, "AND C",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
         0x12, "AND D",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = AND),
     ),
     Operation(
@@ -161,20 +152,17 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
         0x18,
         "IOR B",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
         0x19, "IOR C",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
         0x1a, "IOR D",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = IOR),
     ),
     Operation(
@@ -211,20 +199,17 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x20, "XOR B",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
         0x21, "XOR C",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
         0x22, "XOR D",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = XOR),
     ),
     Operation(
@@ -261,9 +246,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x28, "CMP B",
-        MicroOp.WRITE_PC,
         // set ALU input to 0xff
-        MicroOp(dataTarget = WRITE_ALU_INPUT),
+        MicroOp(dataTarget = WRITE_ALU_INPUT, action = WRITE_PC),
         // shift left to get a '1' into the carry flag.
         MicroOp(READ_ALU, action = SHIFT_LEFT),
         MicroOp(READ_REG_B, WRITE_ALU_INPUT),
@@ -271,9 +255,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x29, "CMP C",
-        MicroOp.WRITE_PC,
         // set ALU input to 0xff
-        MicroOp(dataTarget = WRITE_ALU_INPUT),
+        MicroOp(dataTarget = WRITE_ALU_INPUT, action = WRITE_PC),
         // shift left to get a '1' into the carry flag.
         MicroOp(READ_ALU, action = SHIFT_LEFT),
         MicroOp(READ_REG_C, WRITE_ALU_INPUT),
@@ -281,9 +264,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x2a, "CMP D",
-        MicroOp.WRITE_PC,
         // set ALU input to 0xff
-        MicroOp(dataTarget = WRITE_ALU_INPUT),
+        MicroOp(dataTarget = WRITE_ALU_INPUT, action = WRITE_PC),
         // shift left to get a '1' into the carry flag.
         MicroOp(READ_ALU, action = SHIFT_LEFT),
         MicroOp(READ_REG_D, WRITE_ALU_INPUT),
@@ -292,9 +274,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
         0x2b, "CMP i8",
         MicroOp.FETCH_L1,
-        MicroOp.WRITE_PC,
         // set ALU input to 0xff
-        MicroOp(dataTarget = WRITE_ALU_INPUT),
+        MicroOp(dataTarget = WRITE_ALU_INPUT, action = WRITE_PC),
         // shift left to get a '1' into the carry flag.
         MicroOp(READ_ALU, action = SHIFT_LEFT),
         MicroOp(READ_LITERAL_1, WRITE_ALU_INPUT),
@@ -304,9 +285,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         0x2c, "CMP (i16)",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
         // set ALU input to 0xff
-        MicroOp(dataTarget = WRITE_ALU_INPUT),
+        MicroOp(dataTarget = WRITE_ALU_INPUT, action = WRITE_PC),
         // shift left to get a '1' into the carry flag.
         MicroOp(READ_ALU, action = SHIFT_LEFT),
         MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_LITERAL),
@@ -315,9 +295,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
         0x2d, "CMP (CD + i8)",
         MicroOp.FETCH_L1,
-        MicroOp.WRITE_PC,
         // set ALU input to 0xff
-        MicroOp(dataTarget = WRITE_ALU_INPUT),
+        MicroOp(dataTarget = WRITE_ALU_INPUT, action = WRITE_PC),
         // shift left to get a '1' into the carry flag. also move CD into incrementer
         MicroOp(READ_ALU, addressSource = ADR_REG_CD, action = SHIFT_LEFT),
         MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
@@ -326,9 +305,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
         0x2e, "CMP (SP + i8)",
         MicroOp.FETCH_L1,
-        MicroOp.WRITE_PC,
         // set ALU input to 0xff
-        MicroOp(dataTarget = WRITE_ALU_INPUT),
+        MicroOp(dataTarget = WRITE_ALU_INPUT, action = WRITE_PC),
         // shift left to get a '1' into the carry flag. also move SP into incrementer
         MicroOp(READ_ALU, addressSource = ADR_STACK_POINTER, action = SHIFT_LEFT),
         MicroOp(READ_MEMORY, WRITE_ALU_INPUT, ADR_INCREMENTER_OFFSET_POSITIVE),
@@ -336,112 +314,94 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x30, "DEC A",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = DECREMENT),
     ),
     Operation(
         0x31, "DEC B",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_B, action = DECREMENT),
     ),
     Operation(
         0x32, "DEC C",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_C, action = DECREMENT),
     ),
     Operation(
         0x33, "DEC D",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_D, action = DECREMENT),
     ),
     Operation(
         0x34, "INC A",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = INCREMENT),
     ),
     Operation(
         0x35, "INC B",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_B, action = INCREMENT),
     ),
     Operation(
         0x36, "INC C",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_C, action = INCREMENT),
     ),
     Operation(
         0x37, "INC D",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_D, action = INCREMENT),
     ),
     Operation(
         0x38, "NEG A",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = COMPLEMENT),
     ),
     Operation(
         0x39, "NEG B",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_B, action = COMPLEMENT),
     ),
     Operation(
         0x3a, "NEG C",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_C, action = COMPLEMENT),
     ),
     Operation(
         0x3b, "NEG D",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_D, action = COMPLEMENT),
     ),
     Operation(
         0x3c, "NOT A",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = INVERT),
     ),
     Operation(
         0x3d, "NOT B",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_B, action = INVERT),
     ),
     Operation(
         0x3e, "NOT C",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_C, action = INVERT),
     ),
     Operation(
         0x3f, "NOT D",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_D, action = INVERT),
     ),
     // roll left through carry
     Operation(
         0x40, "RLC",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
     ),
     // roll left without carry
     Operation(
         0x41, "RL",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         // shift once to get top bit into carry (write to A necessary to not rewrite alu input)
         MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_LEFT),
         // do real shift with carry to get it into the bottom bit
@@ -450,15 +410,13 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     // roll right through carry
     Operation(
         0x42, "RRC",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
     ),
     // roll right without carry
     Operation(
         0x43, "RR",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_A, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_A, WRITE_ALU_INPUT, action = WRITE_PC),
         // shift once to get bottom bit into carry (write to A necessary to not rewrite alu input)
         MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
         MicroOp(READ_ALU, WRITE_REG_A, action = SHIFT_RIGHT),
@@ -477,9 +435,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x48, "SWAP B",
-        MicroOp.WRITE_PC,
         // move B into ALU
-        MicroOp(READ_REG_B, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_B, WRITE_ALU_INPUT, action = WRITE_PC),
         // copy A to B
         MicroOp(READ_REG_A, WRITE_REG_B),
         // write !B to ALU
@@ -489,9 +446,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x49, "SWAP C",
-        MicroOp.WRITE_PC,
         // move C into ALU
-        MicroOp(READ_REG_C, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_C, WRITE_ALU_INPUT, action = WRITE_PC),
         // copy A to C
         MicroOp(READ_REG_A, WRITE_REG_C),
         // write !C to ALU
@@ -501,9 +457,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0x4a, "SWAP D",
-        MicroOp.WRITE_PC,
         // move D into ALU
-        MicroOp(READ_REG_D, WRITE_ALU_INPUT),
+        MicroOp(READ_REG_D, WRITE_ALU_INPUT, action = WRITE_PC),
         // copy A to D
         MicroOp(READ_REG_A, WRITE_REG_D),
         // write !D to ALU
@@ -607,22 +562,22 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_OFFSET_POSITIVE)
     ),
-    Operation(0x60, "MOV A A", MicroOp.WRITE_PC, MicroOp(READ_REG_A, WRITE_REG_A)),
-    Operation(0x61, "MOV A B", MicroOp.WRITE_PC, MicroOp(READ_REG_B, WRITE_REG_A)),
-    Operation(0x62, "MOV A C", MicroOp.WRITE_PC, MicroOp(READ_REG_C, WRITE_REG_A)),
-    Operation(0x63, "MOV A D", MicroOp.WRITE_PC, MicroOp(READ_REG_D, WRITE_REG_A)),
-    Operation(0x64, "MOV B A", MicroOp.WRITE_PC, MicroOp(READ_REG_A, WRITE_REG_B)),
-    Operation(0x65, "MOV B B", MicroOp.WRITE_PC, MicroOp(READ_REG_B, WRITE_REG_B)),
-    Operation(0x66, "MOV B C", MicroOp.WRITE_PC, MicroOp(READ_REG_C, WRITE_REG_B)),
-    Operation(0x67, "MOV B D", MicroOp.WRITE_PC, MicroOp(READ_REG_D, WRITE_REG_B)),
-    Operation(0x68, "MOV C A", MicroOp.WRITE_PC, MicroOp(READ_REG_A, WRITE_REG_C)),
-    Operation(0x69, "MOV C B", MicroOp.WRITE_PC, MicroOp(READ_REG_B, WRITE_REG_C)),
-    Operation(0x6a, "MOV C C", MicroOp.WRITE_PC, MicroOp(READ_REG_C, WRITE_REG_C)),
-    Operation(0x6b, "MOV C D", MicroOp.WRITE_PC, MicroOp(READ_REG_D, WRITE_REG_C)),
-    Operation(0x6c, "MOV D A", MicroOp.WRITE_PC, MicroOp(READ_REG_A, WRITE_REG_D)),
-    Operation(0x6d, "MOV D B", MicroOp.WRITE_PC, MicroOp(READ_REG_B, WRITE_REG_D)),
-    Operation(0x6e, "MOV D C", MicroOp.WRITE_PC, MicroOp(READ_REG_C, WRITE_REG_D)),
-    Operation(0x6f, "MOV D D", MicroOp.WRITE_PC, MicroOp(READ_REG_D, WRITE_REG_D)),
+    Operation(0x60, "MOV A A", MicroOp(READ_REG_A, WRITE_REG_A, action = WRITE_PC)),
+    Operation(0x61, "MOV A B", MicroOp(READ_REG_B, WRITE_REG_A, action = WRITE_PC)),
+    Operation(0x62, "MOV A C", MicroOp(READ_REG_C, WRITE_REG_A, action = WRITE_PC)),
+    Operation(0x63, "MOV A D", MicroOp(READ_REG_D, WRITE_REG_A, action = WRITE_PC)),
+    Operation(0x64, "MOV B A", MicroOp(READ_REG_A, WRITE_REG_B, action = WRITE_PC)),
+    Operation(0x65, "MOV B B", MicroOp(READ_REG_B, WRITE_REG_B, action = WRITE_PC)),
+    Operation(0x66, "MOV B C", MicroOp(READ_REG_C, WRITE_REG_B, action = WRITE_PC)),
+    Operation(0x67, "MOV B D", MicroOp(READ_REG_D, WRITE_REG_B, action = WRITE_PC)),
+    Operation(0x68, "MOV C A", MicroOp(READ_REG_A, WRITE_REG_C, action = WRITE_PC)),
+    Operation(0x69, "MOV C B", MicroOp(READ_REG_B, WRITE_REG_C, action = WRITE_PC)),
+    Operation(0x6a, "MOV C C", MicroOp(READ_REG_C, WRITE_REG_C, action = WRITE_PC)),
+    Operation(0x6b, "MOV C D", MicroOp(READ_REG_D, WRITE_REG_C, action = WRITE_PC)),
+    Operation(0x6c, "MOV D A", MicroOp(READ_REG_A, WRITE_REG_D, action = WRITE_PC)),
+    Operation(0x6d, "MOV D B", MicroOp(READ_REG_B, WRITE_REG_D, action = WRITE_PC)),
+    Operation(0x6e, "MOV D C", MicroOp(READ_REG_C, WRITE_REG_D, action = WRITE_PC)),
+    Operation(0x6f, "MOV D D", MicroOp(READ_REG_D, WRITE_REG_D, action = WRITE_PC)),
     Operation(
         0x70,
         "MOV A (i16)",
@@ -836,14 +791,12 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(0x90, "MOV AB AB", MicroOp.WRITE_PC),
     Operation(
         0x91, "MOV AB CD",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_C, WRITE_REG_A),
+        MicroOp(READ_REG_C, WRITE_REG_A, action = WRITE_PC),
         MicroOp(READ_REG_D, WRITE_REG_B),
     ),
     Operation(
         0x92, "MOV CD AB",
-        MicroOp.WRITE_PC,
-        MicroOp(READ_REG_A, WRITE_REG_C),
+        MicroOp(READ_REG_A, WRITE_REG_C, action = WRITE_PC),
         MicroOp(READ_REG_B, WRITE_REG_D),
     ),
     Operation(0x93, "MOV CD CD", MicroOp.WRITE_PC),
@@ -1028,9 +981,8 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0xfd, "CFS",
-        MicroOp.WRITE_PC,
         // move 0xff into ALU
-        MicroOp(dataTarget = WRITE_ALU_INPUT),
+        MicroOp(dataTarget = WRITE_ALU_INPUT, action = WRITE_PC),
         // shift to get a '1' into the carry flag.
         MicroOp(READ_ALU, WRITE_LITERAL_2, action = SHIFT_LEFT),
     ),
