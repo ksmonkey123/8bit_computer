@@ -4,7 +4,7 @@ import ch.awae.custom8bit.microcode.*
 
 data class ExecuteBlock(
     val hasNextStep: Boolean,
-    val dataSource: DataSource?,
+    val dataSource: DataSource,
     val dataTarget: DataTarget,
     val addressSource: AddressSource,
     val action: Action,
@@ -22,8 +22,8 @@ fun getDataTarget(port: Int) : DataTarget {
     return DataTarget.entries.find { it.port == port } ?: throw IllegalArgumentException("Invalid data target $port")
 }
 
-fun getDataSource(port: Int) : DataSource? {
-    return DataSource.entries.find { it.port == port }
+fun getDataSource(port: Int) : DataSource {
+    return DataSource.entries.find { it.port == port } ?: throw IllegalArgumentException("Invalid data source $port")
 }
 
 fun getAddressSource(port: Int) : AddressSource {

@@ -47,7 +47,7 @@ class ProcessingUnit(
         val aluState = (execute.action as? AluOperation)?.let { ALU.calculate(state, it) }
 
         val data = when (execute.dataSource) {
-            null -> 0xff
+            DataSource.READ_CONST_FF -> 0xff
             DataSource.READ_REG_A -> state.registerA
             DataSource.READ_REG_B -> state.registerB
             DataSource.READ_REG_C -> state.registerC

@@ -1,6 +1,7 @@
 package ch.awae.custom8bit.microcode
 
 enum class DataSource(val port: Int) {
+    READ_CONST_FF(0),
     READ_REG_A(1),
     READ_REG_B(2),
     READ_REG_C(3),
@@ -111,19 +112,19 @@ data class FlagState(
 }
 
 data class MicroOp(
-    val dataSource: DataSource? = null,
-    val dataTarget: DataTarget? = null,
-    val addressSource: AddressSource? = null,
-    val action: Action? = null,
+    val dataSource: DataSource = DataSource.READ_CONST_FF,
+    val dataTarget: DataTarget = DataTarget.WRITE_ALU_INPUT,
+    val addressSource: AddressSource = AddressSource.ADR_INCREMENTER_INCREMENT,
+    val action: Action = AluOperation.AND,
 ) : MicroOperation {
     override fun operationFor(state: FlagState) = this
 
     companion object {
         val FETCH_L1 =
-            MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_1, AddressSource.ADR_INCREMENTER_INCREMENT)
+            MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_1)
         val FETCH_L2 =
-            MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_2, AddressSource.ADR_INCREMENTER_INCREMENT)
-        val WRITE_PC = MicroOp(addressSource = AddressSource.ADR_INCREMENTER_INCREMENT, action = AddressTarget.WRITE_PC)
+            MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_2)
+        val WRITE_PC = MicroOp(action = AddressTarget.WRITE_PC)
     }
 }
 

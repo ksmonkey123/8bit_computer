@@ -23,7 +23,7 @@ object Compiler {
         val result = mutableListOf<Int>()
 
         // fetch Instruction
-        result.add(compileStep(MicroOp(DataSource.READ_MEMORY, null, AddressSource.ADR_PC), true, flagState))
+        result.add(compileStep(MicroOp(DataSource.READ_MEMORY, addressSource = AddressSource.ADR_PC), true, flagState))
 
         val lastIndex = operation.steps.size - 1
         operation.steps.forEachIndexed { index, step ->
@@ -42,11 +42,11 @@ object Compiler {
             }
 
         // current step has content
-        return (selectedOp.dataSource?.port ?: 0) +
-                (((selectedOp.dataTarget ?: DataTarget.WRITE_ALU_INPUT).port) shl 4) +
+        return (selectedOp.dataSource.port) +
+                (selectedOp.dataTarget.port shl 4) +
                 (if (hasNextStep) 0x0080 else 0) +
-                ((selectedOp.action?.command ?: 0) shl 8) +
-                ((selectedOp.addressSource?.port ?: 0) shl 13)
+                (selectedOp.action.command shl 8) +
+                (selectedOp.addressSource.port shl 13)
     }
 
     fun compileInstructionSet(operations: Set<Operation>): Pair<ByteArray, ByteArray> {
