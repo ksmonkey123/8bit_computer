@@ -952,13 +952,13 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         0xb8, "JMP i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
-        MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC)
     ),
     Operation(
         0xba, "JSR i16",
         MicroOp.FETCH_L1,
         MicroOp.FETCH_L2,
+        // write "return address" to PC to extract it later on
         MicroOp.WRITE_PC,
         MicroOp(addressSource = ADR_STACK_POINTER),
         MicroOp(READ_PC_HIGH, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT),
@@ -967,7 +967,6 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
     ),
     Operation(
         0xbb, "RET",
-        MicroOp.WRITE_PC,
         MicroOp(READ_MEMORY, WRITE_LITERAL_1, ADR_STACK_POINTER),
         MicroOp(READ_MEMORY, WRITE_LITERAL_2, ADR_INCREMENTER_INCREMENT),
         MicroOp(addressSource = ADR_INCREMENTER_INCREMENT, action = WRITE_STACK_POINTER),
