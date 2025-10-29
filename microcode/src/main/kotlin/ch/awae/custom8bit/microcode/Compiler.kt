@@ -35,16 +35,16 @@ object Compiler {
 
     private fun compileStep(step: MicroOperation?, hasNextStep: Boolean, state: FlagState): Int {
         val selectedOp = step?.operationFor(state)
-            ?: return if (!hasNextStep) {
-                0x0000
-            } else {
+            ?: return if (hasNextStep) {
                 0x0080
+            } else {
+                0x0000
             }
 
         // current step has content
         return (selectedOp.dataSource.port) +
                 (selectedOp.dataTarget.port shl 4) +
-                (if (hasNextStep) 0x0080 else 0) +
+                (if (hasNextStep && !selectedOp.terminal) 0x0080 else 0) +
                 (selectedOp.action.command shl 8) +
                 (selectedOp.addressSource.port shl 13)
     }

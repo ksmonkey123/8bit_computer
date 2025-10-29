@@ -116,6 +116,7 @@ data class MicroOp(
     val dataTarget: DataTarget = DataTarget.WRITE_ALU_INPUT,
     val addressSource: AddressSource = AddressSource.ADR_INCREMENTER_INCREMENT,
     val action: Action = AluOperation.AND,
+    val terminal: Boolean = false,
 ) : MicroOperation {
     override fun operationFor(state: FlagState) = this
 
