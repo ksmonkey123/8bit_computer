@@ -1,3 +1,5 @@
+#idea
+
 [[Program Cartridge (Idea)]]
 
 Protect against accidental write-enable by requiring a negative voltage to be present. This negative voltage would only be generated on demand by a programming circuit. This would protect against any accidental write pulses on the cartridge.

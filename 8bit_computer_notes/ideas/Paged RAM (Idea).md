@@ -1,6 +1,6 @@
 #idea
 
-There is still 1 unused block in [[Address Space]]: `0x6000-0x7FFF`
+There is still 1 unused block in [[Memory Device#Address Space]]: `0x6000-0x7FFF`
 
 This could be used for paged memory:
 

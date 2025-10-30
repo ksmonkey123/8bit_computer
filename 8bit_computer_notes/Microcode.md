@@ -1,4 +1,4 @@
-The _Microcode_ defines the exact behaviour of a single [[Execution Step]].
+The _Microcode_ defines the exact behaviour of a single [[Execution Cycle#Execution Step]].
 
 The microcode is accessed by passing the current [[Instruction]] code, the 3 [[Status Flag]] and the current step number (0 - 15) to the [[#Microcode ROM]]
 
@@ -65,7 +65,7 @@ The 15 address bits are mapped as follows:
 |    10 | $F_S$  |
 | 11-14 | $step$ |
 >[!Important]
->All address lines (besides the $step$) should be double buffered to ensure none of them can _ever_ change during an [[Execution Step]]. ($step$ does not need to be double buffered as it only changes on step transitions).
+>All address lines (besides the $step$) should be double buffered to ensure none of them can _ever_ change during an execution step. ($step$ does not need to be double buffered as it only changes on step transitions).
 
 Per instruction and step there are theoretically 8 possible [[Status Flag]] combinations. Of these 6 are valid flag combinations and are used for execution phase microcode. Values need to be defined for the invalid combinations. It is however recommended to _halt_ the processor upon encountering such a combination.
 
