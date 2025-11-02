@@ -1,7 +1,7 @@
 A _Memory Device_ is a hardware component that interacts with the [[Data Bus]] and the [[Address Bus]] to provide or store data.
 
 ## Basic Structure
-Any memory device has (at least) the following external connections: ^bb7285
+Any memory device has (at least) the following external connections:
  - [[Address Bus]] as an input
  - [[Data Bus]] as a bidirectional connection
  - 2 control signals coming from the [[Instruction Decoder]]:
@@ -36,16 +36,16 @@ We can separate the memory address into 2 sections:
 
 The blocks are designated as follows:
 
-| Starting | End      | Device                       |
-| -------- | -------- | ---------------------------- |
-| `0x0000` | `0x1FFF` | [[#Program ROM]]             |
-| `0x2000` | `0x3FFF` | Program ROM (optional)       |
-| `0x4000` | `0x5FFF` | [[Input and Output Devices]] |
-| `0x6000` | `0x7FFF` | _reserved for future use_    |
-| `0x8000` | `0x9FFF` | [[#RAM]]                     |
-| `0xA000` | `0xBFFF` | RAM                          |
-| `0xC000` | `0xDFFF` | RAM                          |
-| `0xE000` | `0xFFFF` | RAM                          |
+| Starting | End      | Device                                                             |
+| -------- | -------- | ------------------------------------------------------------------ |
+| `0x0000` | `0x1FFF` | [[#Program ROM]]                                                   |
+| `0x2000` | `0x3FFF` | Program ROM (optional)                                             |
+| `0x4000` | `0x5FFF` | `0x4...`  [[Modular Expansions]]<br>`0x5...` [[Special Registers]] |
+| `0x6000` | `0x7FFF` | _reserved for future use_                                          |
+| `0x8000` | `0x9FFF` | [[#RAM]]                                                           |
+| `0xA000` | `0xBFFF` | RAM                                                                |
+| `0xC000` | `0xDFFF` | RAM                                                                |
+| `0xE000` | `0xFFFF` | RAM                                                                |
 
 This mapping allows for 16KiB of Program ROM. It also allocates the full upper half (32KiB) of the address space to RAM.
 

@@ -1,0 +1,3 @@
+An edge pulse circuit is a circuit that converts a falling or rising edge of a signal into a short pulse.
+
+Such a circuit may be required if a device that is level triggered must be converted into an edge triggered one. It may also be required in cases where a device has a 2-phase operation (one action on the falling edge, one on the rising edge), but both should be performed within a short time frame after a single signal edge.
