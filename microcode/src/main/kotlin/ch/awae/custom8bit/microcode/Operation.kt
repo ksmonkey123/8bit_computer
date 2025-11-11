@@ -12,6 +12,8 @@ enum class DataSource(val port: Int) {
     READ_PC_HIGH(9),
     READ_STACK_POINTER_LOW(10),
     READ_STACK_POINTER_HIGH(11),
+    READ_INTERRUPT_REGISTER_LOW(12),
+    READ_INTERRUPT_REGISTER_HIGH(13),
     READ_ALU(14),
     READ_MEMORY(15),
 }
@@ -66,10 +68,13 @@ enum class AluOperation(override val command: Int) : Action {
 enum class AddressTarget(override val command: Int) : Action {
     WRITE_PC(16),
     WRITE_STACK_POINTER(17),
+    WRITE_INTERRUPT_REGISTER(18),
 }
 
 enum class SequencerCommand(override val command: Int) : Action {
     HALT(24),
+    DISABLE_INTERRUPTS(25),
+    ENABLE_INTERRUPTS(26),
 }
 
 sealed interface MicroOperation {
@@ -121,10 +126,8 @@ data class MicroOp(
     override fun operationFor(state: FlagState) = this
 
     companion object {
-        val FETCH_L1 =
-            MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_1)
-        val FETCH_L2 =
-            MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_2)
+        val FETCH_L1 = MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_1)
+        val FETCH_L2 = MicroOp(DataSource.READ_MEMORY, DataTarget.WRITE_LITERAL_2)
         val WRITE_PC = MicroOp(action = AddressTarget.WRITE_PC)
     }
 }

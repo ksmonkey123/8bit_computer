@@ -1,6 +1,6 @@
 package ch.awae.custom8bit.emulator.processor
 
-import ch.awae.custom8bit.microcode.AddressSource
+import ch.awae.custom8bit.microcode.*
 
 data class ProcessorState(
     val halted: Boolean = false,
@@ -17,6 +17,8 @@ data class ProcessorState(
     val registerB: Int = 0,
     val registerC: Int = 0,
     val registerD: Int = 0,
+    val interruptRegister: Int = 0,
+    val interruptsEnabled: Boolean = false,
 ) {
     fun getAddress(source: AddressSource): Int = when (source) {
         AddressSource.ADR_PC -> programCounter

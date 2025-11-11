@@ -1,11 +1,11 @@
 package ch.awae.custom8bit.microcode
 
 import ch.awae.custom8bit.microcode.AddressSource.*
-import ch.awae.custom8bit.microcode.AddressTarget.WRITE_PC
-import ch.awae.custom8bit.microcode.AddressTarget.WRITE_STACK_POINTER
+import ch.awae.custom8bit.microcode.AddressTarget.*
 import ch.awae.custom8bit.microcode.AluOperation.*
 import ch.awae.custom8bit.microcode.DataSource.*
 import ch.awae.custom8bit.microcode.DataTarget.*
+import ch.awae.custom8bit.microcode.SequencerCommand.*
 
 val INSTRUCTION_SET: Set<Operation> = setOf(
     Operation(
@@ -971,6 +971,47 @@ val INSTRUCTION_SET: Set<Operation> = setOf(
         MicroOp(READ_MEMORY, WRITE_LITERAL_2, ADR_INCREMENTER_INCREMENT),
         MicroOp(addressSource = ADR_INCREMENTER_INCREMENT, action = WRITE_STACK_POINTER),
         MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC),
+    ),
+    Operation(
+        0xf0, "INTERRUPT",
+        MicroOp(addressSource = ADR_STACK_POINTER, action = DISABLE_INTERRUPTS),
+        MicroOp(READ_REG_D, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT),
+        MicroOp(READ_REG_C, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT),
+        MicroOp(READ_REG_B, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT),
+        MicroOp(READ_REG_A, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT),
+        MicroOp(READ_PC_HIGH, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT),
+        MicroOp(READ_PC_LOW, WRITE_MEMORY, ADR_INCREMENTER_DECREMENT, WRITE_STACK_POINTER),
+        MicroOp(READ_INTERRUPT_REGISTER_LOW, WRITE_LITERAL_1),
+        MicroOp(READ_INTERRUPT_REGISTER_HIGH, WRITE_LITERAL_2),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC),
+    ),
+    Operation(
+        0xf1, "EXINT",
+        MicroOp(READ_MEMORY, WRITE_LITERAL_1, ADR_STACK_POINTER, ENABLE_INTERRUPTS),
+        MicroOp(READ_MEMORY, WRITE_LITERAL_2, ADR_INCREMENTER_INCREMENT),
+        MicroOp(READ_MEMORY, WRITE_REG_A, ADR_INCREMENTER_INCREMENT),
+        MicroOp(READ_MEMORY, WRITE_REG_B, ADR_INCREMENTER_INCREMENT),
+        MicroOp(READ_MEMORY, WRITE_REG_C, ADR_INCREMENTER_INCREMENT),
+        MicroOp(READ_MEMORY, WRITE_REG_D, ADR_INCREMENTER_INCREMENT),
+        MicroOp(addressSource = ADR_INCREMENTER_INCREMENT, action = WRITE_STACK_POINTER),
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_PC),
+    ),
+    Operation(
+        0xf2, "NOINT",
+        MicroOp.WRITE_PC,
+        MicroOp(action = DISABLE_INTERRUPTS),
+    ),
+    Operation(
+        0xf3, "ENINT",
+        MicroOp.WRITE_PC,
+        MicroOp(action = ENABLE_INTERRUPTS),
+    ),
+    Operation(
+        0xf4, "SIV",
+        MicroOp.FETCH_L1,
+        MicroOp.FETCH_L2,
+        MicroOp.WRITE_PC,
+        MicroOp(addressSource = ADR_LITERAL, action = WRITE_INTERRUPT_REGISTER),
     ),
     Operation(
         0xfc, "CFC",

@@ -41,7 +41,7 @@ class ProcessingUnit(
             throw IllegalStateException("invalid stepCounter: ${state.stepCounter}")
         }
 
-        val execute = microcode.execute(state.instructionRegister, state.stepCounter and 0x07, state.flags)
+        val execute = microcode.execute(state.instructionRegister, state.stepCounter and 0x0f, state.flags)
         val address = state.getAddress(execute.addressSource)
 
         val aluState = (execute.action as? AluOperation)?.let { ALU.calculate(state, it) }
@@ -58,8 +58,10 @@ class ProcessingUnit(
             DataSource.READ_LITERAL_2 -> state.literal2
             DataSource.READ_PC_HIGH -> (state.programCounter ushr 8) and 0x00ff
             DataSource.READ_PC_LOW -> state.programCounter and 0x00ff
-            DataSource.READ_STACK_POINTER_LOW -> (state.stackPointer ushr 8) and 0x00ff
-            DataSource.READ_STACK_POINTER_HIGH -> state.stackPointer and 0x00ff
+            DataSource.READ_STACK_POINTER_HIGH -> (state.stackPointer ushr 8) and 0x00ff
+            DataSource.READ_STACK_POINTER_LOW -> state.stackPointer and 0x00ff
+            DataSource.READ_INTERRUPT_REGISTER_HIGH -> (state.interruptRegister ushr 8) and 0x00ff
+            DataSource.READ_INTERRUPT_REGISTER_LOW -> state.interruptRegister and 0x00ff
         }
 
         val stateAfterDataTarget = when (execute.dataTarget) {
@@ -84,7 +86,10 @@ class ProcessingUnit(
                 is AluOperation -> st
                 AddressTarget.WRITE_PC -> st.copy(programCounter = address)
                 AddressTarget.WRITE_STACK_POINTER -> st.copy(stackPointer = address)
+                AddressTarget.WRITE_INTERRUPT_REGISTER -> st.copy(interruptRegister = address)
                 SequencerCommand.HALT -> st.copy(halted = true)
+                SequencerCommand.ENABLE_INTERRUPTS -> st.copy(interruptsEnabled = true)
+                SequencerCommand.DISABLE_INTERRUPTS -> st.copy(interruptsEnabled = false)
             }
         }
 
@@ -107,7 +112,13 @@ class ProcessingUnit(
         return stateAfterFlagUpdate.copy(
             incrementRegister = address,
             stepCounter = if (execute.hasNextStep) state.stepCounter + 1 else 0,
-            instructionRegister = if (state.stepCounter == 0) data else state.instructionRegister,
+            instructionRegister = if (state.stepCounter == 0) {
+                if (state.interruptsEnabled && memoryBus.interruptRequested()) {
+                    0xf0
+                } else {
+                    data
+                }
+            } else state.instructionRegister,
         )
     }
 

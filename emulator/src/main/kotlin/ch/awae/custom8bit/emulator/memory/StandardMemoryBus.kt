@@ -18,6 +18,7 @@ data class StandardMemoryBus(
                 log.warn("no device responded to memory read from ${address.toHex(2)}")
                 0x00
             }
+
             1 -> candidates.first().second and 0xff
             else -> {
                 log.error("multiple devices responded to memory read from ${address.toHex(2)}")
@@ -38,6 +39,10 @@ data class StandardMemoryBus(
                 log.warn("multiple devices processed memory write to ${address.toHex(2)} (value: ${data.toHex(1)})")
             }
         }
+    }
+
+    override fun interruptRequested(): Boolean {
+        return devices.any { it.interruptRequested() }
     }
 
 }
