@@ -4,6 +4,10 @@ data class BytecodeFragment(
     val startAt: Int,
     val data: ByteArray,
 ) {
+
+    val endExclusive: Int
+        get() = startAt + data.size
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

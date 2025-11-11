@@ -79,12 +79,14 @@ class BytecodeGenerator {
             }
         }
 
-        return assembleFragments(fragments.sortedBy { it.startAt })
+        return assembleFragments(fragments)
     }
 
     private fun assembleFragments(fragments: List<BytecodeFragment>): ByteArray {
+        val bufferSize = fragments.maxOf { it.endExclusive }
+
         logger.info("assembling ${fragments.size} fragment(s)")
-        val buffer = ByteArray(8192) { -1 }
+        val buffer = ByteArray(bufferSize) { -1 }
 
         for (fragment in fragments) {
             logger.info("  placing fragment at ${fragment.startAt.toHex(2)}..${(fragment.startAt + fragment.data.size - 1).toHex(2)}")
