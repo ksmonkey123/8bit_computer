@@ -13,4 +13,7 @@ The physical bus controlling the operation of the 16-bit registers.
 |     9 | $\overline{readIncR}$             |
 |    10 | [[Increment Unit]] decrement mode |
 |    11 | [[Increment Unit]] offset mode    |
-| 12-16 | N/C                               |
+|    12 | $writeIPC$                        |
+|    13 | $\overline{readIPC_L}$            |
+|    14 | $\overline{readIPC_H}$            |
+| 15-16 | N/C                               |

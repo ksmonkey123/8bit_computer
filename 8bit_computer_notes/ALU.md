@@ -9,7 +9,6 @@ The ALU output is presented to the [[Data Bus]] whenever the ALU is selected as 
 The ALU also contains the 1-bit [[Carry Flag]] ($F_C$). The carry flag is updated every instruction when the ALU output is selected. see the detailed documentation of the [[#Segments]].
 
 The ALU operation is selected by the lowest 4 bit of the [[Action Selector]].
-
 ## Instructions
 
 | Instruction | Mnemonic | Description              |
@@ -19,7 +18,7 @@ The ALU operation is selected by the lowest 4 bit of the [[Action Selector]].
 |           2 | `XOR`    | bitwise exclusive OR     |
 |           3 | `INV`    | bitwise inverse          |
 |           4 | `RRC`    | roll right through carry |
-|           5 | `RRL`    | roll left through carry  |
+|           5 | `RLC`    | roll left through carry  |
 |           6 | -        | _unused_                 |
 |           7 | -        | _unused_                 |
 |           8 | `INC`    | increment with carry     |
@@ -56,7 +55,15 @@ All roll operations pass through the [[Carry Flag]]. The bit that _leaves_ the 8
 | Cmd | Operation | Value Result                            | Carry Result                                      |
 | --- | --------- | --------------------------------------- | ------------------------------------------------- |
 | 4   | `RRC`     | $\frac{ALU_{IN}}{2} + 128 * F_C \mod 8$ | $ALU_{IN} \mod 2$                                 |
-| 5   | `RRL`     | $2 * ALU_{IN} + F_C \mod 8$             | $\left\lfloor \frac{ALU_{IN}}{128} \right\rfloor$ |
+| 5   | `RLC`     | $2 * ALU_{IN} + F_C \mod 8$             | $\left\lfloor \frac{ALU_{IN}}{128} \right\rfloor$ |
+#### Undefined Operations
+The undefined operations 6 and 7 show the following behaviour:
+
+| Cmd | Operation | Value Result                            | Carry Result                                      |
+| --- | --------- | --------------------------------------- | ------------------------------------------------- |
+| 6   | `RRC`     | $\frac{ALU_{IN}}{2} + 128 * F_C \mod 8$ | $ALU_{IN} \mod 2$                                 |
+| 7   | `RLC`     | $2 * ALU_{IN} + F_C \mod 8$             | $\left\lfloor \frac{ALU_{IN}}{128} \right\rfloor$ |
+
 ### Math Unit
 The math unit manages addition, subtraction and derived operations.
 
@@ -73,4 +80,13 @@ The [[Carry Flag]] indicates an overflow for additive operations (`INC` and `ADC
 >[!tip] Carry Input
 >The provided carry input values are the ones required to be set for correct single-byte operation.
 >For multi-byte calculations, initialize the carry flag before the lowest byte and then simply calculate byte by byte without modifying the carry flag between bytes.
+
+#### Undefined Operations
+The undefined operations 13 - 15 show the following behaviour:
+
+| Cmd | Operation | Value Result                                               | Carry Result     |
+| --- | --------- | ---------------------------------------------------------- | ---------------- |
+| 13  | `CMP - 1` | $255 + \overline{ALU_{IN}} + F_C$<br>$-ALU_{IN} - 2 + F_C$ | $0$ on underflow |
+| 14  | `DEC`     | $ALU_{IN} + 255 + F_C$<br>$ALU_{IN} - (1 - F_C)$           | $0$ on underflow |
+| 15  | `CMP - 1` | $255 + \overline{ALU_{IN}} + F_C$<br>$-ALU_{IN} - 2 + F_C$ | $0$ on underflow |
 
