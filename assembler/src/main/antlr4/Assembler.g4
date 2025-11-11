@@ -39,6 +39,7 @@ instruction
     | branchInstruction
     | simpleInstruction
     | stackManipulationInstruction
+    | sivInstruction
     ;
 
 binaryAluInstruction: operation=binaryAluOp source=binaryAluOpSrc;
@@ -70,7 +71,11 @@ moveSource
     ;
 
 branchInstruction: operation=('bcc' | 'bcs' | 'bez' | 'bnz' | 'blz' | 'bgz' | 'bnp' | 'bnn' | 'jmp' | 'jsr') branchTarget;
-simpleInstruction: operation=('ret' | 'nop' | 'hlt' | 'cfc' | 'cfs' );
+simpleInstruction: operation=('ret' | 'nop' | 'hlt' | 'cfc' | 'cfs' | 'exint' | 'noint' | 'enint' );
+sivInstruction
+    : 'siv' literalValue #literalSiv
+    | 'siv' SYMBOL #symbolSiv
+    ;
 
 branchTarget: SYMBOL;
 register8NotA: REGISTER_B | REGISTER_C | REGISTER_D;

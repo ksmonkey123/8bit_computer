@@ -5,7 +5,6 @@ import AssemblerParser
 import ch.awae.custom8bit.assembler.*
 import ch.awae.custom8bit.assembler.ast.*
 import org.antlr.v4.runtime.*
-import org.springframework.stereotype.Component
 
 class Parser {
 
@@ -33,7 +32,7 @@ class Parser {
         logger.info("generating AST")
         return program.toProgram().also {
             logger.info("found ${it.codeSections.size} code sections")
-            it.codeSections.forEach{ c ->
+            it.codeSections.forEach { c ->
                 logger.info("  ${c.startAt.toHex(2)}: ${c.instructions.size} instructions")
             }
             logger.info("found ${it.variables.size} variables")
@@ -159,6 +158,7 @@ fun AssemblerParser.InstructionContext.toInstruction(): Instruction {
     this.shiftInstruction()?.let { return it.toInstruction() }
     this.swapInstruction()?.let { return it.toInstruction() }
     this.stackManipulationInstruction()?.let { return it.toInstruction() }
+    this.sivInstruction()?.let { return it.toInstruction() }
     throw ParsingException(this)
 }
 
@@ -182,6 +182,17 @@ fun AssemblerParser.SimpleInstructionContext.toInstruction(): Instruction {
         "hlt" -> HaltInstruction
         "cfc" -> CarryUpdateInstruction(false)
         "cfs" -> CarryUpdateInstruction(true)
+        "enint" -> ChangeInterruptState(true)
+        "noint" -> ChangeInterruptState(false)
+        "exint" -> ReturnFromInterruptInstruction
+        else -> throw ParsingException(this)
+    }
+}
+
+fun AssemblerParser.SivInstructionContext.toInstruction(): Instruction {
+    return when (this) {
+        is AssemblerParser.LiteralSivContext -> LiteralSivInstruction(this.literalValue().toInt())
+        is AssemblerParser.SymbolSivContext -> SymbolSivInstruction(this.SYMBOL().text)
         else -> throw ParsingException(this)
     }
 }

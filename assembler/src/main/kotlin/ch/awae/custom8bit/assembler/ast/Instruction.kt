@@ -1,7 +1,6 @@
 package ch.awae.custom8bit.assembler.ast
 
 import ch.awae.custom8bit.assembler.bytecode.*
-import javax.script.CompiledScript
 
 sealed interface Instruction {
     val size: Int
@@ -98,7 +97,7 @@ data class UnaryAluInstruction(
     override val size = 1
 
     override fun compile(symbolMap: SymbolMap): IntArray {
-        val offset = when(source) {
+        val offset = when (source) {
             Register8.A -> 0
             Register8.B -> 1
             Register8.C -> 2
@@ -205,7 +204,7 @@ data class RegisterLoadInstruction(val from: MoveSource, val to: Register) : Ins
                     is StaticAddressing -> intArrayOf(0x94 + offset, *from.encode(symbolMap).unwrap())
                     is RegisterCDAddressing -> intArrayOf(0x96 + offset, from.offset and 0xff)
                     is StackAddressing -> intArrayOf(0x98 + offset, from.offset and 0xff)
-                    is LiteralSource -> intArrayOf(0x9a + offset, from.value and 0xff, (from.value ushr 8)  and 0xff)
+                    is LiteralSource -> intArrayOf(0x9a + offset, from.value and 0xff, (from.value ushr 8) and 0xff)
                 }
             }
         }
@@ -272,7 +271,26 @@ data class BranchInstruction(val operation: BranchOperation, val target: String)
     }
 }
 
+data class SymbolSivInstruction(val target: String) : Instruction, CompilingInstruction {
+    override val size = 3
+    override fun compile(symbolMap: SymbolMap): IntArray {
+        return intArrayOf(0xf4, *resolveSymbol(target, symbolMap).unwrap())
+    }
+
+}
+
+data class LiteralSivInstruction(val target: Int) : Instruction, CompilingInstruction {
+    override val size = 3
+    override fun compile(symbolMap: SymbolMap): IntArray {
+        return intArrayOf(0xf4, target and 0xff, (target ushr 8) and 0xff)
+    }
+}
+
 data object ReturnInstruction : Instruction {
+    override val size = 1
+}
+
+data object ReturnFromInterruptInstruction : Instruction {
     override val size = 1
 }
 
@@ -281,6 +299,10 @@ data object HaltInstruction : Instruction {
 }
 
 data object NopInstruction : Instruction {
+    override val size = 1
+}
+
+data class ChangeInterruptState(val value: Boolean) : Instruction {
     override val size = 1
 }
 
