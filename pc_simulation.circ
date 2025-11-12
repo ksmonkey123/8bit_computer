@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project source="3.9.0" version="1.0">
-  This file is intended to be loaded by Logisim-evolution v3.9.0(https://github.com/logisim-evolution/).
+<project source="4.0.0" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v4.0.0(https://github.com/logisim-evolution/).
 
   <lib desc="#Wiring" name="0">
     <tool name="Splitter">
@@ -93,7 +93,7 @@
     <tool lib="0" name="Pin"/>
     <tool lib="0" name="Pin">
       <a name="facing" val="west"/>
-      <a name="output" val="true"/>
+      <a name="type" val="output"/>
       <a name="width" val="3"/>
     </tool>
     <sep/>
@@ -1097,7 +1097,7 @@
       <a name="label" val="adr_inc"/>
     </comp>
     <comp lib="0" loc="(400,1020)" name="Constant">
-      <a name="value" val="0xbc"/>
+      <a name="value" val="0xf0"/>
       <a name="width" val="8"/>
     </comp>
     <comp lib="0" loc="(400,980)" name="Tunnel">
@@ -1124,7 +1124,9 @@
       <a name="facing" val="north"/>
       <a name="label" val="RESET"/>
     </comp>
-    <comp lib="0" loc="(670,430)" name="Clock"/>
+    <comp lib="0" loc="(670,430)" name="Clock">
+      <a name="appearance" val="classic"/>
+    </comp>
     <comp lib="0" loc="(670,830)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="label" val="CARRY_FLAG"/>
