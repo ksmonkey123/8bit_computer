@@ -85,7 +85,7 @@
 			(mirror no)
 			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "./CAM")
+			(outputdirectory "./CAM/rev_b")
 		)
 	)
 	(net 0 "")
@@ -12136,7 +12136,7 @@
 			(extension_offset 0.5)
 			(keep_text_aligned yes)
 		)
-		(gr_text "500.0000 mils"
+		(gr_text "12.7000 mm"
 			(at 127 124.58 0)
 			(layer "User.1")
 			(uuid "40503ce6-8d22-449a-9092-26015992ce87")
@@ -12173,7 +12173,7 @@
 			(extension_offset 0.5)
 			(keep_text_aligned yes)
 		)
-		(gr_text "500.0000 mils"
+		(gr_text "12.7000 mm"
 			(at 111.76 124.58 0)
 			(layer "User.1")
 			(uuid "a12efc44-624b-4eb8-a84e-e7059c3985ee")

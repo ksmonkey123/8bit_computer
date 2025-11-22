@@ -527,7 +527,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "./COM",
+      "plot": "./CAM/revb",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",
