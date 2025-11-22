@@ -1,5 +1,7 @@
 package ch.awae.custom8bit.assembler.bytecode
 
+import ch.awae.binfiles.BinaryFile
+import ch.awae.binfiles.DataFragment
 import ch.awae.custom8bit.assembler.*
 import ch.awae.custom8bit.assembler.ast.*
 import org.springframework.stereotype.Component
@@ -36,7 +38,7 @@ class BytecodeGenerator {
         }
     }
 
-    fun compileToByteCode(program: Program): ByteArray {
+    fun compileToByteCode(program: Program): BinaryFile {
         logger.info(
             "compiling ${program.codeSections.size} code section(s)," +
                     " ${program.variables.size} variable(s)," +
@@ -82,19 +84,17 @@ class BytecodeGenerator {
         return assembleFragments(fragments)
     }
 
-    private fun assembleFragments(fragments: List<BytecodeFragment>): ByteArray {
-        val bufferSize = fragments.maxOf { it.endExclusive }
-
+    private fun assembleFragments(fragments: List<BytecodeFragment>): BinaryFile {
         logger.info("assembling ${fragments.size} fragment(s)")
-        val buffer = ByteArray(bufferSize) { -1 }
+        val file = BinaryFile()
 
         for (fragment in fragments) {
             logger.info("  placing fragment at ${fragment.startAt.toHex(2)}..${(fragment.startAt + fragment.data.size - 1).toHex(2)}")
-            fragment.data.copyInto(buffer, destinationOffset = fragment.startAt)
+            file.addFragment(DataFragment(fragment.startAt, fragment.data))
         }
 
         logger.info("assembly done")
-        return buffer
+        return file
     }
 
     private fun placeConstants(program: Program, mapBuilder: SymbolMapBuilder): List<BytecodeFragment> {

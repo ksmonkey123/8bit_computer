@@ -1,8 +1,10 @@
 package ch.awae.custom8bit.assembler
 
-import org.springframework.boot.*
-import org.springframework.stereotype.*
-import java.nio.file.*
+import ch.awae.binfiles.hex.HexFileWriter
+import org.springframework.boot.CommandLineRunner
+import org.springframework.stereotype.Component
+import java.nio.file.Files
+import java.nio.file.Paths
 
 @Component
 class AssemblerRunner : CommandLineRunner {
@@ -17,9 +19,13 @@ class AssemblerRunner : CommandLineRunner {
         logger.info("assembling file {}", filename)
         val input = Files.readString(Paths.get(filename))
         val output = Assembler.assemble(input)
-        logger.info("program size: {} bytes", output.size)
-        logger.info("saving output to {}.bin", filename)
-        Files.write(Paths.get("$filename.bin"), output)
+        logger.info("program size: {} bytes", output.currentSize)
+        logger.info("saving output to {}.hex", filename)
+
+        HexFileWriter(Files.newOutputStream(Paths.get("$filename.hex"))).use {
+            it.write(output)
+            it.flush()
+        }
         logger.info("done")
     }
 
