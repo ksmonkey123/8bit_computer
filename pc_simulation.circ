@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project source="4.0.0" version="1.0">
-  This file is intended to be loaded by Logisim-evolution v4.0.0(https://github.com/logisim-evolution/).
+<project source="3.9.0" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v3.9.0(https://github.com/logisim-evolution/).
 
   <lib desc="#Wiring" name="0">
     <tool name="Splitter">
@@ -93,7 +93,7 @@
     <tool lib="0" name="Pin"/>
     <tool lib="0" name="Pin">
       <a name="facing" val="west"/>
-      <a name="type" val="output"/>
+      <a name="output" val="true"/>
       <a name="width" val="3"/>
     </tool>
     <sep/>
@@ -112,7 +112,6 @@
       <a name="width" val="8"/>
     </tool>
     <tool lib="1" name="NAND Gate">
-      <a name="facing" val="north"/>
       <a name="size" val="30"/>
     </tool>
     <tool lib="1" name="NOR Gate">
@@ -1124,9 +1123,7 @@
       <a name="facing" val="north"/>
       <a name="label" val="RESET"/>
     </comp>
-    <comp lib="0" loc="(670,430)" name="Clock">
-      <a name="appearance" val="classic"/>
-    </comp>
+    <comp lib="0" loc="(670,430)" name="Clock"/>
     <comp lib="0" loc="(670,810)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="label" val="CARRY_FLAG"/>
@@ -1442,11 +1439,10 @@
     <comp lib="1" loc="(700,920)" name="NOT Gate">
       <a name="size" val="20"/>
     </comp>
-    <comp lib="1" loc="(720,420)" name="AND Gate">
+    <comp lib="1" loc="(730,420)" name="NAND Gate">
       <a name="size" val="30"/>
     </comp>
-    <comp lib="1" loc="(770,490)" name="NOT Gate">
-      <a name="facing" val="south"/>
+    <comp lib="1" loc="(770,420)" name="NOT Gate">
       <a name="size" val="20"/>
     </comp>
     <comp lib="1" loc="(780,670)" name="AND Gate">
@@ -2945,22 +2941,23 @@ e e 21*0 1e 6*0 f1 8e 8e
     <wire from="(710,840)" to="(720,840)"/>
     <wire from="(710,880)" to="(710,920)"/>
     <wire from="(710,880)" to="(720,880)"/>
-    <wire from="(720,420)" to="(740,420)"/>
     <wire from="(720,580)" to="(720,630)"/>
     <wire from="(720,630)" to="(820,630)"/>
-    <wire from="(740,400)" to="(740,420)"/>
-    <wire from="(740,400)" to="(790,400)"/>
-    <wire from="(740,420)" to="(740,450)"/>
-    <wire from="(740,450)" to="(770,450)"/>
+    <wire from="(730,420)" to="(740,420)"/>
+    <wire from="(740,420)" to="(740,530)"/>
+    <wire from="(740,420)" to="(750,420)"/>
+    <wire from="(740,530)" to="(770,530)"/>
     <wire from="(750,1040)" to="(750,1050)"/>
     <wire from="(770,360)" to="(790,360)"/>
-    <wire from="(770,450)" to="(770,470)"/>
-    <wire from="(770,450)" to="(940,450)"/>
-    <wire from="(770,490)" to="(770,560)"/>
+    <wire from="(770,420)" to="(790,420)"/>
+    <wire from="(770,530)" to="(770,560)"/>
     <wire from="(770,560)" to="(860,560)"/>
     <wire from="(780,840)" to="(800,840)"/>
     <wire from="(780,980)" to="(790,980)"/>
     <wire from="(790,1000)" to="(800,1000)"/>
+    <wire from="(790,400)" to="(790,420)"/>
+    <wire from="(790,420)" to="(790,450)"/>
+    <wire from="(790,450)" to="(940,450)"/>
     <wire from="(790,810)" to="(790,980)"/>
     <wire from="(790,810)" to="(920,810)"/>
     <wire from="(790,980)" to="(790,1000)"/>
