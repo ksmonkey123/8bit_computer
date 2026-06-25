@@ -1,16 +1,18 @@
 package ch.awae.custom8bit.assembler
 
-import org.springframework.boot.*
-import org.springframework.stereotype.*
-import java.nio.file.*
+import org.springframework.boot.CommandLineRunner
+import org.springframework.stereotype.Component
+import java.nio.file.Files
+import java.nio.file.Paths
 
 @Component
 class AssemblerRunner : CommandLineRunner {
 
     private val logger = createLogger()
 
-    override fun run(vararg args: String?) {
-        assembleFile(args[0] ?: throw IllegalArgumentException("first argument must be input filename"))
+    override fun run(vararg args: String) {
+        require(args.isNotEmpty()) { "first argument must be input filename" }
+        assembleFile(args[0])
     }
 
     fun assembleFile(filename: String) {

@@ -13,8 +13,8 @@
     <version>1.0.x-SNAPSHOT</version>
 
     <properties>
-        <java.version>21</java.version>
-        <kotlin.version>2.1.0</kotlin.version>
+        <java.version>25</java.version>
+        <kotlin.version>2.4.0</kotlin.version>
     </properties>
 
     <dependencies>
@@ -30,6 +30,11 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit5</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.awae</groupId>
+            <artifactId>binfiles</artifactId>
+            <version>0.2.5</version>
         </dependency>
     </dependencies>
 
