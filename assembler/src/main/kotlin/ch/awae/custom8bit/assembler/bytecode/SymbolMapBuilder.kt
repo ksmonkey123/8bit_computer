@@ -8,9 +8,7 @@ class SymbolMapBuilder {
         get() = internalMap
 
     fun add(key: String, value: Int) {
-        if (internalMap.containsKey(key)) {
-            throw IllegalArgumentException("$key is already known at position ${internalMap[key]}")
-        }
+        require(!internalMap.containsKey(key)) { "$key is already known at position ${internalMap[key]}" }
         internalMap[key] = value
     }
 

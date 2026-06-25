@@ -2,8 +2,9 @@ package ch.awae.custom8bit.assembler.parser
 
 import AssemblerLexer
 import AssemblerParser
-import ch.awae.custom8bit.assembler.*
 import ch.awae.custom8bit.assembler.ast.*
+import ch.awae.custom8bit.assembler.createLogger
+import ch.awae.custom8bit.assembler.toHex
 import org.antlr.v4.runtime.*
 
 class Parser {
@@ -78,8 +79,8 @@ data class VarsSection(
     fun join(other: VarsSection): VarsSection {
         val occupiedByThis = variables.flatMap { v -> v.position until (v.position + v.size) }
         val occupiedByOther = variables.flatMap { v -> v.position until (v.position + v.size) }
-        if (occupiedByThis.intersect(occupiedByOther.toSet()).isNotEmpty()) {
-            throw IllegalArgumentException("variable sections overlapping: $this, $other")
+        require(occupiedByThis.intersect(occupiedByOther.toSet()).isEmpty()) {
+            "variable sections overlapping: $this, $other"
         }
 
         return VarsSection(this.variables + other.variables)
@@ -210,8 +211,7 @@ fun AssemblerParser.BinaryAluInstructionContext.toInstruction(): BinaryAluInstru
 
 fun AssemblerParser.RegisterContext.toRegister(): Register {
     val options = (Register8.entries union Register16.entries)
-    return options.find { it.name == this.text.uppercase() }
-        ?: throw IllegalArgumentException("unknown register $this")
+    return options.find { it.name == this.text.uppercase() } ?: throw IllegalArgumentException("unknown register $this")
 }
 
 fun AssemblerParser.Register8Context.toRegister(): Register8 {

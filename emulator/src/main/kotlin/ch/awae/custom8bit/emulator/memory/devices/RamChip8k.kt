@@ -22,11 +22,11 @@ data class RamChip8k(val page: Int) : MemoryBusDevice {
     }
 
     override fun write(address: Int, data: Int): Boolean {
-        if (addressInRange(address)) {
+        return if (addressInRange(address)) {
             state[(address - page)] = data.toByte()
-            return true
+            true
         } else {
-            return false
+            false
         }
     }
 

@@ -16,11 +16,11 @@ class Ram32k : MemoryBusDevice {
     }
 
     override fun write(address: Int, data: Int): Boolean {
-        if (address < 32768) {
-            return false
+        return if (address < 32768) {
+            false
         } else {
             state[address - 32768] = data.toByte()
-            return true
+            true
         }
     }
 }

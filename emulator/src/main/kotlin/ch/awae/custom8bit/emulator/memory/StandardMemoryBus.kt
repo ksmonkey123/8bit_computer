@@ -1,6 +1,7 @@
 package ch.awae.custom8bit.emulator.memory
 
-import ch.awae.custom8bit.emulator.*
+import ch.awae.custom8bit.emulator.createLogger
+import ch.awae.custom8bit.emulator.toHex
 
 data class StandardMemoryBus(
     val devices: List<MemoryBusDevice>,
@@ -34,7 +35,10 @@ data class StandardMemoryBus(
                 log.warn("no device processed memory write to ${address.toHex(2)} (value: ${data.toHex(1)})")
             }
 
-            1 -> {}
+            1 -> {
+                // do nothing, expected behavior
+            }
+
             else -> {
                 log.warn("multiple devices processed memory write to ${address.toHex(2)} (value: ${data.toHex(1)})")
             }

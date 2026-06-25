@@ -19,11 +19,11 @@ class SerialOutputCapture(private val address: Int) : MemoryBusDevice {
     }
 
     override fun write(address: Int, data: Int): Boolean {
-        if (address == this.address) {
+        return if (address == this.address) {
             output.add(data and 0xff)
-            return true
+            true
         } else {
-            return false
+            false
         }
     }
 }

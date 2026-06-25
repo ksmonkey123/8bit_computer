@@ -163,7 +163,7 @@ data class RegisterCopyInstruction(val from: Register, val to: Register) : Instr
             } else if (from is Register16 && to is Register16) {
                 0x90 + (registerToOffset(from)) + (2 * registerToOffset(to))
             } else {
-                throw IllegalStateException("register types are mixed. this should never happen!")
+                error("register types are mixed. this should never happen!")
             }
         }
 }
@@ -180,7 +180,7 @@ data class RegisterLoadInstruction(val from: MoveSource, val to: Register) : Ins
     }
 
     override fun compile(symbolMap: SymbolMap): IntArray {
-        when (to) {
+        return when (to) {
             is Register8 -> {
                 val offset = when (to) {
                     Register8.A -> 0
@@ -189,7 +189,7 @@ data class RegisterLoadInstruction(val from: MoveSource, val to: Register) : Ins
                     Register8.D -> 3
                 }
 
-                return when (from) {
+                when (from) {
                     is StaticAddressing -> intArrayOf(0x70 + offset, *from.encode(symbolMap).unwrap())
                     is RegisterCDAddressing -> intArrayOf(0x74 + offset, from.offset and 0xff)
                     is StackAddressing -> intArrayOf(0x78 + offset, from.offset and 0xff)
@@ -200,7 +200,7 @@ data class RegisterLoadInstruction(val from: MoveSource, val to: Register) : Ins
             is Register16 -> {
                 val offset = if (to == Register16.AB) 0 else 1
 
-                return when (from) {
+                when (from) {
                     is StaticAddressing -> intArrayOf(0x94 + offset, *from.encode(symbolMap).unwrap())
                     is RegisterCDAddressing -> intArrayOf(0x96 + offset, from.offset and 0xff)
                     is StackAddressing -> intArrayOf(0x98 + offset, from.offset and 0xff)
@@ -221,7 +221,7 @@ data class RegisterStoreInstruction(val from: Register, val to: AddressingExpres
     }
 
     override fun compile(symbolMap: SymbolMap): IntArray {
-        when (from) {
+        return when (from) {
             is Register8 -> {
                 val offset = when (from) {
                     Register8.A -> 0
@@ -230,7 +230,7 @@ data class RegisterStoreInstruction(val from: Register, val to: AddressingExpres
                     Register8.D -> 3
                 }
 
-                return when (to) {
+                when (to) {
                     is StaticAddressing -> intArrayOf(0x80 + offset, *to.encode(symbolMap).unwrap())
                     is RegisterCDAddressing -> intArrayOf(0x84 + offset, to.offset and 0xff)
                     is StackAddressing -> intArrayOf(0x88 + offset, to.offset and 0xff)
@@ -240,7 +240,7 @@ data class RegisterStoreInstruction(val from: Register, val to: AddressingExpres
             is Register16 -> {
                 val offset = if (from == Register16.AB) 0 else 1
 
-                return when (to) {
+                when (to) {
                     is StaticAddressing -> intArrayOf(0x8c + offset, *to.encode(symbolMap).unwrap())
                     is RegisterCDAddressing -> intArrayOf(0x9c + offset, to.offset and 0xff)
                     is StackAddressing -> intArrayOf(0x9e + offset, to.offset and 0xff)

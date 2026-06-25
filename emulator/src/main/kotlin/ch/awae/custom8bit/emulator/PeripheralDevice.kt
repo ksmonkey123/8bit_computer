@@ -7,9 +7,11 @@ interface PeripheralDevice {
 
 open class PeripheralDeviceBase : PeripheralDevice {
     override fun read(address: Byte): Byte? {
+        // default implementation returns nothing
         return null
     }
 
     override fun write(address: Byte, data: Byte) {
+        // default implementation does nothing
     }
 }

@@ -17,16 +17,12 @@ class ProcessingUnit(
         private set
 
     fun singleStep(state: ProcessorState): ProcessorState {
-        if (state.halted) {
-            throw IllegalStateException("halted state")
-        }
+        check(!state.halted) { "halted state" }
         return executeStep(state)
     }
 
     fun executeNextCommand(inputState: ProcessorState): ProcessorState {
-        if (inputState.halted) {
-            throw IllegalStateException("halted state")
-        }
+        check(!inputState.halted) { "halted state" }
         var state = inputState
         do {
             state = singleStep(state)
@@ -37,9 +33,7 @@ class ProcessingUnit(
     }
 
     private fun executeStep(state: ProcessorState): ProcessorState {
-        if (state.stepCounter !in 0..15) {
-            throw IllegalStateException("invalid stepCounter: ${state.stepCounter}")
-        }
+        check(state.stepCounter in 0..15) { "invalid stepCounter: ${state.stepCounter}" }
 
         val execute = microcode.execute(state.instructionRegister, state.stepCounter and 0x0f, state.flags)
         val address = state.getAddress(execute.addressSource)
