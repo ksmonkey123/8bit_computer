@@ -78,7 +78,7 @@ data class VarsSection(
 
     fun join(other: VarsSection): VarsSection {
         val occupiedByThis = variables.flatMap { v -> v.position until (v.position + v.size) }
-        val occupiedByOther = variables.flatMap { v -> v.position until (v.position + v.size) }
+        val occupiedByOther = other.variables.flatMap { v -> v.position until (v.position + v.size) }
         require(occupiedByThis.intersect(occupiedByOther.toSet()).isEmpty()) {
             "variable sections overlapping: $this, $other"
         }
