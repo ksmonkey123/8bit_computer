@@ -1,14 +1,17 @@
 package ch.awae.custom8bit.emulator.memory.devices
 
+import ch.awae.binfiles.BinaryFile
 import ch.awae.custom8bit.emulator.*
 import ch.awae.custom8bit.emulator.memory.*
 
 /**
  * Rom chip holding 8kB of memory
  */
-data class RomChip8k(val page: Int, val data: ByteArray) : MemoryBusDevice {
+data class RomChip8k(val page: Int, val data: BinaryFile) : MemoryBusDevice {
 
     private val log = createLogger()
+
+    constructor(page: Int, data: ByteArray) : this(page, BinaryFile(data))
 
     private fun addressInRange(address: Int): Boolean {
         return (page == (address and 0xE000))
@@ -16,7 +19,7 @@ data class RomChip8k(val page: Int, val data: ByteArray) : MemoryBusDevice {
 
     override fun read(address: Int): Int? {
         return if (addressInRange(address)) {
-            data[(address - page)].toInt()
+            data.getByte(address - page)?.toInt() ?: 255
         } else {
             null
         }
@@ -36,14 +39,13 @@ data class RomChip8k(val page: Int, val data: ByteArray) : MemoryBusDevice {
         other as RomChip8k
 
         if (page != other.page) return false
-        if (!data.contentEquals(other.data)) return false
-
+        if (data == other.data) return true
         return true
     }
 
     override fun hashCode(): Int {
         var result = page.hashCode()
-        result = 31 * result + data.contentHashCode()
+        result = 31 * result + data.hashCode()
         return result
     }
 }
